@@ -1,0 +1,126 @@
+# Generated with graphql-orm
+
+schema:
+  - schema.graphql
+exec:
+  filename: generated.go
+  package: gen
+model:
+  filename: models_gen.go
+  package: gen
+resolver:
+  filename: resolver.go
+  type: Resolver
+  package: gen
+federation:
+  filename: federation.go
+  package: gen
+
+models:
+  
+  User:
+    model: github.com/loopcontext/auth-api-go/gen.User
+    fields:
+      apikeys:
+        resolver: true
+      roles:
+        resolver: true
+      profiles:
+        resolver: true
+      permissions:
+        resolver: true
+  UserResultType:
+    model: github.com/loopcontext/auth-api-go/gen.UserResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  UserCreateInput:
+    model: "map[string]interface{}"
+  UserUpdateInput:
+    model: "map[string]interface{}"
+  
+  UserAPIKey:
+    model: github.com/loopcontext/auth-api-go/gen.UserAPIKey
+    fields:
+      user:
+        resolver: true
+      permissions:
+        resolver: true
+  UserAPIKeyResultType:
+    model: github.com/loopcontext/auth-api-go/gen.UserAPIKeyResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  UserAPIKeyCreateInput:
+    model: "map[string]interface{}"
+  UserAPIKeyUpdateInput:
+    model: "map[string]interface{}"
+  
+  Profile:
+    model: github.com/loopcontext/auth-api-go/gen.Profile
+    fields:
+      users:
+        resolver: true
+  ProfileResultType:
+    model: github.com/loopcontext/auth-api-go/gen.ProfileResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  ProfileCreateInput:
+    model: "map[string]interface{}"
+  ProfileUpdateInput:
+    model: "map[string]interface{}"
+  
+  Role:
+    model: github.com/loopcontext/auth-api-go/gen.Role
+    fields:
+      users:
+        resolver: true
+      parents:
+        resolver: true
+      children:
+        resolver: true
+      permissions:
+        resolver: true
+  RoleResultType:
+    model: github.com/loopcontext/auth-api-go/gen.RoleResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  RoleCreateInput:
+    model: "map[string]interface{}"
+  RoleUpdateInput:
+    model: "map[string]interface{}"
+  
+  Permission:
+    model: github.com/loopcontext/auth-api-go/gen.Permission
+    fields:
+      users:
+        resolver: true
+      roles:
+        resolver: true
+      apikeys:
+        resolver: true
+  PermissionResultType:
+    model: github.com/loopcontext/auth-api-go/gen.PermissionResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  PermissionCreateInput:
+    model: "map[string]interface{}"
+  PermissionUpdateInput:
+    model: "map[string]interface{}"
+  
+
+  
+  
