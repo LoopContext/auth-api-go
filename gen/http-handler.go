@@ -17,11 +17,13 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"github.com/rs/zerolog/log"
 	"gopkg.in/gormigrate.v1"
 )
 
 // GetHTTPServeMux HTTP Mux
 func GetHTTPServeMux(r ResolverRoot, db *DB, migrations []*gormigrate.Migration) *mux.Router {
+
 	mux := mux.NewRouter()
 
 	executableSchema := NewExecutableSchema(Config{Resolvers: r})
@@ -89,6 +91,9 @@ func GetHTTPServeMux(r ResolverRoot, db *DB, migrations []*gormigrate.Migration)
 
 // GetHTTPVercel func for be used with Vercel deployments
 func GetHTTPVercel(r ResolverRoot, db *DB, migrations []*gormigrate.Migration, res http.ResponseWriter, req *http.Request) {
+	if os.Getenv("DEBUG") == "true" {
+		log.Debug().Msgf("Path base: %s", path.Base(req.URL.Path))
+	}
 	executableSchema := NewExecutableSchema(Config{Resolvers: r})
 	gqlHandler := handler.New(executableSchema)
 	gqlHandler.AddTransport(transport.Websocket{

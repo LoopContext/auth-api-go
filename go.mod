@@ -11,7 +11,7 @@ require (
 	github.com/graph-gophers/dataloader v5.0.0+incompatible
 	github.com/jinzhu/gorm v1.9.15
 	github.com/loopcontext/checkmail v0.0.1
-	github.com/loopcontext/graphql-orm v0.0.0-20200818045438-8d55d6dea96b
+	github.com/loopcontext/graphql-orm v0.0.0-20200818223329-bac92a3d17ae
 	github.com/markbates/goth v1.64.2
 	github.com/mitchellh/mapstructure v1.3.3
 	github.com/rs/cors v1.7.0
