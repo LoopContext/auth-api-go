@@ -26,6 +26,16 @@ func Begin(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// BeginVercel entry point of the slsfn /v{X}/auth/[provider] - Vercel helper
+func BeginVercel(provider string, res http.ResponseWriter, req *http.Request) {
+	// You have to add value context with provider name to get provider name in GetProviderName method
+	req = addProviderToContext(req, provider)
+	// try to get the user without re-authenticating
+	if _, err := gothic.CompleteUserAuth(res, req); err != nil {
+		gothic.BeginAuthHandler(res, req)
+	}
+}
+
 // CallbackHandler to complete auth provider flow
 func CallbackHandler(db *gen.DB) func(http.ResponseWriter, *http.Request) {
 	return func(res http.ResponseWriter, req *http.Request) {
@@ -35,7 +45,7 @@ func CallbackHandler(db *gen.DB) func(http.ResponseWriter, *http.Request) {
 	}
 }
 
-// CallbackHandlerVercel to complete auth provider flow
+// CallbackHandlerVercel to complete auth provider flow - Vercel helper
 func CallbackHandlerVercel(db *gen.DB, provider string) func(http.ResponseWriter, *http.Request) {
 	return func(res http.ResponseWriter, req *http.Request) {
 		req = addProviderToContext(req, provider)
