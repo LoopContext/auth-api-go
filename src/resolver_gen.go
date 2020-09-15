@@ -4,11 +4,10 @@ import (
 	"context"
 
 	"github.com/loopcontext/auth-api-go/gen"
-	"github.com/loopcontext/graphql-orm/events"
 )
 
 // NewResolver ...
-func NewResolver(db *gen.DB, ec *events.EventController) *Resolver {
+func NewResolver(db *gen.DB, ec *gen.EventController) *Resolver {
 	handlers := gen.DefaultResolutionHandlers()
 	return &Resolver{&gen.GeneratedResolver{Handlers: handlers, DB: db, EventController: ec}}
 }

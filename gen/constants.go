@@ -13,7 +13,6 @@ const (
 	SchemaSDL              string = `scalar Time
 
 type Query {
-  
   user(id: ID, q: String, filter: UserFilterType): User
   users(offset: Int, limit: Int = 30, q: String, sort: [UserSortType!], filter: UserFilterType): UserResultType!
   userAPIKey(id: ID, q: String, filter: UserAPIKeyFilterType): UserAPIKey

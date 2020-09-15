@@ -5,13 +5,15 @@ go 1.14
 require (
 	github.com/99designs/gqlgen v0.12.2
 	github.com/akrylysov/algnhsa v0.12.1
+	github.com/cloudevents/sdk-go v1.2.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gofrs/uuid v3.3.0+incompatible
 	github.com/gorilla/mux v1.7.4
 	github.com/graph-gophers/dataloader v5.0.0+incompatible
 	github.com/jinzhu/gorm v1.9.16
 	github.com/loopcontext/checkmail v0.0.1
-	github.com/loopcontext/graphql-orm v0.0.0-20200819021255-bcb0eca115cb
+	github.com/loopcontext/cloudevents-aws-transport v1.0.9
+	github.com/loopcontext/graphql-orm v0.0.0-20200914234724-e20d017ab3f4
 	github.com/markbates/goth v1.64.2
 	github.com/mitchellh/mapstructure v1.3.3
 	github.com/rs/cors v1.7.0

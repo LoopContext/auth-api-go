@@ -11,8 +11,16 @@ import (
 )
 
 // New ...
-func New(db *gen.DB, ec *events.EventController) *Resolver {
+func New(db *gen.DB, ec *gen.EventController) *Resolver {
 	resolver := NewResolver(db, ec)
+
+	// log.Debug().Msgf("NEW RESOLVER %#v", ec)
+
+	resolver.Handlers.OnEvent = func(ctx context.Context, r *gen.GeneratedResolver, e *events.Event) (err error) {
+		// After save
+		// log.Debug().Msgf("event: %#v", e)
+		return nil
+	}
 
 	resolver.Handlers.CreateUser = func(ctx context.Context, r *gen.GeneratedResolver, input map[string]interface{}) (item *gen.User, err error) {
 		// Before create
@@ -64,18 +72,19 @@ func New(db *gen.DB, ec *events.EventController) *Resolver {
 		return item, err
 	}
 
-	resolver.Handlers.OnEvent = func(ctx context.Context, r *gen.GeneratedResolver, e *events.Event) (err error) {
-		// After save
-		log.Debug().Msgf("event: %#v", e)
-		return nil
-	}
-
 	return resolver
 }
 
 // Login logs the user in
 func (r *QueryResolver) Login(ctx context.Context) (string, error) {
+	log.Debug().Msg("Logging in")
 	return "logged in", nil
+}
+
+// Users method -- I CAN CHECK PERMISSIONS HERE -- use template to modify this get where gen.Users is and use that
+func (r *QueryResolver) Users(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.UserSortType, filter *gen.UserFilterType) (*gen.UserResultType, error) {
+	log.Debug().Msgf("USERS!! ctx: %#v", gen.GetJWTClaimsFromContext(ctx))
+	return r.GeneratedQueryResolver.Users(ctx, offset, limit, q, sort, filter)
 }
 
 // =============================================================================

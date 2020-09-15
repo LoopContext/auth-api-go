@@ -17,7 +17,6 @@ import (
 	"github.com/loopcontext/auth-api-go/src/auth"
 	"github.com/loopcontext/auth-api-go/src/auth/middleware"
 	"github.com/loopcontext/auth-api-go/src/auth/utils"
-	"github.com/loopcontext/graphql-orm/events"
 )
 
 func main() {
@@ -108,7 +107,7 @@ func startServer(enableCors bool, port string) error {
 	db := gen.NewDBFromEnvVars()
 	defer db.Close()
 
-	eventController, err := events.NewEventController()
+	eventController, err := gen.NewEventController()
 	if err != nil {
 		return err
 	}
