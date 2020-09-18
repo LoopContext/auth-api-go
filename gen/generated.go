@@ -84,6 +84,7 @@ type ComplexityRoot struct {
 		CreatedAt         func(childComplexity int) int
 		CreatedBy         func(childComplexity int) int
 		Description       func(childComplexity int) int
+		Domain            func(childComplexity int) int
 		ID                func(childComplexity int) int
 		Roles             func(childComplexity int) int
 		RolesConnection   func(childComplexity int, offset *int, limit *int, q *string, sort []*RoleSortType, filter *RoleFilterType) int
@@ -149,6 +150,7 @@ type ComplexityRoot struct {
 		CreatedAt             func(childComplexity int) int
 		CreatedBy             func(childComplexity int) int
 		Description           func(childComplexity int) int
+		Domain                func(childComplexity int) int
 		ID                    func(childComplexity int) int
 		Name                  func(childComplexity int) int
 		Parents               func(childComplexity int) int
@@ -617,6 +619,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Permission.Description(childComplexity), true
 
+	case "Permission.domain":
+		if e.complexity.Permission.Domain == nil {
+			break
+		}
+
+		return e.complexity.Permission.Domain(childComplexity), true
+
 	case "Permission.id":
 		if e.complexity.Permission.ID == nil {
 			break
@@ -1036,6 +1045,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Role.Description(childComplexity), true
+
+	case "Role.domain":
+		if e.complexity.Role.Domain == nil {
+			break
+		}
+
+		return e.complexity.Role.Domain(childComplexity), true
 
 	case "Role.id":
 		if e.complexity.Role.ID == nil {
@@ -1677,6 +1693,7 @@ type Profile {
 
 type Role {
   id: ID!
+  domain: String!
   name: String!
   description: String
   users: [User!]!
@@ -1699,6 +1716,7 @@ type Role {
 
 type Permission {
   id: ID!
+  domain: String!
   tag: String!
   description: String!
   users: [User!]!
@@ -3007,6 +3025,7 @@ type ProfileResultType {
 
 input RoleCreateInput {
   id: ID
+  domain: String!
   name: String!
   description: String
   usersIds: [ID!]
@@ -3016,6 +3035,7 @@ input RoleCreateInput {
 }
 
 input RoleUpdateInput {
+  domain: String
   name: String
   description: String
   usersIds: [ID!]
@@ -3028,6 +3048,9 @@ input RoleSortType {
   id: ObjectSortType
   idMin: ObjectSortType
   idMax: ObjectSortType
+  domain: ObjectSortType
+  domainMin: ObjectSortType
+  domainMax: ObjectSortType
   name: ObjectSortType
   nameMin: ObjectSortType
   nameMax: ObjectSortType
@@ -3089,6 +3112,37 @@ input RoleFilterType {
   idMin_in: [ID!]
   idMax_in: [ID!]
   id_null: Boolean
+  domain: String
+  domainMin: String
+  domainMax: String
+  domain_ne: String
+  domainMin_ne: String
+  domainMax_ne: String
+  domain_gt: String
+  domainMin_gt: String
+  domainMax_gt: String
+  domain_lt: String
+  domainMin_lt: String
+  domainMax_lt: String
+  domain_gte: String
+  domainMin_gte: String
+  domainMax_gte: String
+  domain_lte: String
+  domainMin_lte: String
+  domainMax_lte: String
+  domain_in: [String!]
+  domainMin_in: [String!]
+  domainMax_in: [String!]
+  domain_like: String
+  domainMin_like: String
+  domainMax_like: String
+  domain_prefix: String
+  domainMin_prefix: String
+  domainMax_prefix: String
+  domain_suffix: String
+  domainMin_suffix: String
+  domainMax_suffix: String
+  domain_null: Boolean
   name: String
   nameMin: String
   nameMax: String
@@ -3252,6 +3306,7 @@ type RoleResultType {
 
 input PermissionCreateInput {
   id: ID
+  domain: String!
   tag: String!
   description: String!
   usersIds: [ID!]
@@ -3260,6 +3315,7 @@ input PermissionCreateInput {
 }
 
 input PermissionUpdateInput {
+  domain: String
   tag: String
   description: String
   usersIds: [ID!]
@@ -3271,6 +3327,9 @@ input PermissionSortType {
   id: ObjectSortType
   idMin: ObjectSortType
   idMax: ObjectSortType
+  domain: ObjectSortType
+  domainMin: ObjectSortType
+  domainMax: ObjectSortType
   tag: ObjectSortType
   tagMin: ObjectSortType
   tagMax: ObjectSortType
@@ -3328,6 +3387,37 @@ input PermissionFilterType {
   idMin_in: [ID!]
   idMax_in: [ID!]
   id_null: Boolean
+  domain: String
+  domainMin: String
+  domainMax: String
+  domain_ne: String
+  domainMin_ne: String
+  domainMax_ne: String
+  domain_gt: String
+  domainMin_gt: String
+  domainMax_gt: String
+  domain_lt: String
+  domainMin_lt: String
+  domainMax_lt: String
+  domain_gte: String
+  domainMin_gte: String
+  domainMax_gte: String
+  domain_lte: String
+  domainMin_lte: String
+  domainMax_lte: String
+  domain_in: [String!]
+  domainMin_in: [String!]
+  domainMax_in: [String!]
+  domain_like: String
+  domainMin_like: String
+  domainMax_like: String
+  domain_prefix: String
+  domainMin_prefix: String
+  domainMax_prefix: String
+  domain_suffix: String
+  domainMin_suffix: String
+  domainMax_suffix: String
+  domain_null: Boolean
   tag: String
   tagMin: String
   tagMax: String
@@ -5734,6 +5824,40 @@ func (ec *executionContext) _Permission_id(ctx context.Context, field graphql.Co
 	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Permission_domain(ctx context.Context, field graphql.CollectedField, obj *Permission) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Permission",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Domain, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Permission_tag(ctx context.Context, field graphql.CollectedField, obj *Permission) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -7539,6 +7663,40 @@ func (ec *executionContext) _Role_id(ctx context.Context, field graphql.Collecte
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Role_domain(ctx context.Context, field graphql.CollectedField, obj *Role) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Role",
+		Field:    field,
+		Args:     nil,
+		IsMethod: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Domain, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Role_name(ctx context.Context, field graphql.CollectedField, obj *Role) (ret graphql.Marshaler) {
@@ -10967,6 +11125,254 @@ func (ec *executionContext) unmarshalInputPermissionFilterType(ctx context.Conte
 			if err != nil {
 				return it, err
 			}
+		case "domain":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain"))
+			it.Domain, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin"))
+			it.DomainMin, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax"))
+			it.DomainMax, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_ne":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_ne"))
+			it.DomainNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_ne":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_ne"))
+			it.DomainMinNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_ne":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_ne"))
+			it.DomainMaxNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_gt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_gt"))
+			it.DomainGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_gt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_gt"))
+			it.DomainMinGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_gt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_gt"))
+			it.DomainMaxGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_lt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_lt"))
+			it.DomainLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_lt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_lt"))
+			it.DomainMinLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_lt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_lt"))
+			it.DomainMaxLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_gte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_gte"))
+			it.DomainGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_gte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_gte"))
+			it.DomainMinGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_gte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_gte"))
+			it.DomainMaxGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_lte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_lte"))
+			it.DomainLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_lte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_lte"))
+			it.DomainMinLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_lte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_lte"))
+			it.DomainMaxLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_in":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_in"))
+			it.DomainIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_in":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_in"))
+			it.DomainMinIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_in":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_in"))
+			it.DomainMaxIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_like":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_like"))
+			it.DomainLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_like":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_like"))
+			it.DomainMinLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_like":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_like"))
+			it.DomainMaxLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_prefix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_prefix"))
+			it.DomainPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_prefix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_prefix"))
+			it.DomainMinPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_prefix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_prefix"))
+			it.DomainMaxPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_suffix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_suffix"))
+			it.DomainSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_suffix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_suffix"))
+			it.DomainMinSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_suffix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_suffix"))
+			it.DomainMaxSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_null":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_null"))
+			it.DomainNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "tag":
 			var err error
 
@@ -12224,6 +12630,30 @@ func (ec *executionContext) unmarshalInputPermissionSortType(ctx context.Context
 
 			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("idMax"))
 			it.IDMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain"))
+			it.Domain, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin"))
+			it.DomainMin, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax"))
+			it.DomainMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -16471,6 +16901,254 @@ func (ec *executionContext) unmarshalInputRoleFilterType(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
+		case "domain":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain"))
+			it.Domain, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin"))
+			it.DomainMin, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax"))
+			it.DomainMax, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_ne":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_ne"))
+			it.DomainNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_ne":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_ne"))
+			it.DomainMinNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_ne":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_ne"))
+			it.DomainMaxNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_gt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_gt"))
+			it.DomainGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_gt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_gt"))
+			it.DomainMinGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_gt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_gt"))
+			it.DomainMaxGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_lt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_lt"))
+			it.DomainLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_lt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_lt"))
+			it.DomainMinLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_lt":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_lt"))
+			it.DomainMaxLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_gte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_gte"))
+			it.DomainGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_gte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_gte"))
+			it.DomainMinGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_gte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_gte"))
+			it.DomainMaxGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_lte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_lte"))
+			it.DomainLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_lte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_lte"))
+			it.DomainMinLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_lte":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_lte"))
+			it.DomainMaxLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_in":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_in"))
+			it.DomainIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_in":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_in"))
+			it.DomainMinIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_in":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_in"))
+			it.DomainMaxIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_like":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_like"))
+			it.DomainLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_like":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_like"))
+			it.DomainMinLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_like":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_like"))
+			it.DomainMaxLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_prefix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_prefix"))
+			it.DomainPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_prefix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_prefix"))
+			it.DomainMinPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_prefix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_prefix"))
+			it.DomainMaxPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_suffix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_suffix"))
+			it.DomainSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin_suffix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin_suffix"))
+			it.DomainMinSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax_suffix":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax_suffix"))
+			it.DomainMaxSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain_null":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain_null"))
+			it.DomainNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "name":
 			var err error
 
@@ -17736,6 +18414,30 @@ func (ec *executionContext) unmarshalInputRoleSortType(ctx context.Context, obj 
 
 			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("idMax"))
 			it.IDMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domain":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domain"))
+			it.Domain, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMin":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMin"))
+			it.DomainMin, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "domainMax":
+			var err error
+
+			ctx := graphql.WithFieldInputContext(ctx, graphql.NewFieldInputWithField("domainMax"))
+			it.DomainMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -23855,6 +24557,11 @@ func (ec *executionContext) _Permission(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&invalids, 1)
 			}
+		case "domain":
+			out.Values[i] = ec._Permission_domain(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
 		case "tag":
 			out.Values[i] = ec._Permission_tag(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -24412,6 +25119,11 @@ func (ec *executionContext) _Role(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = graphql.MarshalString("Role")
 		case "id":
 			out.Values[i] = ec._Role_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "domain":
+			out.Values[i] = ec._Role_domain(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&invalids, 1)
 			}

@@ -14,6 +14,7 @@ import (
 
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/auth-api-go/src"
+
 	"github.com/loopcontext/auth-api-go/src/auth"
 	"github.com/loopcontext/auth-api-go/src/auth/middleware"
 	"github.com/loopcontext/auth-api-go/src/auth/utils"
@@ -23,7 +24,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "graphql-orm"
 	app.Usage = "This tool is for generating a graphql-api"
-	app.Version = "0.1.0"
+	app.Version = "1.0.8"
 
 	app.Commands = []cli.Command{
 		startCmd,

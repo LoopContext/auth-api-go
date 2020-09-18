@@ -41,6 +41,7 @@ type Profile @entity {
 }
 
 type Role @entity {
+  domain: String! @column # Application domain, name or namespace
   name: String! @column
   description: String @column(type: "text")
   users: [User!]! @relationship(inverse: "roles")
@@ -50,6 +51,7 @@ type Role @entity {
 }
 
 type Permission @entity {
+  domain: String! @column # Application domain, name or namespace
   tag: String! @column(unique: true)
   description: String! @column(type: "text")
   users: [User!]! @relationship(inverse: "permissions")

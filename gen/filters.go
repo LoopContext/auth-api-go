@@ -5894,6 +5894,64 @@ func (f *RoleFilterType) WhereContent(dialect gorm.Dialect, aliasPrefix string) 
 		}
 	}
 
+	if f.Domain != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" = ?")
+		values = append(values, f.Domain)
+	}
+
+	if f.DomainNe != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" != ?")
+		values = append(values, f.DomainNe)
+	}
+
+	if f.DomainGt != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" > ?")
+		values = append(values, f.DomainGt)
+	}
+
+	if f.DomainLt != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" < ?")
+		values = append(values, f.DomainLt)
+	}
+
+	if f.DomainGte != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" >= ?")
+		values = append(values, f.DomainGte)
+	}
+
+	if f.DomainLte != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" <= ?")
+		values = append(values, f.DomainLte)
+	}
+
+	if f.DomainIn != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" IN (?)")
+		values = append(values, f.DomainIn)
+	}
+
+	if f.DomainLike != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DomainLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DomainPrefix != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DomainPrefix))
+	}
+
+	if f.DomainSuffix != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DomainSuffix))
+	}
+
+	if f.DomainNull != nil {
+		if *f.DomainNull {
+			conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" IS NULL")
+		} else {
+			conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" IS NOT NULL")
+		}
+	}
+
 	if f.Name != nil {
 		conditions = append(conditions, aliasPrefix+dialect.Quote("name")+" = ?")
 		values = append(values, f.Name)
@@ -6258,6 +6316,106 @@ func (f *RoleFilterType) HavingContent(dialect gorm.Dialect, aliasPrefix string)
 	if f.IDMaxIn != nil {
 		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("id")+") IN (?)")
 		values = append(values, f.IDMaxIn)
+	}
+
+	if f.DomainMin != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") = ?")
+		values = append(values, f.DomainMin)
+	}
+
+	if f.DomainMax != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") = ?")
+		values = append(values, f.DomainMax)
+	}
+
+	if f.DomainMinNe != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") != ?")
+		values = append(values, f.DomainMinNe)
+	}
+
+	if f.DomainMaxNe != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") != ?")
+		values = append(values, f.DomainMaxNe)
+	}
+
+	if f.DomainMinGt != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") > ?")
+		values = append(values, f.DomainMinGt)
+	}
+
+	if f.DomainMaxGt != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") > ?")
+		values = append(values, f.DomainMaxGt)
+	}
+
+	if f.DomainMinLt != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") < ?")
+		values = append(values, f.DomainMinLt)
+	}
+
+	if f.DomainMaxLt != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") < ?")
+		values = append(values, f.DomainMaxLt)
+	}
+
+	if f.DomainMinGte != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") >= ?")
+		values = append(values, f.DomainMinGte)
+	}
+
+	if f.DomainMaxGte != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") >= ?")
+		values = append(values, f.DomainMaxGte)
+	}
+
+	if f.DomainMinLte != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") <= ?")
+		values = append(values, f.DomainMinLte)
+	}
+
+	if f.DomainMaxLte != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") <= ?")
+		values = append(values, f.DomainMaxLte)
+	}
+
+	if f.DomainMinIn != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") IN (?)")
+		values = append(values, f.DomainMinIn)
+	}
+
+	if f.DomainMaxIn != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") IN (?)")
+		values = append(values, f.DomainMaxIn)
+	}
+
+	if f.DomainMinLike != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DomainMinLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DomainMaxLike != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DomainMaxLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DomainMinPrefix != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DomainMinPrefix))
+	}
+
+	if f.DomainMaxPrefix != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DomainMaxPrefix))
+	}
+
+	if f.DomainMinSuffix != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DomainMinSuffix))
+	}
+
+	if f.DomainMaxSuffix != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DomainMaxSuffix))
 	}
 
 	if f.NameMin != nil {
@@ -6939,6 +7097,64 @@ func (f *PermissionFilterType) WhereContent(dialect gorm.Dialect, aliasPrefix st
 		}
 	}
 
+	if f.Domain != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" = ?")
+		values = append(values, f.Domain)
+	}
+
+	if f.DomainNe != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" != ?")
+		values = append(values, f.DomainNe)
+	}
+
+	if f.DomainGt != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" > ?")
+		values = append(values, f.DomainGt)
+	}
+
+	if f.DomainLt != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" < ?")
+		values = append(values, f.DomainLt)
+	}
+
+	if f.DomainGte != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" >= ?")
+		values = append(values, f.DomainGte)
+	}
+
+	if f.DomainLte != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" <= ?")
+		values = append(values, f.DomainLte)
+	}
+
+	if f.DomainIn != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" IN (?)")
+		values = append(values, f.DomainIn)
+	}
+
+	if f.DomainLike != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DomainLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DomainPrefix != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DomainPrefix))
+	}
+
+	if f.DomainSuffix != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DomainSuffix))
+	}
+
+	if f.DomainNull != nil {
+		if *f.DomainNull {
+			conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" IS NULL")
+		} else {
+			conditions = append(conditions, aliasPrefix+dialect.Quote("domain")+" IS NOT NULL")
+		}
+	}
+
 	if f.Tag != nil {
 		conditions = append(conditions, aliasPrefix+dialect.Quote("tag")+" = ?")
 		values = append(values, f.Tag)
@@ -7303,6 +7519,106 @@ func (f *PermissionFilterType) HavingContent(dialect gorm.Dialect, aliasPrefix s
 	if f.IDMaxIn != nil {
 		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("id")+") IN (?)")
 		values = append(values, f.IDMaxIn)
+	}
+
+	if f.DomainMin != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") = ?")
+		values = append(values, f.DomainMin)
+	}
+
+	if f.DomainMax != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") = ?")
+		values = append(values, f.DomainMax)
+	}
+
+	if f.DomainMinNe != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") != ?")
+		values = append(values, f.DomainMinNe)
+	}
+
+	if f.DomainMaxNe != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") != ?")
+		values = append(values, f.DomainMaxNe)
+	}
+
+	if f.DomainMinGt != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") > ?")
+		values = append(values, f.DomainMinGt)
+	}
+
+	if f.DomainMaxGt != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") > ?")
+		values = append(values, f.DomainMaxGt)
+	}
+
+	if f.DomainMinLt != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") < ?")
+		values = append(values, f.DomainMinLt)
+	}
+
+	if f.DomainMaxLt != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") < ?")
+		values = append(values, f.DomainMaxLt)
+	}
+
+	if f.DomainMinGte != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") >= ?")
+		values = append(values, f.DomainMinGte)
+	}
+
+	if f.DomainMaxGte != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") >= ?")
+		values = append(values, f.DomainMaxGte)
+	}
+
+	if f.DomainMinLte != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") <= ?")
+		values = append(values, f.DomainMinLte)
+	}
+
+	if f.DomainMaxLte != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") <= ?")
+		values = append(values, f.DomainMaxLte)
+	}
+
+	if f.DomainMinIn != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") IN (?)")
+		values = append(values, f.DomainMinIn)
+	}
+
+	if f.DomainMaxIn != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") IN (?)")
+		values = append(values, f.DomainMaxIn)
+	}
+
+	if f.DomainMinLike != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DomainMinLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DomainMaxLike != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DomainMaxLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DomainMinPrefix != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DomainMinPrefix))
+	}
+
+	if f.DomainMaxPrefix != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DomainMaxPrefix))
+	}
+
+	if f.DomainMinSuffix != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DomainMinSuffix))
+	}
+
+	if f.DomainMaxSuffix != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("domain")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DomainMaxSuffix))
 	}
 
 	if f.TagMin != nil {

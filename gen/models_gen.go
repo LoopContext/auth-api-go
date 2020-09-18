@@ -34,6 +34,37 @@ type PermissionFilterType struct {
 	IDMinIn              []string                `json:"idMin_in"`
 	IDMaxIn              []string                `json:"idMax_in"`
 	IDNull               *bool                   `json:"id_null"`
+	Domain               *string                 `json:"domain"`
+	DomainMin            *string                 `json:"domainMin"`
+	DomainMax            *string                 `json:"domainMax"`
+	DomainNe             *string                 `json:"domain_ne"`
+	DomainMinNe          *string                 `json:"domainMin_ne"`
+	DomainMaxNe          *string                 `json:"domainMax_ne"`
+	DomainGt             *string                 `json:"domain_gt"`
+	DomainMinGt          *string                 `json:"domainMin_gt"`
+	DomainMaxGt          *string                 `json:"domainMax_gt"`
+	DomainLt             *string                 `json:"domain_lt"`
+	DomainMinLt          *string                 `json:"domainMin_lt"`
+	DomainMaxLt          *string                 `json:"domainMax_lt"`
+	DomainGte            *string                 `json:"domain_gte"`
+	DomainMinGte         *string                 `json:"domainMin_gte"`
+	DomainMaxGte         *string                 `json:"domainMax_gte"`
+	DomainLte            *string                 `json:"domain_lte"`
+	DomainMinLte         *string                 `json:"domainMin_lte"`
+	DomainMaxLte         *string                 `json:"domainMax_lte"`
+	DomainIn             []string                `json:"domain_in"`
+	DomainMinIn          []string                `json:"domainMin_in"`
+	DomainMaxIn          []string                `json:"domainMax_in"`
+	DomainLike           *string                 `json:"domain_like"`
+	DomainMinLike        *string                 `json:"domainMin_like"`
+	DomainMaxLike        *string                 `json:"domainMax_like"`
+	DomainPrefix         *string                 `json:"domain_prefix"`
+	DomainMinPrefix      *string                 `json:"domainMin_prefix"`
+	DomainMaxPrefix      *string                 `json:"domainMax_prefix"`
+	DomainSuffix         *string                 `json:"domain_suffix"`
+	DomainMinSuffix      *string                 `json:"domainMin_suffix"`
+	DomainMaxSuffix      *string                 `json:"domainMax_suffix"`
+	DomainNull           *bool                   `json:"domain_null"`
 	Tag                  *string                 `json:"tag"`
 	TagMin               *string                 `json:"tagMin"`
 	TagMax               *string                 `json:"tagMax"`
@@ -193,6 +224,9 @@ type PermissionSortType struct {
 	ID             *ObjectSortType     `json:"id"`
 	IDMin          *ObjectSortType     `json:"idMin"`
 	IDMax          *ObjectSortType     `json:"idMax"`
+	Domain         *ObjectSortType     `json:"domain"`
+	DomainMin      *ObjectSortType     `json:"domainMin"`
+	DomainMax      *ObjectSortType     `json:"domainMax"`
 	Tag            *ObjectSortType     `json:"tag"`
 	TagMin         *ObjectSortType     `json:"tagMin"`
 	TagMax         *ObjectSortType     `json:"tagMax"`
@@ -728,6 +762,37 @@ type RoleFilterType struct {
 	IDMinIn              []string              `json:"idMin_in"`
 	IDMaxIn              []string              `json:"idMax_in"`
 	IDNull               *bool                 `json:"id_null"`
+	Domain               *string               `json:"domain"`
+	DomainMin            *string               `json:"domainMin"`
+	DomainMax            *string               `json:"domainMax"`
+	DomainNe             *string               `json:"domain_ne"`
+	DomainMinNe          *string               `json:"domainMin_ne"`
+	DomainMaxNe          *string               `json:"domainMax_ne"`
+	DomainGt             *string               `json:"domain_gt"`
+	DomainMinGt          *string               `json:"domainMin_gt"`
+	DomainMaxGt          *string               `json:"domainMax_gt"`
+	DomainLt             *string               `json:"domain_lt"`
+	DomainMinLt          *string               `json:"domainMin_lt"`
+	DomainMaxLt          *string               `json:"domainMax_lt"`
+	DomainGte            *string               `json:"domain_gte"`
+	DomainMinGte         *string               `json:"domainMin_gte"`
+	DomainMaxGte         *string               `json:"domainMax_gte"`
+	DomainLte            *string               `json:"domain_lte"`
+	DomainMinLte         *string               `json:"domainMin_lte"`
+	DomainMaxLte         *string               `json:"domainMax_lte"`
+	DomainIn             []string              `json:"domain_in"`
+	DomainMinIn          []string              `json:"domainMin_in"`
+	DomainMaxIn          []string              `json:"domainMax_in"`
+	DomainLike           *string               `json:"domain_like"`
+	DomainMinLike        *string               `json:"domainMin_like"`
+	DomainMaxLike        *string               `json:"domainMax_like"`
+	DomainPrefix         *string               `json:"domain_prefix"`
+	DomainMinPrefix      *string               `json:"domainMin_prefix"`
+	DomainMaxPrefix      *string               `json:"domainMax_prefix"`
+	DomainSuffix         *string               `json:"domain_suffix"`
+	DomainMinSuffix      *string               `json:"domainMin_suffix"`
+	DomainMaxSuffix      *string               `json:"domainMax_suffix"`
+	DomainNull           *bool                 `json:"domain_null"`
 	Name                 *string               `json:"name"`
 	NameMin              *string               `json:"nameMin"`
 	NameMax              *string               `json:"nameMax"`
@@ -888,6 +953,9 @@ type RoleSortType struct {
 	ID                *ObjectSortType     `json:"id"`
 	IDMin             *ObjectSortType     `json:"idMin"`
 	IDMax             *ObjectSortType     `json:"idMax"`
+	Domain            *ObjectSortType     `json:"domain"`
+	DomainMin         *ObjectSortType     `json:"domainMin"`
+	DomainMax         *ObjectSortType     `json:"domainMax"`
 	Name              *ObjectSortType     `json:"name"`
 	NameMin           *ObjectSortType     `json:"nameMin"`
 	NameMax           *ObjectSortType     `json:"nameMax"`

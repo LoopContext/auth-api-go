@@ -35,6 +35,7 @@ func InitPermissions(aid string) *gormigrate.Migration {
 		for _, pd := range p.Permissions {
 			permissions = append(permissions, &gen.Permission{
 				ID:          uuid.Must(uuid.NewV4()).String(),
+				Domain:      "app",
 				Description: "Permission to [" + pd + "] for entity [" + p.Entity + "]",
 				Tag:         p.Entity + ":" + pd,
 				CreatedBy:   &aid,

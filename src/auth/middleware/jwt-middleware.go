@@ -209,7 +209,7 @@ func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 				if err != nil {
 					authError(res, err)
 				} else {
-					if claims, ok := t.Claims.(jwt.MapClaims); ok {
+					if claims, ok := t.Claims.(jwt.MapClaims); t.Valid && ok {
 						if claims["exp"] != nil {
 							issuer := claims["iss"].(string)
 							userid := claims["jti"].(string)
@@ -235,7 +235,7 @@ func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 							authError(res, ErrMissingExpField)
 						}
 					} else {
-						authError(res, err)
+						authError(res, errors.New("Token or Claims invalid"))
 					}
 				}
 			}

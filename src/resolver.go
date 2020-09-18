@@ -81,12 +81,6 @@ func (r *QueryResolver) Login(ctx context.Context) (string, error) {
 	return "logged in", nil
 }
 
-// Users method -- I CAN CHECK PERMISSIONS HERE -- use template to modify this get where gen.Users is and use that
-func (r *QueryResolver) Users(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.UserSortType, filter *gen.UserFilterType) (*gen.UserResultType, error) {
-	log.Debug().Msgf("USERS!! ctx: %#v", gen.GetJWTClaimsFromContext(ctx))
-	return r.GeneratedQueryResolver.Users(ctx, offset, limit, q, sort, filter)
-}
-
 // =============================================================================
 // ================================= Helpers ===================================
 // =============================================================================

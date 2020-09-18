@@ -699,6 +699,21 @@ func (s RoleSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, 
 		*sorts = append(*sorts, sort)
 	}
 
+	if s.Domain != nil {
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("domain"), Direction: s.Domain.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.DomainMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("domain") + ")", Direction: s.DomainMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.DomainMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("domain") + ")", Direction: s.DomainMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
 	if s.Name != nil {
 		sort := SortInfo{Field: aliasPrefix + dialect.Quote("name"), Direction: s.Name.String()}
 		*sorts = append(*sorts, sort)
@@ -849,6 +864,21 @@ func (s PermissionSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dia
 
 	if s.IDMax != nil {
 		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("id") + ")", Direction: s.IDMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.Domain != nil {
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("domain"), Direction: s.Domain.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.DomainMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("domain") + ")", Direction: s.DomainMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.DomainMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("domain") + ")", Direction: s.DomainMax.String(), IsAggregation: true}
 		*sorts = append(*sorts, sort)
 	}
 

@@ -24,6 +24,7 @@ func InitRoles(aid string) *gormigrate.Migration {
 			}
 			adminRole := &gen.Role{
 				ID:        uuid.Must(uuid.NewV4()).String(),
+				Domain:    "app",
 				Name:      "admin",
 				CreatedBy: &aid,
 			}
@@ -35,6 +36,7 @@ func InitRoles(aid string) *gormigrate.Migration {
 
 			tx = tx.Create(&gen.Role{
 				ID:        uuid.Must(uuid.NewV4()).String(),
+				Domain:    "app",
 				Name:      "user",
 				CreatedBy: &aid,
 			})

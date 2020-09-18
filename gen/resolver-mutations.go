@@ -980,6 +980,12 @@ func CreateRoleHandler(ctx context.Context, r *GeneratedResolver, input map[stri
 		event.AddNewValue("id", changes.ID)
 	}
 
+	if _, ok := input["domain"]; ok && (item.Domain != changes.Domain) {
+		item.Domain = changes.Domain
+
+		event.AddNewValue("domain", changes.Domain)
+	}
+
 	if _, ok := input["name"]; ok && (item.Name != changes.Name) {
 		item.Name = changes.Name
 
@@ -1072,6 +1078,12 @@ func UpdateRoleHandler(ctx context.Context, r *GeneratedResolver, id string, inp
 	}
 
 	item.UpdatedBy = principalID
+
+	if _, ok := input["domain"]; ok && (item.Domain != changes.Domain) {
+		event.AddOldValue("domain", item.Domain)
+		event.AddNewValue("domain", changes.Domain)
+		item.Domain = changes.Domain
+	}
 
 	if _, ok := input["name"]; ok && (item.Name != changes.Name) {
 		event.AddOldValue("name", item.Name)
@@ -1232,6 +1244,12 @@ func CreatePermissionHandler(ctx context.Context, r *GeneratedResolver, input ma
 		event.AddNewValue("id", changes.ID)
 	}
 
+	if _, ok := input["domain"]; ok && (item.Domain != changes.Domain) {
+		item.Domain = changes.Domain
+
+		event.AddNewValue("domain", changes.Domain)
+	}
+
 	if _, ok := input["tag"]; ok && (item.Tag != changes.Tag) {
 		item.Tag = changes.Tag
 
@@ -1317,6 +1335,12 @@ func UpdatePermissionHandler(ctx context.Context, r *GeneratedResolver, id strin
 	}
 
 	item.UpdatedBy = principalID
+
+	if _, ok := input["domain"]; ok && (item.Domain != changes.Domain) {
+		event.AddOldValue("domain", item.Domain)
+		event.AddNewValue("domain", changes.Domain)
+		item.Domain = changes.Domain
+	}
 
 	if _, ok := input["tag"]; ok && (item.Tag != changes.Tag) {
 		event.AddOldValue("tag", item.Tag)

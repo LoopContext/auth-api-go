@@ -125,6 +125,7 @@ type Profile {
 
 type Role {
   id: ID!
+  domain: String!
   name: String!
   description: String
   users: [User!]!
@@ -147,6 +148,7 @@ type Role {
 
 type Permission {
   id: ID!
+  domain: String!
   tag: String!
   description: String!
   users: [User!]!
@@ -1455,6 +1457,7 @@ type ProfileResultType {
 
 input RoleCreateInput {
   id: ID
+  domain: String!
   name: String!
   description: String
   usersIds: [ID!]
@@ -1464,6 +1467,7 @@ input RoleCreateInput {
 }
 
 input RoleUpdateInput {
+  domain: String
   name: String
   description: String
   usersIds: [ID!]
@@ -1476,6 +1480,9 @@ input RoleSortType {
   id: ObjectSortType
   idMin: ObjectSortType
   idMax: ObjectSortType
+  domain: ObjectSortType
+  domainMin: ObjectSortType
+  domainMax: ObjectSortType
   name: ObjectSortType
   nameMin: ObjectSortType
   nameMax: ObjectSortType
@@ -1537,6 +1544,37 @@ input RoleFilterType {
   idMin_in: [ID!]
   idMax_in: [ID!]
   id_null: Boolean
+  domain: String
+  domainMin: String
+  domainMax: String
+  domain_ne: String
+  domainMin_ne: String
+  domainMax_ne: String
+  domain_gt: String
+  domainMin_gt: String
+  domainMax_gt: String
+  domain_lt: String
+  domainMin_lt: String
+  domainMax_lt: String
+  domain_gte: String
+  domainMin_gte: String
+  domainMax_gte: String
+  domain_lte: String
+  domainMin_lte: String
+  domainMax_lte: String
+  domain_in: [String!]
+  domainMin_in: [String!]
+  domainMax_in: [String!]
+  domain_like: String
+  domainMin_like: String
+  domainMax_like: String
+  domain_prefix: String
+  domainMin_prefix: String
+  domainMax_prefix: String
+  domain_suffix: String
+  domainMin_suffix: String
+  domainMax_suffix: String
+  domain_null: Boolean
   name: String
   nameMin: String
   nameMax: String
@@ -1700,6 +1738,7 @@ type RoleResultType {
 
 input PermissionCreateInput {
   id: ID
+  domain: String!
   tag: String!
   description: String!
   usersIds: [ID!]
@@ -1708,6 +1747,7 @@ input PermissionCreateInput {
 }
 
 input PermissionUpdateInput {
+  domain: String
   tag: String
   description: String
   usersIds: [ID!]
@@ -1719,6 +1759,9 @@ input PermissionSortType {
   id: ObjectSortType
   idMin: ObjectSortType
   idMax: ObjectSortType
+  domain: ObjectSortType
+  domainMin: ObjectSortType
+  domainMax: ObjectSortType
   tag: ObjectSortType
   tagMin: ObjectSortType
   tagMax: ObjectSortType
@@ -1776,6 +1819,37 @@ input PermissionFilterType {
   idMin_in: [ID!]
   idMax_in: [ID!]
   id_null: Boolean
+  domain: String
+  domainMin: String
+  domainMax: String
+  domain_ne: String
+  domainMin_ne: String
+  domainMax_ne: String
+  domain_gt: String
+  domainMin_gt: String
+  domainMax_gt: String
+  domain_lt: String
+  domainMin_lt: String
+  domainMax_lt: String
+  domain_gte: String
+  domainMin_gte: String
+  domainMax_gte: String
+  domain_lte: String
+  domainMin_lte: String
+  domainMax_lte: String
+  domain_in: [String!]
+  domainMin_in: [String!]
+  domainMax_in: [String!]
+  domain_like: String
+  domainMin_like: String
+  domainMax_like: String
+  domain_prefix: String
+  domainMin_prefix: String
+  domainMax_prefix: String
+  domain_suffix: String
+  domainMin_suffix: String
+  domainMax_suffix: String
+  domain_null: Boolean
   tag: String
   tagMin: String
   tagMax: String

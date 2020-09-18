@@ -192,6 +192,7 @@ type RoleResultType struct {
 // Role struct
 type Role struct {
 	ID          string     `json:"id" gorm:"column:id;primary_key"`
+	Domain      string     `json:"domain" gorm:"column:domain"`
 	Name        string     `json:"name" gorm:"column:name"`
 	Description *string    `json:"description" gorm:"column:description;type:text"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
@@ -214,6 +215,7 @@ func (m *Role) IsEntity() {}
 // RoleChanges struct
 type RoleChanges struct {
 	ID          string
+	Domain      string
 	Name        string
 	Description *string
 	UpdatedAt   *time.Time
@@ -257,6 +259,7 @@ type PermissionResultType struct {
 // Permission struct
 type Permission struct {
 	ID          string     `json:"id" gorm:"column:id;primary_key"`
+	Domain      string     `json:"domain" gorm:"column:domain"`
 	Tag         string     `json:"tag" gorm:"column:tag;unique"`
 	Description string     `json:"description" gorm:"column:description;type:text"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
@@ -277,6 +280,7 @@ func (m *Permission) IsEntity() {}
 // PermissionChanges struct
 type PermissionChanges struct {
 	ID          string
+	Domain      string
 	Tag         string
 	Description string
 	UpdatedAt   *time.Time

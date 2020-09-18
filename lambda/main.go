@@ -4,13 +4,12 @@ import (
 	"github.com/akrylysov/algnhsa"
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/auth-api-go/src"
-	"github.com/loopcontext/graphql-orm/events"
 )
 
 func main() {
 	db := gen.NewDBFromEnvVars()
 
-	eventController, err := events.NewEventController()
+	eventController, err := gen.NewEventController()
 	if err != nil {
 		panic(err)
 	}

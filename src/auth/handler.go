@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/rs/zerolog/log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/loopcontext/auth-api-go/gen"
@@ -68,37 +69,41 @@ func callbackHandlerExec(res http.ResponseWriter, req *http.Request, db *gen.DB)
 	}
 	jwtToken := jwt.NewWithClaims(jwt.GetSigningMethod(utils.MustGet("AUTH_JWT_SIGNING_ALGORITHM")),
 		gen.JWTClaims{
-			Email:  user.Email,
-			Avatar: user.AvatarURL,
+			Name:     user.Name,
+			Nickname: user.NickName,
+			Email:    user.Email,
+			Picture:  user.AvatarURL,
 			StandardClaims: jwt.StandardClaims{
 				Id:        user.UserID,
+				Subject:   u.ID,
 				Issuer:    user.Provider,
-				Subject:   user.Email,
 				Audience:  req.Host,
 				IssuedAt:  time.Now().UTC().Unix(),
 				NotBefore: time.Now().UTC().Unix(),
 				ExpiresAt: user.ExpiresAt.UTC().Unix(),
 			},
-			Roles: getJWTRoles(u),
+			Roles:       getUserRoles(u),
+			Permissions: getUserPermissions(u),
 		})
 	token, err := jwtToken.SignedString([]byte(utils.MustGet("AUTH_JWT_SECRET")))
 	if err != nil {
 		abortWithError(&res, http.StatusInternalServerError, err)
 		return
 	}
-	jwtToken = jwt.NewWithClaims(jwt.GetSigningMethod(utils.MustGet("AUTH_JWT_SIGNING_ALGORITHM")),
-		gen.JWTClaims{
-			Email: user.Email,
-			StandardClaims: jwt.StandardClaims{
-				Id:        user.UserID,
-				Issuer:    user.Provider,
-				Subject:   user.Email,
-				Audience:  req.Host,
-				IssuedAt:  time.Now().UTC().Unix(),
-				NotBefore: time.Now().UTC().Unix(),
-				ExpiresAt: user.ExpiresAt.Add(2 * time.Hour).UTC().Unix(),
-			},
-		})
+	// jwtToken = jwt.NewWithClaims(jwt.GetSigningMethod(utils.MustGet("AUTH_JWT_SIGNING_ALGORITHM")),
+	// 	gen.JWTClaims{
+	// 		Email:   user.Email,
+	// 		Picture: user.AvatarURL,
+	// 		StandardClaims: jwt.StandardClaims{
+	// 			Id:        user.UserID,
+	// 			Issuer:    user.Provider,
+	// 			Subject:   user.Email,
+	// 			Audience:  req.Host,
+	// 			IssuedAt:  time.Now().UTC().Unix(),
+	// 			NotBefore: time.Now().UTC().Unix(),
+	// 			ExpiresAt: user.ExpiresAt.Add(2 * time.Hour).UTC().Unix(),
+	// 		},
+	// 	})
 	// refreshtoken, err := jwtToken.SignedString([]byte(utils.MustGet("AUTH_JWT_SECRET")))
 	response := map[string]interface{}{
 		"type":  "Bearer",
@@ -127,24 +132,22 @@ func parseJSON(w *http.ResponseWriter, sc int, j interface{}) (err error) {
 	return err
 }
 
-func getJWTRoles(u *gen.User) (roles []gen.JWTRole) {
-	var d string
+func getUserRoles(u *gen.User) (roles []string) {
 	for _, r := range u.Roles {
-		if r.Description != nil {
-			d = *r.Description
-		}
-		roles = append(roles, gen.JWTRole{
-			Name:        r.Name,
-			Description: d,
-			Permissions: getJWTRolePermissions(r),
-		})
+		roles = append(roles, r.Name)
 	}
 	return
 }
 
-func getJWTRolePermissions(r *gen.Role) (permissions []string) {
-	for _, p := range r.Permissions {
-		permissions = append(permissions, p.Tag)
+func getUserPermissions(u *gen.User) map[string]string {
+	perms := make(map[string]string)
+	for _, p := range u.Permissions {
+		c := strings.Index(p.Tag, ":")
+		if perms[p.Tag[:c]] == "" {
+			perms[p.Tag[:c]] += p.Tag[c+1 : c+2]
+		} else {
+			perms[p.Tag[:c]] += "," + p.Tag[c+1:c+2]
+		}
 	}
-	return
+	return perms
 }
