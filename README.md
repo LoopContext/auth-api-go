@@ -6,6 +6,6 @@ Miraculous admin API for any system
 
 Using:
 
-- <https://github.com/LoopContext/graphql-orm>
+- <https://github.com/loopcontext/go-graphql-orm>
 
 Used to generate the API and then plugging in the JWT checks and GOTH libs

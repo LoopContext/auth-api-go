@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/checkmail"
-	"github.com/loopcontext/graphql-orm/events"
+	"github.com/loopcontext/go-graphql-orm/events"
 	"github.com/rs/zerolog/log"
 	"golang.org/x/crypto/bcrypt"
 )

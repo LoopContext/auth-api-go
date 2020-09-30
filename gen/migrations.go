@@ -18,8 +18,7 @@ func Migrate(db *gorm.DB, options *gormigrate.Options, migrations []*gormigrate.
 	return m.Migrate()
 }
 
-// AutoMigrate auto applies model changes
-func AutoMigrate(db *gorm.DB) error {
+func AutoMigrate(db *gorm.DB) (err error) {
 	_db := db.AutoMigrate(
 		User{},
 		UserAPIKey{},
@@ -33,44 +32,122 @@ func AutoMigrate(db *gorm.DB) error {
 	}
 	if _db.Dialect().GetName() != "sqlite3" {
 
-		_db.Model(RoleUsers{}).RemoveForeignKey("userId", TableName("users")+"(id)")
-		_db = _db.Model(RoleUsers{}).AddForeignKey("userId", TableName("users")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(RoleUsers{}).RemoveForeignKey("userId", TableName("users")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(RoleUsers{}).AddForeignKey("userId", TableName("users")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(ProfileUsers{}).RemoveForeignKey("userId", TableName("users")+"(id)")
-		_db = _db.Model(ProfileUsers{}).AddForeignKey("userId", TableName("users")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(ProfileUsers{}).RemoveForeignKey("userId", TableName("users")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(ProfileUsers{}).AddForeignKey("userId", TableName("users")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(PermissionUsers{}).RemoveForeignKey("userId", TableName("users")+"(id)")
-		_db = _db.Model(PermissionUsers{}).AddForeignKey("userId", TableName("users")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(PermissionUsers{}).RemoveForeignKey("userId", TableName("users")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(PermissionUsers{}).AddForeignKey("userId", TableName("users")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(UserAPIKey{}).RemoveForeignKey("userId", TableName("users")+"(id)")
-		_db = _db.Model(UserAPIKey{}).AddForeignKey("userId", TableName("users")+"(id)", "SET NULL", "SET NULL")
+		err = _db.Model(UserAPIKey{}).RemoveForeignKey("userId", TableName("users")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(UserAPIKey{}).AddForeignKey("userId", TableName("users")+"(id)", "SET NULL", "SET NULL").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(UserAPIKeyPermissions{}).RemoveForeignKey("apikeyId", TableName("user_api_keys")+"(id)")
-		_db = _db.Model(UserAPIKeyPermissions{}).AddForeignKey("apikeyId", TableName("user_api_keys")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(UserAPIKeyPermissions{}).RemoveForeignKey("apikeyId", TableName("user_api_keys")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(UserAPIKeyPermissions{}).AddForeignKey("apikeyId", TableName("user_api_keys")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(ProfileUsers{}).RemoveForeignKey("profileId", TableName("profiles")+"(id)")
-		_db = _db.Model(ProfileUsers{}).AddForeignKey("profileId", TableName("profiles")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(ProfileUsers{}).RemoveForeignKey("profileId", TableName("profiles")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(ProfileUsers{}).AddForeignKey("profileId", TableName("profiles")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(RoleUsers{}).RemoveForeignKey("roleId", TableName("roles")+"(id)")
-		_db = _db.Model(RoleUsers{}).AddForeignKey("roleId", TableName("roles")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(RoleUsers{}).RemoveForeignKey("roleId", TableName("roles")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(RoleUsers{}).AddForeignKey("roleId", TableName("roles")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(RoleParents{}).RemoveForeignKey("childId", TableName("roles")+"(id)")
-		_db = _db.Model(RoleParents{}).AddForeignKey("childId", TableName("roles")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(RoleParents{}).RemoveForeignKey("childId", TableName("roles")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(RoleParents{}).AddForeignKey("childId", TableName("roles")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(RoleParents{}).RemoveForeignKey("parentId", TableName("roles")+"(id)")
-		_db = _db.Model(RoleParents{}).AddForeignKey("parentId", TableName("roles")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(RoleParents{}).RemoveForeignKey("parentId", TableName("roles")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(RoleParents{}).AddForeignKey("parentId", TableName("roles")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(PermissionRoles{}).RemoveForeignKey("roleId", TableName("roles")+"(id)")
-		_db = _db.Model(PermissionRoles{}).AddForeignKey("roleId", TableName("roles")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(PermissionRoles{}).RemoveForeignKey("roleId", TableName("roles")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(PermissionRoles{}).AddForeignKey("roleId", TableName("roles")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(PermissionUsers{}).RemoveForeignKey("permissionId", TableName("permissions")+"(id)")
-		_db = _db.Model(PermissionUsers{}).AddForeignKey("permissionId", TableName("permissions")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(PermissionUsers{}).RemoveForeignKey("permissionId", TableName("permissions")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(PermissionUsers{}).AddForeignKey("permissionId", TableName("permissions")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(PermissionRoles{}).RemoveForeignKey("permissionId", TableName("permissions")+"(id)")
-		_db = _db.Model(PermissionRoles{}).AddForeignKey("permissionId", TableName("permissions")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(PermissionRoles{}).RemoveForeignKey("permissionId", TableName("permissions")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(PermissionRoles{}).AddForeignKey("permissionId", TableName("permissions")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
-		_db.Model(UserAPIKeyPermissions{}).RemoveForeignKey("permissionId", TableName("permissions")+"(id)")
-		_db = _db.Model(UserAPIKeyPermissions{}).AddForeignKey("permissionId", TableName("permissions")+"(id)", "CASCADE", "CASCADE")
+		err = _db.Model(UserAPIKeyPermissions{}).RemoveForeignKey("permissionId", TableName("permissions")+"(id)").Error
+		if err != nil {
+			return err
+		}
+		err = _db.Model(UserAPIKeyPermissions{}).AddForeignKey("permissionId", TableName("permissions")+"(id)", "CASCADE", "CASCADE").Error
+		if err != nil {
+			return err
+		}
 
 		if _db.Error != nil {
 			log.Err(_db.Error).Send()
