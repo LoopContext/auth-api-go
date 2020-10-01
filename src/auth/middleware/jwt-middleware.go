@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/loopcontext/auth-api-go/src/auth/database"
 	"net/http"
 	"strings"
 
 	"github.com/loopcontext/auth-api-go/gen"
+	"github.com/loopcontext/auth-api-go/src/auth/database"
 	"github.com/loopcontext/auth-api-go/src/auth/utils"
 	"github.com/rs/zerolog/log"
 
@@ -184,7 +184,7 @@ type AuthJWT struct {
 // Middleware auth func, called each request
 func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		log.Info().Msgf("[Auth.Middleware] Applied to path: %s - current path: %s", a.Path, req.RequestURI)
+		log.Debug().Msgf("[Auth.Middleware] Applied to path: %s - current path: %s", a.Path, req.RequestURI)
 		if !strings.HasPrefix(req.RequestURI, a.Path) {
 			next.ServeHTTP(res, req)
 			return
