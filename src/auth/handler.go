@@ -3,14 +3,15 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"strings"
 	"time"
 
+	"github.com/rs/zerolog/log"
+
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/auth-api-go/src/auth/database"
-	"github.com/loopcontext/auth-api-go/src/auth/utils"
+	"github.com/loopcontext/auth-api-go/src/utils"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"

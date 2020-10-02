@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/loopcontext/auth-api-go/src/auth/utils"
+	"github.com/loopcontext/auth-api-go/src/utils"
 
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/auth0"

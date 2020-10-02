@@ -9,7 +9,7 @@ import (
 
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/auth-api-go/src/auth/database"
-	"github.com/loopcontext/auth-api-go/src/auth/utils"
+	"github.com/loopcontext/auth-api-go/src/utils"
 	"github.com/rs/zerolog/log"
 
 	"github.com/dgrijalva/jwt-go"

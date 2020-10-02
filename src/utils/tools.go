@@ -1,9 +1,10 @@
 package utils
 
 import (
-	"github.com/rs/zerolog/log"
 	"os"
 	"strconv"
+
+	"github.com/rs/zerolog/log"
 )
 
 // ContextKey defines a type for context keys shared in the app
@@ -16,14 +17,12 @@ type ContextKeys struct {
 	UserCtxKey           ContextKey // User db object in Auth
 }
 
-var (
-	// ProjectContextKeys the project's context keys
-	ProjectContextKeys = ContextKeys{
-		GothicProviderCtxKey: "provider",
-		ProviderCtxKey:       "gg-provider",
-		UserCtxKey:           "gg-auth-user",
-	}
-)
+// ProjectContextKeys the project's context keys
+var ProjectContextKeys = ContextKeys{
+	GothicProviderCtxKey: "provider",
+	ProviderCtxKey:       "gg-provider",
+	UserCtxKey:           "gg-auth-user",
+}
 
 // MustGet will return the env or panic if it is not present
 func MustGet(k string) string {
