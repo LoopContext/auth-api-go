@@ -91,33 +91,25 @@ func callbackHandlerExec(res http.ResponseWriter, req *http.Request, db *gen.DB)
 		abortWithError(&res, http.StatusInternalServerError, err)
 		return
 	}
-	// jwtToken = jwt.NewWithClaims(jwt.GetSigningMethod(utils.MustGet("AUTH_JWT_SIGNING_ALGORITHM")),
-	// 	gen.JWTClaims{
-	// 		Email:   user.Email,
-	// 		Picture: user.AvatarURL,
-	// 		StandardClaims: jwt.StandardClaims{
-	// 			Id:        user.UserID,
-	// 			Issuer:    user.Provider,
-	// 			Subject:   user.Email,
-	// 			Audience:  req.Host,
-	// 			IssuedAt:  time.Now().UTC().Unix(),
-	// 			NotBefore: time.Now().UTC().Unix(),
-	// 			ExpiresAt: user.ExpiresAt.Add(2 * time.Hour).UTC().Unix(),
-	// 		},
-	// 	})
-	// refreshtoken, err := jwtToken.SignedString([]byte(utils.MustGet("AUTH_JWT_SECRET")))
 	response := map[string]interface{}{
 		"type":  "Bearer",
 		"token": token,
-		// "refresh_token": refreshtoken,
 	}
-	parseJSON(&res, http.StatusOK, response)
+	err = parseJSON(&res, http.StatusOK, response)
+	if err != nil {
+		abortWithError(&res, http.StatusInternalServerError, err)
+		return
+	}
 }
 
 // Logout logs out of the auth provider
 func Logout(res http.ResponseWriter, req *http.Request) {
 	req = addProviderToContext(req, mux.Vars(req)[string(utils.ProjectContextKeys.ProviderCtxKey)])
-	gothic.Logout(res, req)
+	err := gothic.Logout(res, req)
+	if err != nil {
+		abortWithError(&res, http.StatusInternalServerError, err)
+		return
+	}
 	res.Header().Set("Location", "/")
 	res.WriteHeader(http.StatusTemporaryRedirect)
 }

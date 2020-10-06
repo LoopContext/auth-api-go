@@ -19,7 +19,7 @@ func addProviderToContext(r *http.Request, provider interface{}) *http.Request {
 	// gothic.Store = sessions.NewCookieStore([]byte("<your secret here>"))
 	checkProviders(provider.(string))
 	return r.WithContext(context.WithValue(r.Context(),
-		string(utils.ProjectContextKeys.GothicProviderCtxKey), provider))
+		utils.ProjectContextKeys.GothicProviderCtxKey, provider))
 }
 
 func parseScopes(scopes string) []string {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -69,7 +70,11 @@ var (
 
 func authError(res http.ResponseWriter, err error) {
 	res.WriteHeader(http.StatusUnauthorized)
-	json.NewEncoder(res).Encode(map[string]string{"message": "[Auth] error: " + err.Error()})
+	errEncode := json.NewEncoder(res).Encode(map[string]string{"message": "[Auth] error: " + err.Error()})
+	if errEncode != nil {
+		log.Err(fmt.Errorf("[Wrapped] errEncode: %w\n[Original]: %q", errEncode, err))
+		return
+	}
 }
 
 // ParseAPIKey parse api key from request
@@ -214,14 +219,14 @@ func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 							issuer := claims["iss"].(string)
 							userid := claims["jti"].(string)
 							email := claims["email"].(string)
-							if claims["aud"] != nil {
-								// audiences := claims["aud"].(interface{})
-								// log.Debug().Msgf("audiences: %s", audiences)
-							}
-							if claims["alg"] != nil {
-								// algo := claims["alg"].(string)
-								// log.Debug().Msgf("algo: %s", algo)
-							}
+							// if claims["aud"] != nil {
+							// 	audiences := claims["aud"].(interface{})
+							// 	log.Debug().Msgf("audiences: %s", audiences)
+							// }
+							// if claims["alg"] != nil {
+							// 	algo := claims["alg"].(string)
+							// 	log.Debug().Msgf("algo: %s", algo)
+							// }
 							if user, err := database.FindUserByJWT(a.DB, userid, email, issuer); err != nil {
 								authError(res, ErrForbidden)
 							} else {

@@ -2,28 +2,29 @@ package gen
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gofrs/uuid"
 	"github.com/loopcontext/go-graphql-orm/events"
 )
 
-// GeneratedMutationResolver ...
+// GeneratedMutationResolver struct
 type GeneratedMutationResolver struct{ *GeneratedResolver }
 
-// MutationEvents ...
+// MutationEvents struct
 type MutationEvents struct {
 	Events []events.Event
 }
 
-// EnrichContextWithMutations ...
+// EnrichContextWithMutations method
 func EnrichContextWithMutations(ctx context.Context, r *GeneratedResolver) context.Context {
 	_ctx := context.WithValue(ctx, KeyMutationTransaction, r.DB.db.Begin())
 	_ctx = context.WithValue(_ctx, KeyMutationEvents, &MutationEvents{})
 	return _ctx
 }
 
-// FinishMutationContext ...
+// FinishMutationContext method
 func FinishMutationContext(ctx context.Context, r *GeneratedResolver) (err error) {
 	s := GetMutationEventStore(ctx)
 
@@ -48,24 +49,24 @@ func FinishMutationContext(ctx context.Context, r *GeneratedResolver) (err error
 	return
 }
 
-// RollbackMutationContext ...
+// RollbackMutationContext method
 func RollbackMutationContext(ctx context.Context, r *GeneratedResolver) error {
 	tx := r.GetDB(ctx)
 	return tx.Rollback().Error
 }
 
-// GetMutationEventStore ...
+// GetMutationEventStore method
 func GetMutationEventStore(ctx context.Context) *MutationEvents {
 	return ctx.Value(KeyMutationEvents).(*MutationEvents)
 }
 
-// AddMutationEvent ...
+// AddMutationEvent method
 func AddMutationEvent(ctx context.Context, e events.Event) {
 	s := GetMutationEventStore(ctx)
 	s.Events = append(s.Events, e)
 }
 
-// CreateUser ...
+// CreateUser method
 func (r *GeneratedMutationResolver) CreateUser(ctx context.Context, input map[string]interface{}) (item *User, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.CreateUser(ctx, r.GeneratedResolver, input)
@@ -76,7 +77,7 @@ func (r *GeneratedMutationResolver) CreateUser(ctx context.Context, input map[st
 	return
 }
 
-// CreateUserHandler ...
+// CreateUserHandler handler
 func CreateUserHandler(ctx context.Context, r *GeneratedResolver, input map[string]interface{}) (item *User, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	now := time.Now()
@@ -203,19 +204,22 @@ func CreateUserHandler(ctx context.Context, r *GeneratedResolver, input map[stri
 	return
 }
 
-// UpdateUser ...
+// UpdateUser method
 func (r *GeneratedMutationResolver) UpdateUser(ctx context.Context, id string, input map[string]interface{}) (item *User, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.UpdateUser(ctx, r.GeneratedResolver, id, input)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
 	return
 }
 
-// UpdateUserHandler ...
+// UpdateUserHandler handler
 func UpdateUserHandler(ctx context.Context, r *GeneratedResolver, id string, input map[string]interface{}) (item *User, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	item = &User{}
@@ -346,12 +350,15 @@ func UpdateUserHandler(ctx context.Context, r *GeneratedResolver, id string, inp
 	return
 }
 
-// DeleteUser ...
+// DeleteUser method
 func (r *GeneratedMutationResolver) DeleteUser(ctx context.Context, id string) (item *User, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.DeleteUser(ctx, r.GeneratedResolver, id)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -390,12 +397,15 @@ func DeleteUserHandler(ctx context.Context, r *GeneratedResolver, id string) (it
 	return
 }
 
-// DeleteAllUsers ...
+// DeleteAllUsers method
 func (r *GeneratedMutationResolver) DeleteAllUsers(ctx context.Context) (bool, error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	done, err := r.Handlers.DeleteAllUsers(ctx, r.GeneratedResolver)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return done, err
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -413,7 +423,7 @@ func DeleteAllUsersHandler(ctx context.Context, r *GeneratedResolver) (bool, err
 	return true, err
 }
 
-// CreateUserAPIKey ...
+// CreateUserAPIKey method
 func (r *GeneratedMutationResolver) CreateUserAPIKey(ctx context.Context, input map[string]interface{}) (item *UserAPIKey, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.CreateUserAPIKey(ctx, r.GeneratedResolver, input)
@@ -424,7 +434,7 @@ func (r *GeneratedMutationResolver) CreateUserAPIKey(ctx context.Context, input 
 	return
 }
 
-// CreateUserAPIKeyHandler ...
+// CreateUserAPIKeyHandler handler
 func CreateUserAPIKeyHandler(ctx context.Context, r *GeneratedResolver, input map[string]interface{}) (item *UserAPIKey, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	now := time.Now()
@@ -488,19 +498,22 @@ func CreateUserAPIKeyHandler(ctx context.Context, r *GeneratedResolver, input ma
 	return
 }
 
-// UpdateUserAPIKey ...
+// UpdateUserAPIKey method
 func (r *GeneratedMutationResolver) UpdateUserAPIKey(ctx context.Context, id string, input map[string]interface{}) (item *UserAPIKey, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.UpdateUserAPIKey(ctx, r.GeneratedResolver, id, input)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
 	return
 }
 
-// UpdateUserAPIKeyHandler ...
+// UpdateUserAPIKeyHandler handler
 func UpdateUserAPIKeyHandler(ctx context.Context, r *GeneratedResolver, id string, input map[string]interface{}) (item *UserAPIKey, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	item = &UserAPIKey{}
@@ -568,12 +581,15 @@ func UpdateUserAPIKeyHandler(ctx context.Context, r *GeneratedResolver, id strin
 	return
 }
 
-// DeleteUserAPIKey ...
+// DeleteUserAPIKey method
 func (r *GeneratedMutationResolver) DeleteUserAPIKey(ctx context.Context, id string) (item *UserAPIKey, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.DeleteUserAPIKey(ctx, r.GeneratedResolver, id)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -612,12 +628,15 @@ func DeleteUserAPIKeyHandler(ctx context.Context, r *GeneratedResolver, id strin
 	return
 }
 
-// DeleteAllUserAPIKeys ...
+// DeleteAllUserAPIKeys method
 func (r *GeneratedMutationResolver) DeleteAllUserAPIKeys(ctx context.Context) (bool, error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	done, err := r.Handlers.DeleteAllUserAPIKeys(ctx, r.GeneratedResolver)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return done, err
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -635,7 +654,7 @@ func DeleteAllUserAPIKeysHandler(ctx context.Context, r *GeneratedResolver) (boo
 	return true, err
 }
 
-// CreateProfile ...
+// CreateProfile method
 func (r *GeneratedMutationResolver) CreateProfile(ctx context.Context, input map[string]interface{}) (item *Profile, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.CreateProfile(ctx, r.GeneratedResolver, input)
@@ -646,7 +665,7 @@ func (r *GeneratedMutationResolver) CreateProfile(ctx context.Context, input map
 	return
 }
 
-// CreateProfileHandler ...
+// CreateProfileHandler handler
 func CreateProfileHandler(ctx context.Context, r *GeneratedResolver, input map[string]interface{}) (item *Profile, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	now := time.Now()
@@ -752,19 +771,22 @@ func CreateProfileHandler(ctx context.Context, r *GeneratedResolver, input map[s
 	return
 }
 
-// UpdateProfile ...
+// UpdateProfile method
 func (r *GeneratedMutationResolver) UpdateProfile(ctx context.Context, id string, input map[string]interface{}) (item *Profile, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.UpdateProfile(ctx, r.GeneratedResolver, id, input)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
 	return
 }
 
-// UpdateProfileHandler ...
+// UpdateProfileHandler handler
 func UpdateProfileHandler(ctx context.Context, r *GeneratedResolver, id string, input map[string]interface{}) (item *Profile, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	item = &Profile{}
@@ -874,12 +896,15 @@ func UpdateProfileHandler(ctx context.Context, r *GeneratedResolver, id string, 
 	return
 }
 
-// DeleteProfile ...
+// DeleteProfile method
 func (r *GeneratedMutationResolver) DeleteProfile(ctx context.Context, id string) (item *Profile, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.DeleteProfile(ctx, r.GeneratedResolver, id)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -918,12 +943,15 @@ func DeleteProfileHandler(ctx context.Context, r *GeneratedResolver, id string) 
 	return
 }
 
-// DeleteAllProfiles ...
+// DeleteAllProfiles method
 func (r *GeneratedMutationResolver) DeleteAllProfiles(ctx context.Context) (bool, error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	done, err := r.Handlers.DeleteAllProfiles(ctx, r.GeneratedResolver)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return done, err
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -941,7 +969,7 @@ func DeleteAllProfilesHandler(ctx context.Context, r *GeneratedResolver) (bool, 
 	return true, err
 }
 
-// CreateRole ...
+// CreateRole method
 func (r *GeneratedMutationResolver) CreateRole(ctx context.Context, input map[string]interface{}) (item *Role, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.CreateRole(ctx, r.GeneratedResolver, input)
@@ -952,7 +980,7 @@ func (r *GeneratedMutationResolver) CreateRole(ctx context.Context, input map[st
 	return
 }
 
-// CreateRoleHandler ...
+// CreateRoleHandler handler
 func CreateRoleHandler(ctx context.Context, r *GeneratedResolver, input map[string]interface{}) (item *Role, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	now := time.Now()
@@ -1037,19 +1065,22 @@ func CreateRoleHandler(ctx context.Context, r *GeneratedResolver, input map[stri
 	return
 }
 
-// UpdateRole ...
+// UpdateRole method
 func (r *GeneratedMutationResolver) UpdateRole(ctx context.Context, id string, input map[string]interface{}) (item *Role, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.UpdateRole(ctx, r.GeneratedResolver, id, input)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
 	return
 }
 
-// UpdateRoleHandler ...
+// UpdateRoleHandler handler
 func UpdateRoleHandler(ctx context.Context, r *GeneratedResolver, id string, input map[string]interface{}) (item *Role, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	item = &Role{}
@@ -1138,12 +1169,15 @@ func UpdateRoleHandler(ctx context.Context, r *GeneratedResolver, id string, inp
 	return
 }
 
-// DeleteRole ...
+// DeleteRole method
 func (r *GeneratedMutationResolver) DeleteRole(ctx context.Context, id string) (item *Role, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.DeleteRole(ctx, r.GeneratedResolver, id)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -1182,12 +1216,15 @@ func DeleteRoleHandler(ctx context.Context, r *GeneratedResolver, id string) (it
 	return
 }
 
-// DeleteAllRoles ...
+// DeleteAllRoles method
 func (r *GeneratedMutationResolver) DeleteAllRoles(ctx context.Context) (bool, error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	done, err := r.Handlers.DeleteAllRoles(ctx, r.GeneratedResolver)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return done, err
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -1205,7 +1242,7 @@ func DeleteAllRolesHandler(ctx context.Context, r *GeneratedResolver) (bool, err
 	return true, err
 }
 
-// CreatePermission ...
+// CreatePermission method
 func (r *GeneratedMutationResolver) CreatePermission(ctx context.Context, input map[string]interface{}) (item *Permission, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.CreatePermission(ctx, r.GeneratedResolver, input)
@@ -1216,7 +1253,7 @@ func (r *GeneratedMutationResolver) CreatePermission(ctx context.Context, input 
 	return
 }
 
-// CreatePermissionHandler ...
+// CreatePermissionHandler handler
 func CreatePermissionHandler(ctx context.Context, r *GeneratedResolver, input map[string]interface{}) (item *Permission, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	now := time.Now()
@@ -1294,19 +1331,22 @@ func CreatePermissionHandler(ctx context.Context, r *GeneratedResolver, input ma
 	return
 }
 
-// UpdatePermission ...
+// UpdatePermission method
 func (r *GeneratedMutationResolver) UpdatePermission(ctx context.Context, id string, input map[string]interface{}) (item *Permission, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.UpdatePermission(ctx, r.GeneratedResolver, id, input)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
 	return
 }
 
-// UpdatePermissionHandler ...
+// UpdatePermissionHandler handler
 func UpdatePermissionHandler(ctx context.Context, r *GeneratedResolver, id string, input map[string]interface{}) (item *Permission, err error) {
 	principalID := GetPrincipalIDFromContext(ctx)
 	item = &Permission{}
@@ -1388,12 +1428,15 @@ func UpdatePermissionHandler(ctx context.Context, r *GeneratedResolver, id strin
 	return
 }
 
-// DeletePermission ...
+// DeletePermission method
 func (r *GeneratedMutationResolver) DeletePermission(ctx context.Context, id string) (item *Permission, err error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	item, err = r.Handlers.DeletePermission(ctx, r.GeneratedResolver, id)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)
@@ -1432,12 +1475,15 @@ func DeletePermissionHandler(ctx context.Context, r *GeneratedResolver, id strin
 	return
 }
 
-// DeleteAllPermissions ...
+// DeleteAllPermissions method
 func (r *GeneratedMutationResolver) DeleteAllPermissions(ctx context.Context) (bool, error) {
 	ctx = EnrichContextWithMutations(ctx, r.GeneratedResolver)
 	done, err := r.Handlers.DeleteAllPermissions(ctx, r.GeneratedResolver)
 	if err != nil {
-		RollbackMutationContext(ctx, r.GeneratedResolver)
+		errRMC := RollbackMutationContext(ctx, r.GeneratedResolver)
+		if errRMC != nil {
+			err = fmt.Errorf("[Wrapped]: RollbackMutationContext error: %w\n[Original]: %q", errRMC, err)
+		}
 		return done, err
 	}
 	err = FinishMutationContext(ctx, r.GeneratedResolver)

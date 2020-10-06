@@ -3,6 +3,7 @@ package src
 import (
 	"context"
 	"fmt"
+
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/checkmail"
 	"github.com/loopcontext/go-graphql-orm/events"
@@ -47,6 +48,9 @@ func New(db *gen.DB, ec *gen.EventController) *Resolver {
 			return nil, err
 		}
 		item, err = gen.UpdateUserHandler(ctx, r, id, input)
+		if err != nil {
+			return nil, err // boo
+		}
 		// After update
 		if err = roleChanges(ctx, r, id, input); err != nil {
 			return nil, err
@@ -108,7 +112,6 @@ func passwordCheck(input map[string]interface{}) (err error) {
 		}
 	}
 	return nil
-
 }
 
 func hashPassword(passw string) (string, error) {
