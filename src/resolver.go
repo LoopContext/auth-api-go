@@ -69,7 +69,7 @@ func New(db *gen.DB, ec *gen.EventController) *Resolver {
 				roleIds = append(roleIds, ur.ID)
 			}
 			if err = roleChanges(ctx, r, id, map[string]interface{}{"roleIds": roleIds}); err != nil {
-				log.Err(err)
+				log.Error().Msg(err.Error())
 				return item, fmt.Errorf("UpdateRole Error - User[%s]: %s", u.ID, err.Error())
 			}
 		}
@@ -127,7 +127,7 @@ func roleChanges(ctx context.Context, r *gen.GeneratedResolver, userID string, u
 	// Check its roles, and update permissions as should
 	u, err := gen.QueryUserHandler(ctx, r, gen.QueryUserHandlerOptions{ID: &userID})
 	if err != nil {
-		log.Err(err)
+		log.Error().Msg(err.Error())
 	}
 	// Deal with role changes
 	if roles, ok := userInput["rolesIds"].([]interface{}); ok {
@@ -136,13 +136,13 @@ func roleChanges(ctx context.Context, r *gen.GeneratedResolver, userID string, u
 			if rID, ok := roleID.(string); ok {
 				role := gen.Role{ID: rID}
 				if err := r.GetDB(ctx).Model(role).Preload("Permissions").First(&role).Error; err != nil {
-					log.Err(err)
+					log.Error().Msg(err.Error())
 					continue
 					// return err
 				}
 				if len(role.Permissions) > 0 {
 					if err := r.GetDB(ctx).Model(u).Association("Permissions").Append(role.Permissions).Error; err != nil {
-						log.Err(err)
+						log.Error().Msg(err.Error())
 						continue
 					}
 				}

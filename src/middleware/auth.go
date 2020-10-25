@@ -189,15 +189,15 @@ type AuthJWT struct {
 // Middleware auth func, called each request
 func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		log.Debug().Msgf("[Auth.Middleware] Applied to path: %s - current path: %s", a.Path, req.RequestURI)
 		if !strings.HasPrefix(req.RequestURI, a.Path) {
 			next.ServeHTTP(res, req)
 			return
 		}
+		log.Debug().Msgf("[Auth.Middleware] Applied to path: %s - current path: %s", a.Path, req.RequestURI)
 		if ak, err := ParseAPIKey(req); err == nil {
 			user, err := database.FindUserByAPIKey(a.DB, ak)
 			if err != nil {
-				log.Err(err).Send()
+				log.Error().Msg(err.Error())
 				authError(res, ErrForbidden)
 				return
 			}
@@ -216,9 +216,20 @@ func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 				} else {
 					if claims, ok := t.Claims.(jwt.MapClaims); t.Valid && ok {
 						if claims["exp"] != nil {
-							issuer := claims["iss"].(string)
-							userid := claims["jti"].(string)
-							email := claims["email"].(string)
+							log.Debug().Msgf("claims: %#v", claims)
+							var userid, issuer, email string
+							if issuer, ok = claims["iss"].(string); !ok {
+								authError(res, ErrForbidden)
+								return
+							}
+							if userid, ok = claims["jti"].(string); !ok {
+								authError(res, ErrForbidden)
+								return
+							}
+							if email, ok = claims["email"].(string); !ok {
+								authError(res, ErrForbidden)
+								return
+							}
 							// if claims["aud"] != nil {
 							// 	audiences := claims["aud"].(interface{})
 							// 	log.Debug().Msgf("audiences: %s", audiences)

@@ -133,14 +133,14 @@ func startServer(enableCors bool, port string) error {
 			res.WriteHeader(400)
 			_, err := res.Write([]byte("ERROR"))
 			if err != nil {
-				log.Err(err)
+				log.Error().Msg(err.Error())
 			}
 			return
 		}
 		res.WriteHeader(200)
 		_, err := res.Write([]byte("OK"))
 		if err != nil {
-			log.Err(err)
+			log.Error().Msg(err.Error())
 		}
 	})
 

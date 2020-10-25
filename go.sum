@@ -180,6 +180,8 @@ github.com/loopcontext/checkmail v0.0.1 h1:q+E4/PkEjxNDniHJFRUcj8ig2oXYB7T+AJQ1p
 github.com/loopcontext/checkmail v0.0.1/go.mod h1:ZLXMy+Hy8YqKN/H67kPiCvf1Q6+2Eh/5KIjaKWtlYDg=
 github.com/loopcontext/cloudevents-aws-transport v1.0.9 h1:Vm3ixEI4xsOtueOqnD+LhoTqPmzYbkX3ewwGSKxoWTM=
 github.com/loopcontext/cloudevents-aws-transport v1.0.9/go.mod h1:dLPdMmo+PpyLAdLsHG1Sfy+S+mWubcKnbcD73fJgSOQ=
+github.com/loopcontext/go-graphql-orm v0.0.0-20201025212753-ce7b7c5f8e2b h1:ybukfvjQftJFfCdCEmfZ/dde8rFLqOYvR5CVkngYc5A=
+github.com/loopcontext/go-graphql-orm v0.0.0-20201025212753-ce7b7c5f8e2b/go.mod h1:x8MrPUnVxDmz4lGnlqi1ep1QmxM7T7aE5Iavmy+Gd+g=
 github.com/markbates/going v1.0.0/go.mod h1:I6mnB4BPnEeqo85ynXIx1ZFLLbtiLHNXVgWeFO9OGOA=
 github.com/markbates/goth v1.64.2 h1:HDFwyuB6/ATU1USTvd/Rb3C9XE0VAxeuciSz+aUZHHA=
 github.com/markbates/goth v1.64.2/go.mod h1:hSFJFfH56BfFCX4+hBIxyd3o5VzuH5rNwKVRsFr/JPk=

@@ -24,6 +24,7 @@ func Begin(res http.ResponseWriter, req *http.Request) {
 	req = addProviderToContext(req, mux.Vars(req)[string(utils.ProjectContextKeys.ProviderCtxKey)])
 	// try to get the user without re-authenticating
 	if _, err := gothic.CompleteUserAuth(res, req); err != nil {
+		log.Error().Msg(err.Error())
 		gothic.BeginAuthHandler(res, req)
 	}
 }
@@ -34,6 +35,7 @@ func BeginVercel(provider string, res http.ResponseWriter, req *http.Request) {
 	req = addProviderToContext(req, provider)
 	// try to get the user without re-authenticating
 	if _, err := gothic.CompleteUserAuth(res, req); err != nil {
+		log.Error().Msg(err.Error())
 		gothic.BeginAuthHandler(res, req)
 	}
 }
@@ -135,11 +137,11 @@ func getUserRoles(u *gen.User) (roles []string) {
 func getUserPermissions(u *gen.User) map[string]string {
 	perms := make(map[string]string)
 	for _, p := range u.Permissions {
-		c := strings.Index(p.Tag, ":")
-		if perms[p.Tag[:c]] == "" {
-			perms[p.Tag[:c]] += p.Tag[c+1 : c+2]
+		charIdx := strings.Index(p.Tag, ":")
+		if perms[p.Tag[:charIdx]] == "" {
+			perms[p.Tag[:charIdx]] += p.Tag[charIdx+1 : charIdx+2]
 		} else {
-			perms[p.Tag[:c]] += "," + p.Tag[c+1:c+2]
+			perms[p.Tag[:charIdx]] += "," + p.Tag[charIdx+1:charIdx+2]
 		}
 	}
 	return perms

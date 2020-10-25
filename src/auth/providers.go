@@ -9,6 +9,7 @@ import (
 	"github.com/loopcontext/auth-api-go/src/utils"
 
 	"github.com/markbates/goth"
+	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/auth0"
 	"github.com/markbates/goth/providers/facebook"
 	"github.com/markbates/goth/providers/google"
@@ -18,8 +19,7 @@ import (
 func addProviderToContext(r *http.Request, provider interface{}) *http.Request {
 	// gothic.Store = sessions.NewCookieStore([]byte("<your secret here>"))
 	checkProviders(provider.(string))
-	return r.WithContext(context.WithValue(r.Context(),
-		utils.ProjectContextKeys.GothicProviderCtxKey, provider))
+	return r.WithContext(context.WithValue(r.Context(), gothic.ProviderParamKey, provider))
 }
 
 func parseScopes(scopes string) []string {
