@@ -216,7 +216,6 @@ func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 				} else {
 					if claims, ok := t.Claims.(jwt.MapClaims); t.Valid && ok {
 						if claims["exp"] != nil {
-							log.Debug().Msgf("claims: %#v", claims)
 							var userid, issuer, email string
 							if issuer, ok = claims["iss"].(string); !ok {
 								authError(res, ErrForbidden)
@@ -230,20 +229,11 @@ func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 								authError(res, ErrForbidden)
 								return
 							}
-							// if claims["aud"] != nil {
-							// 	audiences := claims["aud"].(interface{})
-							// 	log.Debug().Msgf("audiences: %s", audiences)
-							// }
-							// if claims["alg"] != nil {
-							// 	algo := claims["alg"].(string)
-							// 	log.Debug().Msgf("algo: %s", algo)
-							// }
 							if user, err := database.FindUserByJWT(a.DB, userid, email, issuer); err != nil {
 								authError(res, ErrForbidden)
 							} else {
 								if user != nil {
 									req = addToContext(req, utils.ProjectContextKeys.UserCtxKey, user)
-									// log.Debug().Msgf("User: %s", user.ID)
 									next.ServeHTTP(res, req)
 								}
 							}

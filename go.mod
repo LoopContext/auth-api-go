@@ -13,7 +13,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/loopcontext/checkmail v0.0.1
 	github.com/loopcontext/cloudevents-aws-transport v1.0.9
-	github.com/loopcontext/go-graphql-orm v0.0.0-20201026004434-0a6378b80164
+	github.com/loopcontext/go-graphql-orm v0.0.0-20201026025740-27c64b1123fb
 	github.com/markbates/goth v1.64.2
 	github.com/mitchellh/mapstructure v1.3.3
 	github.com/rs/cors v1.7.0
@@ -24,4 +24,4 @@ require (
 	gopkg.in/gormigrate.v1 v1.6.0
 )
 
-replace github.com/loopcontext/go-graphql-orm v0.0.0-20201026004434-0a6378b80164 => ../go-graphql-orm
+replace github.com/loopcontext/go-graphql-orm v0.0.0-20201026025740-27c64b1123fb => ../go-graphql-orm
