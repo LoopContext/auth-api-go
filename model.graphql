@@ -9,10 +9,10 @@ type User @entity {
   avatarURL: String @column
   displayName: String @column
   description: String @column
-  firstName: String @column(type: "varchar(255)")
-  lastName: String @column(type: "varchar(255)")
-  nickName: String @column(type: "varchar(255)")
-  location: String @column(type: "varchar(255)")
+  firstName: String @column
+  lastName: String @column
+  nickName: String @column
+  location: String @column
   apikeys: [UserAPIKey!]! @relationship(inverse: "user", preload: true)
   roles: [Role!]! @relationship(inverse: "users", preload: true)
   profiles: [Profile!]! @relationship(inverse: "users", preload: true)
@@ -31,10 +31,10 @@ type Profile @entity {
   externalUserId: String @column
   provider: String @column
   avatarURL: String @column
-  name: String @column(type: "varchar(255)")
-  firstName: String @column(type: "varchar(255)")
-  lastName: String @column(type: "varchar(255)")
-  nickName: String @column(type: "varchar(255)")
+  name: String @column
+  firstName: String @column
+  lastName: String @column
+  nickName: String @column
   description: String @column
   location: String @column
   users: [User!]! @relationship(inverse: "profiles")
@@ -42,7 +42,7 @@ type Profile @entity {
 
 type Role @entity {
   domain: String! @column # Application domain, name or namespace
-  name: String! @column(type: "varchar(255)")
+  name: String! @column
   description: String @column
   users: [User!]! @relationship(inverse: "roles")
   parents: [Role!]! @relationship(inverse: "children")
