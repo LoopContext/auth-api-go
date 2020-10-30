@@ -456,6 +456,64 @@ func (f *UserFilterType) WhereContent(dialect gorm.Dialect, aliasPrefix string) 
 		}
 	}
 
+	if f.Description != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" = ?")
+		values = append(values, f.Description)
+	}
+
+	if f.DescriptionNe != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" != ?")
+		values = append(values, f.DescriptionNe)
+	}
+
+	if f.DescriptionGt != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" > ?")
+		values = append(values, f.DescriptionGt)
+	}
+
+	if f.DescriptionLt != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" < ?")
+		values = append(values, f.DescriptionLt)
+	}
+
+	if f.DescriptionGte != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" >= ?")
+		values = append(values, f.DescriptionGte)
+	}
+
+	if f.DescriptionLte != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" <= ?")
+		values = append(values, f.DescriptionLte)
+	}
+
+	if f.DescriptionIn != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" IN (?)")
+		values = append(values, f.DescriptionIn)
+	}
+
+	if f.DescriptionLike != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DescriptionLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DescriptionPrefix != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DescriptionPrefix))
+	}
+
+	if f.DescriptionSuffix != nil {
+		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DescriptionSuffix))
+	}
+
+	if f.DescriptionNull != nil {
+		if *f.DescriptionNull {
+			conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" IS NULL")
+		} else {
+			conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" IS NOT NULL")
+		}
+	}
+
 	if f.FirstName != nil {
 		conditions = append(conditions, aliasPrefix+dialect.Quote("firstName")+" = ?")
 		values = append(values, f.FirstName)
@@ -685,64 +743,6 @@ func (f *UserFilterType) WhereContent(dialect gorm.Dialect, aliasPrefix string) 
 			conditions = append(conditions, aliasPrefix+dialect.Quote("location")+" IS NULL")
 		} else {
 			conditions = append(conditions, aliasPrefix+dialect.Quote("location")+" IS NOT NULL")
-		}
-	}
-
-	if f.Description != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" = ?")
-		values = append(values, f.Description)
-	}
-
-	if f.DescriptionNe != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" != ?")
-		values = append(values, f.DescriptionNe)
-	}
-
-	if f.DescriptionGt != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" > ?")
-		values = append(values, f.DescriptionGt)
-	}
-
-	if f.DescriptionLt != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" < ?")
-		values = append(values, f.DescriptionLt)
-	}
-
-	if f.DescriptionGte != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" >= ?")
-		values = append(values, f.DescriptionGte)
-	}
-
-	if f.DescriptionLte != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" <= ?")
-		values = append(values, f.DescriptionLte)
-	}
-
-	if f.DescriptionIn != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" IN (?)")
-		values = append(values, f.DescriptionIn)
-	}
-
-	if f.DescriptionLike != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" LIKE ?")
-		values = append(values, strings.Replace(strings.Replace(*f.DescriptionLike, "?", "_", -1), "*", "%", -1))
-	}
-
-	if f.DescriptionPrefix != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" LIKE ?")
-		values = append(values, fmt.Sprintf("%s%%", *f.DescriptionPrefix))
-	}
-
-	if f.DescriptionSuffix != nil {
-		conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" LIKE ?")
-		values = append(values, fmt.Sprintf("%%%s", *f.DescriptionSuffix))
-	}
-
-	if f.DescriptionNull != nil {
-		if *f.DescriptionNull {
-			conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" IS NULL")
-		} else {
-			conditions = append(conditions, aliasPrefix+dialect.Quote("description")+" IS NOT NULL")
 		}
 	}
 
@@ -1466,6 +1466,106 @@ func (f *UserFilterType) HavingContent(dialect gorm.Dialect, aliasPrefix string)
 		values = append(values, fmt.Sprintf("%%%s", *f.DisplayNameMaxSuffix))
 	}
 
+	if f.DescriptionMin != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") = ?")
+		values = append(values, f.DescriptionMin)
+	}
+
+	if f.DescriptionMax != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") = ?")
+		values = append(values, f.DescriptionMax)
+	}
+
+	if f.DescriptionMinNe != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") != ?")
+		values = append(values, f.DescriptionMinNe)
+	}
+
+	if f.DescriptionMaxNe != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") != ?")
+		values = append(values, f.DescriptionMaxNe)
+	}
+
+	if f.DescriptionMinGt != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") > ?")
+		values = append(values, f.DescriptionMinGt)
+	}
+
+	if f.DescriptionMaxGt != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") > ?")
+		values = append(values, f.DescriptionMaxGt)
+	}
+
+	if f.DescriptionMinLt != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") < ?")
+		values = append(values, f.DescriptionMinLt)
+	}
+
+	if f.DescriptionMaxLt != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") < ?")
+		values = append(values, f.DescriptionMaxLt)
+	}
+
+	if f.DescriptionMinGte != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") >= ?")
+		values = append(values, f.DescriptionMinGte)
+	}
+
+	if f.DescriptionMaxGte != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") >= ?")
+		values = append(values, f.DescriptionMaxGte)
+	}
+
+	if f.DescriptionMinLte != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") <= ?")
+		values = append(values, f.DescriptionMinLte)
+	}
+
+	if f.DescriptionMaxLte != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") <= ?")
+		values = append(values, f.DescriptionMaxLte)
+	}
+
+	if f.DescriptionMinIn != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") IN (?)")
+		values = append(values, f.DescriptionMinIn)
+	}
+
+	if f.DescriptionMaxIn != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") IN (?)")
+		values = append(values, f.DescriptionMaxIn)
+	}
+
+	if f.DescriptionMinLike != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DescriptionMinLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DescriptionMaxLike != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
+		values = append(values, strings.Replace(strings.Replace(*f.DescriptionMaxLike, "?", "_", -1), "*", "%", -1))
+	}
+
+	if f.DescriptionMinPrefix != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DescriptionMinPrefix))
+	}
+
+	if f.DescriptionMaxPrefix != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%s%%", *f.DescriptionMaxPrefix))
+	}
+
+	if f.DescriptionMinSuffix != nil {
+		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DescriptionMinSuffix))
+	}
+
+	if f.DescriptionMaxSuffix != nil {
+		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
+		values = append(values, fmt.Sprintf("%%%s", *f.DescriptionMaxSuffix))
+	}
+
 	if f.FirstNameMin != nil {
 		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("firstName")+") = ?")
 		values = append(values, f.FirstNameMin)
@@ -1864,106 +1964,6 @@ func (f *UserFilterType) HavingContent(dialect gorm.Dialect, aliasPrefix string)
 	if f.LocationMaxSuffix != nil {
 		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("location")+") LIKE ?")
 		values = append(values, fmt.Sprintf("%%%s", *f.LocationMaxSuffix))
-	}
-
-	if f.DescriptionMin != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") = ?")
-		values = append(values, f.DescriptionMin)
-	}
-
-	if f.DescriptionMax != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") = ?")
-		values = append(values, f.DescriptionMax)
-	}
-
-	if f.DescriptionMinNe != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") != ?")
-		values = append(values, f.DescriptionMinNe)
-	}
-
-	if f.DescriptionMaxNe != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") != ?")
-		values = append(values, f.DescriptionMaxNe)
-	}
-
-	if f.DescriptionMinGt != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") > ?")
-		values = append(values, f.DescriptionMinGt)
-	}
-
-	if f.DescriptionMaxGt != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") > ?")
-		values = append(values, f.DescriptionMaxGt)
-	}
-
-	if f.DescriptionMinLt != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") < ?")
-		values = append(values, f.DescriptionMinLt)
-	}
-
-	if f.DescriptionMaxLt != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") < ?")
-		values = append(values, f.DescriptionMaxLt)
-	}
-
-	if f.DescriptionMinGte != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") >= ?")
-		values = append(values, f.DescriptionMinGte)
-	}
-
-	if f.DescriptionMaxGte != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") >= ?")
-		values = append(values, f.DescriptionMaxGte)
-	}
-
-	if f.DescriptionMinLte != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") <= ?")
-		values = append(values, f.DescriptionMinLte)
-	}
-
-	if f.DescriptionMaxLte != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") <= ?")
-		values = append(values, f.DescriptionMaxLte)
-	}
-
-	if f.DescriptionMinIn != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") IN (?)")
-		values = append(values, f.DescriptionMinIn)
-	}
-
-	if f.DescriptionMaxIn != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") IN (?)")
-		values = append(values, f.DescriptionMaxIn)
-	}
-
-	if f.DescriptionMinLike != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
-		values = append(values, strings.Replace(strings.Replace(*f.DescriptionMinLike, "?", "_", -1), "*", "%", -1))
-	}
-
-	if f.DescriptionMaxLike != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
-		values = append(values, strings.Replace(strings.Replace(*f.DescriptionMaxLike, "?", "_", -1), "*", "%", -1))
-	}
-
-	if f.DescriptionMinPrefix != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
-		values = append(values, fmt.Sprintf("%s%%", *f.DescriptionMinPrefix))
-	}
-
-	if f.DescriptionMaxPrefix != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
-		values = append(values, fmt.Sprintf("%s%%", *f.DescriptionMaxPrefix))
-	}
-
-	if f.DescriptionMinSuffix != nil {
-		conditions = append(conditions, "Min("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
-		values = append(values, fmt.Sprintf("%%%s", *f.DescriptionMinSuffix))
-	}
-
-	if f.DescriptionMaxSuffix != nil {
-		conditions = append(conditions, "Max("+aliasPrefix+dialect.Quote("description")+") LIKE ?")
-		values = append(values, fmt.Sprintf("%%%s", *f.DescriptionMaxSuffix))
 	}
 
 	if f.UpdatedAtMin != nil {

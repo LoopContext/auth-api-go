@@ -1396,6 +1396,37 @@ type UserFilterType struct {
 	DisplayNameMinSuffix *string               `json:"displayNameMin_suffix"`
 	DisplayNameMaxSuffix *string               `json:"displayNameMax_suffix"`
 	DisplayNameNull      *bool                 `json:"displayName_null"`
+	Description          *string               `json:"description"`
+	DescriptionMin       *string               `json:"descriptionMin"`
+	DescriptionMax       *string               `json:"descriptionMax"`
+	DescriptionNe        *string               `json:"description_ne"`
+	DescriptionMinNe     *string               `json:"descriptionMin_ne"`
+	DescriptionMaxNe     *string               `json:"descriptionMax_ne"`
+	DescriptionGt        *string               `json:"description_gt"`
+	DescriptionMinGt     *string               `json:"descriptionMin_gt"`
+	DescriptionMaxGt     *string               `json:"descriptionMax_gt"`
+	DescriptionLt        *string               `json:"description_lt"`
+	DescriptionMinLt     *string               `json:"descriptionMin_lt"`
+	DescriptionMaxLt     *string               `json:"descriptionMax_lt"`
+	DescriptionGte       *string               `json:"description_gte"`
+	DescriptionMinGte    *string               `json:"descriptionMin_gte"`
+	DescriptionMaxGte    *string               `json:"descriptionMax_gte"`
+	DescriptionLte       *string               `json:"description_lte"`
+	DescriptionMinLte    *string               `json:"descriptionMin_lte"`
+	DescriptionMaxLte    *string               `json:"descriptionMax_lte"`
+	DescriptionIn        []string              `json:"description_in"`
+	DescriptionMinIn     []string              `json:"descriptionMin_in"`
+	DescriptionMaxIn     []string              `json:"descriptionMax_in"`
+	DescriptionLike      *string               `json:"description_like"`
+	DescriptionMinLike   *string               `json:"descriptionMin_like"`
+	DescriptionMaxLike   *string               `json:"descriptionMax_like"`
+	DescriptionPrefix    *string               `json:"description_prefix"`
+	DescriptionMinPrefix *string               `json:"descriptionMin_prefix"`
+	DescriptionMaxPrefix *string               `json:"descriptionMax_prefix"`
+	DescriptionSuffix    *string               `json:"description_suffix"`
+	DescriptionMinSuffix *string               `json:"descriptionMin_suffix"`
+	DescriptionMaxSuffix *string               `json:"descriptionMax_suffix"`
+	DescriptionNull      *bool                 `json:"description_null"`
 	FirstName            *string               `json:"firstName"`
 	FirstNameMin         *string               `json:"firstNameMin"`
 	FirstNameMax         *string               `json:"firstNameMax"`
@@ -1520,37 +1551,6 @@ type UserFilterType struct {
 	LocationMinSuffix    *string               `json:"locationMin_suffix"`
 	LocationMaxSuffix    *string               `json:"locationMax_suffix"`
 	LocationNull         *bool                 `json:"location_null"`
-	Description          *string               `json:"description"`
-	DescriptionMin       *string               `json:"descriptionMin"`
-	DescriptionMax       *string               `json:"descriptionMax"`
-	DescriptionNe        *string               `json:"description_ne"`
-	DescriptionMinNe     *string               `json:"descriptionMin_ne"`
-	DescriptionMaxNe     *string               `json:"descriptionMax_ne"`
-	DescriptionGt        *string               `json:"description_gt"`
-	DescriptionMinGt     *string               `json:"descriptionMin_gt"`
-	DescriptionMaxGt     *string               `json:"descriptionMax_gt"`
-	DescriptionLt        *string               `json:"description_lt"`
-	DescriptionMinLt     *string               `json:"descriptionMin_lt"`
-	DescriptionMaxLt     *string               `json:"descriptionMax_lt"`
-	DescriptionGte       *string               `json:"description_gte"`
-	DescriptionMinGte    *string               `json:"descriptionMin_gte"`
-	DescriptionMaxGte    *string               `json:"descriptionMax_gte"`
-	DescriptionLte       *string               `json:"description_lte"`
-	DescriptionMinLte    *string               `json:"descriptionMin_lte"`
-	DescriptionMaxLte    *string               `json:"descriptionMax_lte"`
-	DescriptionIn        []string              `json:"description_in"`
-	DescriptionMinIn     []string              `json:"descriptionMin_in"`
-	DescriptionMaxIn     []string              `json:"descriptionMax_in"`
-	DescriptionLike      *string               `json:"description_like"`
-	DescriptionMinLike   *string               `json:"descriptionMin_like"`
-	DescriptionMaxLike   *string               `json:"descriptionMax_like"`
-	DescriptionPrefix    *string               `json:"description_prefix"`
-	DescriptionMinPrefix *string               `json:"descriptionMin_prefix"`
-	DescriptionMaxPrefix *string               `json:"descriptionMax_prefix"`
-	DescriptionSuffix    *string               `json:"description_suffix"`
-	DescriptionMinSuffix *string               `json:"descriptionMin_suffix"`
-	DescriptionMaxSuffix *string               `json:"descriptionMax_suffix"`
-	DescriptionNull      *bool                 `json:"description_null"`
 	UpdatedAt            *time.Time            `json:"updatedAt"`
 	UpdatedAtMin         *time.Time            `json:"updatedAtMin"`
 	UpdatedAtMax         *time.Time            `json:"updatedAtMax"`
@@ -1664,6 +1664,9 @@ type UserSortType struct {
 	DisplayName       *ObjectSortType     `json:"displayName"`
 	DisplayNameMin    *ObjectSortType     `json:"displayNameMin"`
 	DisplayNameMax    *ObjectSortType     `json:"displayNameMax"`
+	Description       *ObjectSortType     `json:"description"`
+	DescriptionMin    *ObjectSortType     `json:"descriptionMin"`
+	DescriptionMax    *ObjectSortType     `json:"descriptionMax"`
 	FirstName         *ObjectSortType     `json:"firstName"`
 	FirstNameMin      *ObjectSortType     `json:"firstNameMin"`
 	FirstNameMax      *ObjectSortType     `json:"firstNameMax"`
@@ -1676,9 +1679,6 @@ type UserSortType struct {
 	Location          *ObjectSortType     `json:"location"`
 	LocationMin       *ObjectSortType     `json:"locationMin"`
 	LocationMax       *ObjectSortType     `json:"locationMax"`
-	Description       *ObjectSortType     `json:"description"`
-	DescriptionMin    *ObjectSortType     `json:"descriptionMin"`
-	DescriptionMax    *ObjectSortType     `json:"descriptionMax"`
 	UpdatedAt         *ObjectSortType     `json:"updatedAt"`
 	UpdatedAtMin      *ObjectSortType     `json:"updatedAtMin"`
 	UpdatedAtMax      *ObjectSortType     `json:"updatedAtMax"`

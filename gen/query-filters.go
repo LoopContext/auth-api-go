@@ -84,6 +84,14 @@ func (qf *UserQueryFilter) applyQueryWithFields(dialect gorm.Dialect, fields []*
 		*values = append(*values, query+"%", "% "+query+"%")
 	}
 
+	if _, ok := fieldsMap["description"]; ok {
+
+		column := dialect.Quote(alias) + "." + dialect.Quote("description")
+
+		*ors = append(*ors, fmt.Sprintf("%[1]s LIKE ? OR %[1]s LIKE ?", column))
+		*values = append(*values, query+"%", "% "+query+"%")
+	}
+
 	if _, ok := fieldsMap["firstName"]; ok {
 
 		column := dialect.Quote(alias) + "." + dialect.Quote("firstName")
@@ -111,14 +119,6 @@ func (qf *UserQueryFilter) applyQueryWithFields(dialect gorm.Dialect, fields []*
 	if _, ok := fieldsMap["location"]; ok {
 
 		column := dialect.Quote(alias) + "." + dialect.Quote("location")
-
-		*ors = append(*ors, fmt.Sprintf("%[1]s LIKE ? OR %[1]s LIKE ?", column))
-		*values = append(*values, query+"%", "% "+query+"%")
-	}
-
-	if _, ok := fieldsMap["description"]; ok {
-
-		column := dialect.Quote(alias) + "." + dialect.Quote("description")
 
 		*ors = append(*ors, fmt.Sprintf("%[1]s LIKE ? OR %[1]s LIKE ?", column))
 		*values = append(*values, query+"%", "% "+query+"%")

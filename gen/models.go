@@ -20,13 +20,13 @@ type User struct {
 	Active      bool       `json:"active" gorm:"column:active;default:false"`
 	Email       string     `json:"email" gorm:"column:email;unique"`
 	Password    *string    `json:"password" gorm:"column:password"`
-	AvatarURL   *string    `json:"avatarURL" gorm:"column:avatarURL;type:text"`
+	AvatarURL   *string    `json:"avatarURL" gorm:"column:avatarURL"`
 	DisplayName *string    `json:"displayName" gorm:"column:displayName"`
+	Description *string    `json:"description" gorm:"column:description"`
 	FirstName   *string    `json:"firstName" gorm:"column:firstName"`
 	LastName    *string    `json:"lastName" gorm:"column:lastName"`
 	NickName    *string    `json:"nickName" gorm:"column:nickName"`
 	Location    *string    `json:"location" gorm:"column:location"`
-	Description *string    `json:"description" gorm:"column:description;type:text"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
 	CreatedAt   time.Time  `json:"createdAt" gorm:"column:createdAt"`
 	UpdatedBy   *string    `json:"updatedBy" gorm:"column:updatedBy"`
@@ -56,11 +56,11 @@ type UserChanges struct {
 	Password    *string
 	AvatarURL   *string
 	DisplayName *string
+	Description *string
 	FirstName   *string
 	LastName    *string
 	NickName    *string
 	Location    *string
-	Description *string
 	UpdatedAt   *time.Time
 	CreatedAt   time.Time
 	UpdatedBy   *string
@@ -81,7 +81,7 @@ type UserAPIKeyResultType struct {
 type UserAPIKey struct {
 	ID          string     `json:"id" gorm:"column:id;primary_key"`
 	Key         string     `json:"key" gorm:"column:key;unique"`
-	Description *string    `json:"description" gorm:"column:description;type:text"`
+	Description *string    `json:"description" gorm:"column:description"`
 	UserID      *string    `json:"userId" gorm:"column:userId"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
 	CreatedAt   time.Time  `json:"createdAt" gorm:"column:createdAt"`
@@ -134,12 +134,12 @@ type Profile struct {
 	Email          string     `json:"email" gorm:"column:email"`
 	ExternalUserID *string    `json:"externalUserId" gorm:"column:externalUserId"`
 	Provider       *string    `json:"provider" gorm:"column:provider"`
-	AvatarURL      *string    `json:"avatarURL" gorm:"column:avatarURL;type:text"`
+	AvatarURL      *string    `json:"avatarURL" gorm:"column:avatarURL"`
 	Name           *string    `json:"name" gorm:"column:name"`
 	FirstName      *string    `json:"firstName" gorm:"column:firstName"`
 	LastName       *string    `json:"lastName" gorm:"column:lastName"`
 	NickName       *string    `json:"nickName" gorm:"column:nickName"`
-	Description    *string    `json:"description" gorm:"column:description;type:text"`
+	Description    *string    `json:"description" gorm:"column:description"`
 	Location       *string    `json:"location" gorm:"column:location"`
 	UpdatedAt      *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
 	CreatedAt      time.Time  `json:"createdAt" gorm:"column:createdAt"`
@@ -194,7 +194,7 @@ type Role struct {
 	ID          string     `json:"id" gorm:"column:id;primary_key"`
 	Domain      string     `json:"domain" gorm:"column:domain"`
 	Name        string     `json:"name" gorm:"column:name"`
-	Description *string    `json:"description" gorm:"column:description;type:text"`
+	Description *string    `json:"description" gorm:"column:description"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
 	CreatedAt   time.Time  `json:"createdAt" gorm:"column:createdAt"`
 	UpdatedBy   *string    `json:"updatedBy" gorm:"column:updatedBy"`
@@ -261,7 +261,7 @@ type Permission struct {
 	ID          string     `json:"id" gorm:"column:id;primary_key"`
 	Domain      string     `json:"domain" gorm:"column:domain"`
 	Tag         string     `json:"tag" gorm:"column:tag;unique"`
-	Description string     `json:"description" gorm:"column:description;type:text"`
+	Description string     `json:"description" gorm:"column:description"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
 	CreatedAt   time.Time  `json:"createdAt" gorm:"column:createdAt"`
 	UpdatedBy   *string    `json:"updatedBy" gorm:"column:updatedBy"`

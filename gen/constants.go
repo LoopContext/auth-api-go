@@ -64,11 +64,11 @@ type User {
   password: String
   avatarURL: String
   displayName: String
+  description: String
   firstName: String
   lastName: String
   nickName: String
   location: String
-  description: String
   apikeys: [UserAPIKey!]!
   roles: [Role!]!
   profiles: [Profile!]!
@@ -173,11 +173,11 @@ input UserCreateInput {
   password: String
   avatarURL: String
   displayName: String
+  description: String
   firstName: String
   lastName: String
   nickName: String
   location: String
-  description: String
   apikeysIds: [ID!]
   rolesIds: [ID!]
   profilesIds: [ID!]
@@ -190,11 +190,11 @@ input UserUpdateInput {
   password: String
   avatarURL: String
   displayName: String
+  description: String
   firstName: String
   lastName: String
   nickName: String
   location: String
-  description: String
   apikeysIds: [ID!]
   rolesIds: [ID!]
   profilesIds: [ID!]
@@ -220,6 +220,9 @@ input UserSortType {
   displayName: ObjectSortType
   displayNameMin: ObjectSortType
   displayNameMax: ObjectSortType
+  description: ObjectSortType
+  descriptionMin: ObjectSortType
+  descriptionMax: ObjectSortType
   firstName: ObjectSortType
   firstNameMin: ObjectSortType
   firstNameMax: ObjectSortType
@@ -232,9 +235,6 @@ input UserSortType {
   location: ObjectSortType
   locationMin: ObjectSortType
   locationMax: ObjectSortType
-  description: ObjectSortType
-  descriptionMin: ObjectSortType
-  descriptionMax: ObjectSortType
   updatedAt: ObjectSortType
   updatedAtMin: ObjectSortType
   updatedAtMax: ObjectSortType
@@ -436,6 +436,37 @@ input UserFilterType {
   displayNameMin_suffix: String
   displayNameMax_suffix: String
   displayName_null: Boolean
+  description: String
+  descriptionMin: String
+  descriptionMax: String
+  description_ne: String
+  descriptionMin_ne: String
+  descriptionMax_ne: String
+  description_gt: String
+  descriptionMin_gt: String
+  descriptionMax_gt: String
+  description_lt: String
+  descriptionMin_lt: String
+  descriptionMax_lt: String
+  description_gte: String
+  descriptionMin_gte: String
+  descriptionMax_gte: String
+  description_lte: String
+  descriptionMin_lte: String
+  descriptionMax_lte: String
+  description_in: [String!]
+  descriptionMin_in: [String!]
+  descriptionMax_in: [String!]
+  description_like: String
+  descriptionMin_like: String
+  descriptionMax_like: String
+  description_prefix: String
+  descriptionMin_prefix: String
+  descriptionMax_prefix: String
+  description_suffix: String
+  descriptionMin_suffix: String
+  descriptionMax_suffix: String
+  description_null: Boolean
   firstName: String
   firstNameMin: String
   firstNameMax: String
@@ -560,37 +591,6 @@ input UserFilterType {
   locationMin_suffix: String
   locationMax_suffix: String
   location_null: Boolean
-  description: String
-  descriptionMin: String
-  descriptionMax: String
-  description_ne: String
-  descriptionMin_ne: String
-  descriptionMax_ne: String
-  description_gt: String
-  descriptionMin_gt: String
-  descriptionMax_gt: String
-  description_lt: String
-  descriptionMin_lt: String
-  descriptionMax_lt: String
-  description_gte: String
-  descriptionMin_gte: String
-  descriptionMax_gte: String
-  description_lte: String
-  descriptionMin_lte: String
-  descriptionMax_lte: String
-  description_in: [String!]
-  descriptionMin_in: [String!]
-  descriptionMax_in: [String!]
-  description_like: String
-  descriptionMin_like: String
-  descriptionMax_like: String
-  description_prefix: String
-  descriptionMin_prefix: String
-  descriptionMax_prefix: String
-  description_suffix: String
-  descriptionMin_suffix: String
-  descriptionMax_suffix: String
-  description_null: Boolean
   updatedAt: Time
   updatedAtMin: Time
   updatedAtMax: Time

@@ -135,6 +135,12 @@ func CreateUserHandler(ctx context.Context, r *GeneratedResolver, input map[stri
 		event.AddNewValue("displayName", changes.DisplayName)
 	}
 
+	if _, ok := input["description"]; ok && (item.Description != changes.Description) && (item.Description == nil || changes.Description == nil || *item.Description != *changes.Description) {
+		item.Description = changes.Description
+
+		event.AddNewValue("description", changes.Description)
+	}
+
 	if _, ok := input["firstName"]; ok && (item.FirstName != changes.FirstName) && (item.FirstName == nil || changes.FirstName == nil || *item.FirstName != *changes.FirstName) {
 		item.FirstName = changes.FirstName
 
@@ -157,12 +163,6 @@ func CreateUserHandler(ctx context.Context, r *GeneratedResolver, input map[stri
 		item.Location = changes.Location
 
 		event.AddNewValue("location", changes.Location)
-	}
-
-	if _, ok := input["description"]; ok && (item.Description != changes.Description) && (item.Description == nil || changes.Description == nil || *item.Description != *changes.Description) {
-		item.Description = changes.Description
-
-		event.AddNewValue("description", changes.Description)
 	}
 
 	err = tx.Create(item).Error
@@ -279,6 +279,12 @@ func UpdateUserHandler(ctx context.Context, r *GeneratedResolver, id string, inp
 		item.DisplayName = changes.DisplayName
 	}
 
+	if _, ok := input["description"]; ok && (item.Description != changes.Description) && (item.Description == nil || changes.Description == nil || *item.Description != *changes.Description) {
+		event.AddOldValue("description", item.Description)
+		event.AddNewValue("description", changes.Description)
+		item.Description = changes.Description
+	}
+
 	if _, ok := input["firstName"]; ok && (item.FirstName != changes.FirstName) && (item.FirstName == nil || changes.FirstName == nil || *item.FirstName != *changes.FirstName) {
 		event.AddOldValue("firstName", item.FirstName)
 		event.AddNewValue("firstName", changes.FirstName)
@@ -301,12 +307,6 @@ func UpdateUserHandler(ctx context.Context, r *GeneratedResolver, id string, inp
 		event.AddOldValue("location", item.Location)
 		event.AddNewValue("location", changes.Location)
 		item.Location = changes.Location
-	}
-
-	if _, ok := input["description"]; ok && (item.Description != changes.Description) && (item.Description == nil || changes.Description == nil || *item.Description != *changes.Description) {
-		event.AddOldValue("description", item.Description)
-		event.AddNewValue("description", changes.Description)
-		item.Description = changes.Description
 	}
 
 	err = tx.Save(item).Error

@@ -105,6 +105,21 @@ func (s UserSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, 
 		*sorts = append(*sorts, sort)
 	}
 
+	if s.Description != nil {
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("description"), Direction: s.Description.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.DescriptionMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("description") + ")", Direction: s.DescriptionMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.DescriptionMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("description") + ")", Direction: s.DescriptionMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
 	if s.FirstName != nil {
 		sort := SortInfo{Field: aliasPrefix + dialect.Quote("firstName"), Direction: s.FirstName.String()}
 		*sorts = append(*sorts, sort)
@@ -162,21 +177,6 @@ func (s UserSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, 
 
 	if s.LocationMax != nil {
 		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("location") + ")", Direction: s.LocationMax.String(), IsAggregation: true}
-		*sorts = append(*sorts, sort)
-	}
-
-	if s.Description != nil {
-		sort := SortInfo{Field: aliasPrefix + dialect.Quote("description"), Direction: s.Description.String()}
-		*sorts = append(*sorts, sort)
-	}
-
-	if s.DescriptionMin != nil {
-		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("description") + ")", Direction: s.DescriptionMin.String(), IsAggregation: true}
-		*sorts = append(*sorts, sort)
-	}
-
-	if s.DescriptionMax != nil {
-		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("description") + ")", Direction: s.DescriptionMax.String(), IsAggregation: true}
 		*sorts = append(*sorts, sort)
 	}
 

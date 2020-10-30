@@ -1632,11 +1632,11 @@ type User {
   password: String
   avatarURL: String
   displayName: String
+  description: String
   firstName: String
   lastName: String
   nickName: String
   location: String
-  description: String
   apikeys: [UserAPIKey!]!
   roles: [Role!]!
   profiles: [Profile!]!
@@ -1741,11 +1741,11 @@ input UserCreateInput {
   password: String
   avatarURL: String
   displayName: String
+  description: String
   firstName: String
   lastName: String
   nickName: String
   location: String
-  description: String
   apikeysIds: [ID!]
   rolesIds: [ID!]
   profilesIds: [ID!]
@@ -1758,11 +1758,11 @@ input UserUpdateInput {
   password: String
   avatarURL: String
   displayName: String
+  description: String
   firstName: String
   lastName: String
   nickName: String
   location: String
-  description: String
   apikeysIds: [ID!]
   rolesIds: [ID!]
   profilesIds: [ID!]
@@ -1788,6 +1788,9 @@ input UserSortType {
   displayName: ObjectSortType
   displayNameMin: ObjectSortType
   displayNameMax: ObjectSortType
+  description: ObjectSortType
+  descriptionMin: ObjectSortType
+  descriptionMax: ObjectSortType
   firstName: ObjectSortType
   firstNameMin: ObjectSortType
   firstNameMax: ObjectSortType
@@ -1800,9 +1803,6 @@ input UserSortType {
   location: ObjectSortType
   locationMin: ObjectSortType
   locationMax: ObjectSortType
-  description: ObjectSortType
-  descriptionMin: ObjectSortType
-  descriptionMax: ObjectSortType
   updatedAt: ObjectSortType
   updatedAtMin: ObjectSortType
   updatedAtMax: ObjectSortType
@@ -2004,6 +2004,37 @@ input UserFilterType {
   displayNameMin_suffix: String
   displayNameMax_suffix: String
   displayName_null: Boolean
+  description: String
+  descriptionMin: String
+  descriptionMax: String
+  description_ne: String
+  descriptionMin_ne: String
+  descriptionMax_ne: String
+  description_gt: String
+  descriptionMin_gt: String
+  descriptionMax_gt: String
+  description_lt: String
+  descriptionMin_lt: String
+  descriptionMax_lt: String
+  description_gte: String
+  descriptionMin_gte: String
+  descriptionMax_gte: String
+  description_lte: String
+  descriptionMin_lte: String
+  descriptionMax_lte: String
+  description_in: [String!]
+  descriptionMin_in: [String!]
+  descriptionMax_in: [String!]
+  description_like: String
+  descriptionMin_like: String
+  descriptionMax_like: String
+  description_prefix: String
+  descriptionMin_prefix: String
+  descriptionMax_prefix: String
+  description_suffix: String
+  descriptionMin_suffix: String
+  descriptionMax_suffix: String
+  description_null: Boolean
   firstName: String
   firstNameMin: String
   firstNameMax: String
@@ -2128,37 +2159,6 @@ input UserFilterType {
   locationMin_suffix: String
   locationMax_suffix: String
   location_null: Boolean
-  description: String
-  descriptionMin: String
-  descriptionMax: String
-  description_ne: String
-  descriptionMin_ne: String
-  descriptionMax_ne: String
-  description_gt: String
-  descriptionMin_gt: String
-  descriptionMax_gt: String
-  description_lt: String
-  descriptionMin_lt: String
-  descriptionMax_lt: String
-  description_gte: String
-  descriptionMin_gte: String
-  descriptionMax_gte: String
-  description_lte: String
-  descriptionMin_lte: String
-  descriptionMax_lte: String
-  description_in: [String!]
-  descriptionMin_in: [String!]
-  descriptionMax_in: [String!]
-  description_like: String
-  descriptionMin_like: String
-  descriptionMax_like: String
-  description_prefix: String
-  descriptionMin_prefix: String
-  descriptionMax_prefix: String
-  description_suffix: String
-  descriptionMin_suffix: String
-  descriptionMax_suffix: String
-  description_null: Boolean
   updatedAt: Time
   updatedAtMin: Time
   updatedAtMax: Time
@@ -8691,6 +8691,38 @@ func (ec *executionContext) _User_displayName(ctx context.Context, field graphql
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _User_description(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _User_firstName(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8806,38 +8838,6 @@ func (ec *executionContext) _User_location(ctx context.Context, field graphql.Co
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Location, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _User_description(ctx context.Context, field graphql.CollectedField, obj *User) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "User",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -22096,6 +22096,254 @@ func (ec *executionContext) unmarshalInputUserFilterType(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin"))
+			it.DescriptionMin, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax"))
+			it.DescriptionMax, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_ne":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_ne"))
+			it.DescriptionNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_ne":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_ne"))
+			it.DescriptionMinNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_ne":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_ne"))
+			it.DescriptionMaxNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_gt"))
+			it.DescriptionGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_gt"))
+			it.DescriptionMinGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_gt"))
+			it.DescriptionMaxGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_lt"))
+			it.DescriptionLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_lt"))
+			it.DescriptionMinLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_lt"))
+			it.DescriptionMaxLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_gte"))
+			it.DescriptionGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_gte"))
+			it.DescriptionMinGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_gte"))
+			it.DescriptionMaxGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_lte"))
+			it.DescriptionLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_lte"))
+			it.DescriptionMinLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_lte"))
+			it.DescriptionMaxLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_in"))
+			it.DescriptionIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_in"))
+			it.DescriptionMinIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_in"))
+			it.DescriptionMaxIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_like":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_like"))
+			it.DescriptionLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_like":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_like"))
+			it.DescriptionMinLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_like":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_like"))
+			it.DescriptionMaxLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_prefix":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_prefix"))
+			it.DescriptionPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_prefix":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_prefix"))
+			it.DescriptionMinPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_prefix":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_prefix"))
+			it.DescriptionMaxPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_suffix":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_suffix"))
+			it.DescriptionSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin_suffix":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_suffix"))
+			it.DescriptionMinSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax_suffix":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_suffix"))
+			it.DescriptionMaxSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "description_null":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_null"))
+			it.DescriptionNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "firstName":
 			var err error
 
@@ -23088,254 +23336,6 @@ func (ec *executionContext) unmarshalInputUserFilterType(ctx context.Context, ob
 			if err != nil {
 				return it, err
 			}
-		case "description":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin"))
-			it.DescriptionMin, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax"))
-			it.DescriptionMax, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_ne":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_ne"))
-			it.DescriptionNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_ne":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_ne"))
-			it.DescriptionMinNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_ne":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_ne"))
-			it.DescriptionMaxNe, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_gt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_gt"))
-			it.DescriptionGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_gt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_gt"))
-			it.DescriptionMinGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_gt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_gt"))
-			it.DescriptionMaxGt, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_lt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_lt"))
-			it.DescriptionLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_lt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_lt"))
-			it.DescriptionMinLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_lt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_lt"))
-			it.DescriptionMaxLt, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_gte":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_gte"))
-			it.DescriptionGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_gte":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_gte"))
-			it.DescriptionMinGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_gte":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_gte"))
-			it.DescriptionMaxGte, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_lte":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_lte"))
-			it.DescriptionLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_lte":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_lte"))
-			it.DescriptionMinLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_lte":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_lte"))
-			it.DescriptionMaxLte, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_in":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_in"))
-			it.DescriptionIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_in":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_in"))
-			it.DescriptionMinIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_in":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_in"))
-			it.DescriptionMaxIn, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_like":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_like"))
-			it.DescriptionLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_like":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_like"))
-			it.DescriptionMinLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_like":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_like"))
-			it.DescriptionMaxLike, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_prefix":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_prefix"))
-			it.DescriptionPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_prefix":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_prefix"))
-			it.DescriptionMinPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_prefix":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_prefix"))
-			it.DescriptionMaxPrefix, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_suffix":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_suffix"))
-			it.DescriptionSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin_suffix":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin_suffix"))
-			it.DescriptionMinSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax_suffix":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax_suffix"))
-			it.DescriptionMaxSuffix, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description_null":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description_null"))
-			it.DescriptionNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "updatedAt":
 			var err error
 
@@ -24228,6 +24228,30 @@ func (ec *executionContext) unmarshalInputUserSortType(ctx context.Context, obj 
 			if err != nil {
 				return it, err
 			}
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			it.Description, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMin":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin"))
+			it.DescriptionMin, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "descriptionMax":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax"))
+			it.DescriptionMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "firstName":
 			var err error
 
@@ -24321,30 +24345,6 @@ func (ec *executionContext) unmarshalInputUserSortType(ctx context.Context, obj 
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationMax"))
 			it.LocationMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "description":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMin":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMin"))
-			it.DescriptionMin, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "descriptionMax":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("descriptionMax"))
-			it.DescriptionMax, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐObjectSortType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -25577,6 +25577,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._User_avatarURL(ctx, field, obj)
 		case "displayName":
 			out.Values[i] = ec._User_displayName(ctx, field, obj)
+		case "description":
+			out.Values[i] = ec._User_description(ctx, field, obj)
 		case "firstName":
 			out.Values[i] = ec._User_firstName(ctx, field, obj)
 		case "lastName":
@@ -25585,8 +25587,6 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._User_nickName(ctx, field, obj)
 		case "location":
 			out.Values[i] = ec._User_location(ctx, field, obj)
-		case "description":
-			out.Values[i] = ec._User_description(ctx, field, obj)
 		case "apikeys":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
