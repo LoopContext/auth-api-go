@@ -6,13 +6,13 @@ type User @entity {
   active: Boolean! @column(default: false)
   email: String! @column(unique: true)
   password: String @column
-  avatarURL: String @column(type: "text")
+  avatarURL: String @column
   displayName: String @column
-  firstName: String @column
-  lastName: String @column
-  nickName: String @column
-  location: String @column
-  description: String @column(type: "text")
+  description: String @column
+  firstName: String @column(type: "varchar(255)")
+  lastName: String @column(type: "varchar(255)")
+  nickName: String @column(type: "varchar(255)")
+  location: String @column(type: "varchar(255)")
   apikeys: [UserAPIKey!]! @relationship(inverse: "user", preload: true)
   roles: [Role!]! @relationship(inverse: "users", preload: true)
   profiles: [Profile!]! @relationship(inverse: "users", preload: true)
@@ -21,7 +21,7 @@ type User @entity {
 
 type UserAPIKey @entity {
   key: String! @column(unique: true)
-  description: String @column(type: "text")
+  description: String @column
   user: User @relationship(inverse: "apikeys", preload: true)
   permissions: [Permission!]! @relationship(inverse: "apikeys", preload: true)
 }
@@ -30,20 +30,20 @@ type Profile @entity {
   email: String! @column
   externalUserId: String @column
   provider: String @column
-  avatarURL: String @column(type: "text")
-  name: String @column
-  firstName: String @column
-  lastName: String @column
-  nickName: String @column
-  description: String @column(type: "text")
+  avatarURL: String @column
+  name: String @column(type: "varchar(255)")
+  firstName: String @column(type: "varchar(255)")
+  lastName: String @column(type: "varchar(255)")
+  nickName: String @column(type: "varchar(255)")
+  description: String @column
   location: String @column
   users: [User!]! @relationship(inverse: "profiles")
 }
 
 type Role @entity {
   domain: String! @column # Application domain, name or namespace
-  name: String! @column
-  description: String @column(type: "text")
+  name: String! @column(type: "varchar(255)")
+  description: String @column
   users: [User!]! @relationship(inverse: "roles")
   parents: [Role!]! @relationship(inverse: "children")
   children: [Role!]! @relationship(inverse: "parents")
@@ -53,7 +53,7 @@ type Role @entity {
 type Permission @entity {
   domain: String! @column # Application domain, name or namespace
   tag: String! @column(unique: true)
-  description: String! @column(type: "text")
+  description: String! @column
   users: [User!]! @relationship(inverse: "permissions")
   roles: [Role!]! @relationship(inverse: "permissions")
   apikeys: [UserAPIKey!]! @relationship(inverse: "permissions")

@@ -3,7 +3,7 @@ module github.com/loopcontext/auth-api-go
 go 1.15
 
 // For local dev
-// replace github.com/loopcontext/go-graphql-orm v0.0.0-20201029123957-01f382e6092d => ../go-graphql-orm
+// replace github.com/loopcontext/go-graphql-orm latest => ../go-graphql-orm
 
 require (
 	github.com/99designs/gqlgen v0.13.0
@@ -16,7 +16,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/loopcontext/checkmail v0.0.1
 	github.com/loopcontext/cloudevents-aws-transport v1.0.9
-	github.com/loopcontext/go-graphql-orm v0.0.0-20201029123957-01f382e6092d
+	github.com/loopcontext/go-graphql-orm v0.0.0-20201030160604-1815583bad5d
 	github.com/markbates/goth v1.64.2
 	github.com/mitchellh/mapstructure v1.3.3
 	github.com/rs/cors v1.7.0
