@@ -118,10 +118,14 @@ func startServer(enableCors bool, port string) error {
 		gqlBasePath = "/graphql"
 	}
 
-	mux := gen.GetHTTPServeMux(src.New(db, &eventController), db, src.GetMigrations(db))
+	// secure the (i.e.) /v1/graphql route, but lets you go to playground
+	amw := middleware.AuthJWT{
+		DB:            db,
+		Path:          os.Getenv("API_VERSION") + gqlBasePath,
+		PathWhitelist: map[string]bool{os.Getenv("API_VERSION") + gqlBasePath + "/playground": true},
+	}
 
-	// secure the (i.e.) /v1/graphql route
-	amw := middleware.AuthJWT{DB: db, Path: os.Getenv("API_VERSION") + gqlBasePath}
+	mux := gen.GetHTTPServeMux(src.New(db, &eventController), db, src.GetMigrations(db))
 	mux.Use(amw.Middleware)
 
 	// Handlers for auth services and their callbacks

@@ -182,14 +182,15 @@ func ParseToken(req *http.Request) (t *jwt.Token, err error) {
 
 // AuthJWT auth middleware struct
 type AuthJWT struct {
-	DB   *gen.DB
-	Path string
+	DB            *gen.DB
+	Path          string
+	PathWhitelist map[string]bool
 }
 
 // Middleware auth func, called each request
 func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		if !strings.HasPrefix(req.RequestURI, a.Path) {
+		if !strings.HasPrefix(req.RequestURI, a.Path) || a.PathWhitelist[req.RequestURI] {
 			next.ServeHTTP(res, req)
 			return
 		}
