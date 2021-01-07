@@ -9,7 +9,7 @@ import (
 // NewResolver ...
 func NewResolver(db *gen.DB, ec *gen.EventController) *Resolver {
 	handlers := gen.DefaultResolutionHandlers()
-	return &Resolver{&gen.GeneratedResolver{Handlers: handlers, DB: db, EventController: ec}}
+	return &Resolver{gen.NewGeneratedResolver(handlers, db, ec)}
 }
 
 // Resolver ...

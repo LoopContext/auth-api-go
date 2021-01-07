@@ -3,6 +3,7 @@ package gen
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/gofrs/uuid"
@@ -19,7 +20,7 @@ type MutationEvents struct {
 
 // EnrichContextWithMutations method
 func EnrichContextWithMutations(ctx context.Context, r *GeneratedResolver) context.Context {
-	_ctx := context.WithValue(ctx, KeyMutationTransaction, r.DB.db.Begin())
+	_ctx := context.WithValue(ctx, KeyMutationTransaction, r.GetDB(ctx).Begin())
 	_ctx = context.WithValue(_ctx, KeyMutationEvents, &MutationEvents{})
 	return _ctx
 }
@@ -414,6 +415,10 @@ func (r *GeneratedMutationResolver) DeleteAllUsers(ctx context.Context) (bool, e
 
 // DeleteAllUsersHandler handler
 func DeleteAllUsersHandler(ctx context.Context, r *GeneratedResolver) (bool, error) {
+	// delete all resolvers are primarily used for
+	if os.Getenv("ENABLE_DELETE_ALL_RESOLVERS") == "" {
+		return false, fmt.Errorf("delete all resolver is not enabled (ENABLE_DELETE_ALL_RESOLVERS not specified)")
+	}
 	tx := r.GetDB(ctx)
 	err := tx.Delete(&User{}).Error
 	if err != nil {
@@ -645,6 +650,10 @@ func (r *GeneratedMutationResolver) DeleteAllUserAPIKeys(ctx context.Context) (b
 
 // DeleteAllUserAPIKeysHandler handler
 func DeleteAllUserAPIKeysHandler(ctx context.Context, r *GeneratedResolver) (bool, error) {
+	// delete all resolvers are primarily used for
+	if os.Getenv("ENABLE_DELETE_ALL_RESOLVERS") == "" {
+		return false, fmt.Errorf("delete all resolver is not enabled (ENABLE_DELETE_ALL_RESOLVERS not specified)")
+	}
 	tx := r.GetDB(ctx)
 	err := tx.Delete(&UserAPIKey{}).Error
 	if err != nil {
@@ -960,6 +969,10 @@ func (r *GeneratedMutationResolver) DeleteAllProfiles(ctx context.Context) (bool
 
 // DeleteAllProfilesHandler handler
 func DeleteAllProfilesHandler(ctx context.Context, r *GeneratedResolver) (bool, error) {
+	// delete all resolvers are primarily used for
+	if os.Getenv("ENABLE_DELETE_ALL_RESOLVERS") == "" {
+		return false, fmt.Errorf("delete all resolver is not enabled (ENABLE_DELETE_ALL_RESOLVERS not specified)")
+	}
 	tx := r.GetDB(ctx)
 	err := tx.Delete(&Profile{}).Error
 	if err != nil {
@@ -1233,6 +1246,10 @@ func (r *GeneratedMutationResolver) DeleteAllRoles(ctx context.Context) (bool, e
 
 // DeleteAllRolesHandler handler
 func DeleteAllRolesHandler(ctx context.Context, r *GeneratedResolver) (bool, error) {
+	// delete all resolvers are primarily used for
+	if os.Getenv("ENABLE_DELETE_ALL_RESOLVERS") == "" {
+		return false, fmt.Errorf("delete all resolver is not enabled (ENABLE_DELETE_ALL_RESOLVERS not specified)")
+	}
 	tx := r.GetDB(ctx)
 	err := tx.Delete(&Role{}).Error
 	if err != nil {
@@ -1492,6 +1509,10 @@ func (r *GeneratedMutationResolver) DeleteAllPermissions(ctx context.Context) (b
 
 // DeleteAllPermissionsHandler handler
 func DeleteAllPermissionsHandler(ctx context.Context, r *GeneratedResolver) (bool, error) {
+	// delete all resolvers are primarily used for
+	if os.Getenv("ENABLE_DELETE_ALL_RESOLVERS") == "" {
+		return false, fmt.Errorf("delete all resolver is not enabled (ENABLE_DELETE_ALL_RESOLVERS not specified)")
+	}
 	tx := r.GetDB(ctx)
 	err := tx.Delete(&Permission{}).Error
 	if err != nil {

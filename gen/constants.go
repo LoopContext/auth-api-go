@@ -289,6 +289,9 @@ input UserFilterType {
   id_in: [ID!]
   idMin_in: [ID!]
   idMax_in: [ID!]
+  id_not_in: [ID!]
+  idMin_not_in: [ID!]
+  idMax_not_in: [ID!]
   id_null: Boolean
   active: Boolean
   activeMin: Boolean
@@ -311,6 +314,9 @@ input UserFilterType {
   active_in: [Boolean!]
   activeMin_in: [Boolean!]
   activeMax_in: [Boolean!]
+  active_not_in: [Boolean!]
+  activeMin_not_in: [Boolean!]
+  activeMax_not_in: [Boolean!]
   active_null: Boolean
   email: String
   emailMin: String
@@ -333,6 +339,9 @@ input UserFilterType {
   email_in: [String!]
   emailMin_in: [String!]
   emailMax_in: [String!]
+  email_not_in: [String!]
+  emailMin_not_in: [String!]
+  emailMax_not_in: [String!]
   email_like: String
   emailMin_like: String
   emailMax_like: String
@@ -364,6 +373,9 @@ input UserFilterType {
   password_in: [String!]
   passwordMin_in: [String!]
   passwordMax_in: [String!]
+  password_not_in: [String!]
+  passwordMin_not_in: [String!]
+  passwordMax_not_in: [String!]
   password_like: String
   passwordMin_like: String
   passwordMax_like: String
@@ -395,6 +407,9 @@ input UserFilterType {
   avatarURL_in: [String!]
   avatarURLMin_in: [String!]
   avatarURLMax_in: [String!]
+  avatarURL_not_in: [String!]
+  avatarURLMin_not_in: [String!]
+  avatarURLMax_not_in: [String!]
   avatarURL_like: String
   avatarURLMin_like: String
   avatarURLMax_like: String
@@ -426,6 +441,9 @@ input UserFilterType {
   displayName_in: [String!]
   displayNameMin_in: [String!]
   displayNameMax_in: [String!]
+  displayName_not_in: [String!]
+  displayNameMin_not_in: [String!]
+  displayNameMax_not_in: [String!]
   displayName_like: String
   displayNameMin_like: String
   displayNameMax_like: String
@@ -457,6 +475,9 @@ input UserFilterType {
   description_in: [String!]
   descriptionMin_in: [String!]
   descriptionMax_in: [String!]
+  description_not_in: [String!]
+  descriptionMin_not_in: [String!]
+  descriptionMax_not_in: [String!]
   description_like: String
   descriptionMin_like: String
   descriptionMax_like: String
@@ -488,6 +509,9 @@ input UserFilterType {
   firstName_in: [String!]
   firstNameMin_in: [String!]
   firstNameMax_in: [String!]
+  firstName_not_in: [String!]
+  firstNameMin_not_in: [String!]
+  firstNameMax_not_in: [String!]
   firstName_like: String
   firstNameMin_like: String
   firstNameMax_like: String
@@ -519,6 +543,9 @@ input UserFilterType {
   lastName_in: [String!]
   lastNameMin_in: [String!]
   lastNameMax_in: [String!]
+  lastName_not_in: [String!]
+  lastNameMin_not_in: [String!]
+  lastNameMax_not_in: [String!]
   lastName_like: String
   lastNameMin_like: String
   lastNameMax_like: String
@@ -550,6 +577,9 @@ input UserFilterType {
   nickName_in: [String!]
   nickNameMin_in: [String!]
   nickNameMax_in: [String!]
+  nickName_not_in: [String!]
+  nickNameMin_not_in: [String!]
+  nickNameMax_not_in: [String!]
   nickName_like: String
   nickNameMin_like: String
   nickNameMax_like: String
@@ -581,6 +611,9 @@ input UserFilterType {
   location_in: [String!]
   locationMin_in: [String!]
   locationMax_in: [String!]
+  location_not_in: [String!]
+  locationMin_not_in: [String!]
+  locationMax_not_in: [String!]
   location_like: String
   locationMin_like: String
   locationMax_like: String
@@ -612,6 +645,9 @@ input UserFilterType {
   updatedAt_in: [Time!]
   updatedAtMin_in: [Time!]
   updatedAtMax_in: [Time!]
+  updatedAt_not_in: [Time!]
+  updatedAtMin_not_in: [Time!]
+  updatedAtMax_not_in: [Time!]
   updatedAt_null: Boolean
   createdAt: Time
   createdAtMin: Time
@@ -634,6 +670,9 @@ input UserFilterType {
   createdAt_in: [Time!]
   createdAtMin_in: [Time!]
   createdAtMax_in: [Time!]
+  createdAt_not_in: [Time!]
+  createdAtMin_not_in: [Time!]
+  createdAtMax_not_in: [Time!]
   createdAt_null: Boolean
   updatedBy: ID
   updatedByMin: ID
@@ -656,6 +695,9 @@ input UserFilterType {
   updatedBy_in: [ID!]
   updatedByMin_in: [ID!]
   updatedByMax_in: [ID!]
+  updatedBy_not_in: [ID!]
+  updatedByMin_not_in: [ID!]
+  updatedByMax_not_in: [ID!]
   updatedBy_null: Boolean
   createdBy: ID
   createdByMin: ID
@@ -678,6 +720,9 @@ input UserFilterType {
   createdBy_in: [ID!]
   createdByMin_in: [ID!]
   createdByMax_in: [ID!]
+  createdBy_not_in: [ID!]
+  createdByMin_not_in: [ID!]
+  createdByMax_not_in: [ID!]
   createdBy_null: Boolean
   apikeys: UserAPIKeyFilterType
   roles: RoleFilterType
@@ -761,6 +806,9 @@ input UserAPIKeyFilterType {
   id_in: [ID!]
   idMin_in: [ID!]
   idMax_in: [ID!]
+  id_not_in: [ID!]
+  idMin_not_in: [ID!]
+  idMax_not_in: [ID!]
   id_null: Boolean
   key: String
   keyMin: String
@@ -783,6 +831,9 @@ input UserAPIKeyFilterType {
   key_in: [String!]
   keyMin_in: [String!]
   keyMax_in: [String!]
+  key_not_in: [String!]
+  keyMin_not_in: [String!]
+  keyMax_not_in: [String!]
   key_like: String
   keyMin_like: String
   keyMax_like: String
@@ -814,6 +865,9 @@ input UserAPIKeyFilterType {
   description_in: [String!]
   descriptionMin_in: [String!]
   descriptionMax_in: [String!]
+  description_not_in: [String!]
+  descriptionMin_not_in: [String!]
+  descriptionMax_not_in: [String!]
   description_like: String
   descriptionMin_like: String
   descriptionMax_like: String
@@ -845,6 +899,9 @@ input UserAPIKeyFilterType {
   userId_in: [ID!]
   userIdMin_in: [ID!]
   userIdMax_in: [ID!]
+  userId_not_in: [ID!]
+  userIdMin_not_in: [ID!]
+  userIdMax_not_in: [ID!]
   userId_null: Boolean
   updatedAt: Time
   updatedAtMin: Time
@@ -867,6 +924,9 @@ input UserAPIKeyFilterType {
   updatedAt_in: [Time!]
   updatedAtMin_in: [Time!]
   updatedAtMax_in: [Time!]
+  updatedAt_not_in: [Time!]
+  updatedAtMin_not_in: [Time!]
+  updatedAtMax_not_in: [Time!]
   updatedAt_null: Boolean
   createdAt: Time
   createdAtMin: Time
@@ -889,6 +949,9 @@ input UserAPIKeyFilterType {
   createdAt_in: [Time!]
   createdAtMin_in: [Time!]
   createdAtMax_in: [Time!]
+  createdAt_not_in: [Time!]
+  createdAtMin_not_in: [Time!]
+  createdAtMax_not_in: [Time!]
   createdAt_null: Boolean
   updatedBy: ID
   updatedByMin: ID
@@ -911,6 +974,9 @@ input UserAPIKeyFilterType {
   updatedBy_in: [ID!]
   updatedByMin_in: [ID!]
   updatedByMax_in: [ID!]
+  updatedBy_not_in: [ID!]
+  updatedByMin_not_in: [ID!]
+  updatedByMax_not_in: [ID!]
   updatedBy_null: Boolean
   createdBy: ID
   createdByMin: ID
@@ -933,6 +999,9 @@ input UserAPIKeyFilterType {
   createdBy_in: [ID!]
   createdByMin_in: [ID!]
   createdByMax_in: [ID!]
+  createdBy_not_in: [ID!]
+  createdByMin_not_in: [ID!]
+  createdByMax_not_in: [ID!]
   createdBy_null: Boolean
   user: UserFilterType
   permissions: PermissionFilterType
@@ -1048,6 +1117,9 @@ input ProfileFilterType {
   id_in: [ID!]
   idMin_in: [ID!]
   idMax_in: [ID!]
+  id_not_in: [ID!]
+  idMin_not_in: [ID!]
+  idMax_not_in: [ID!]
   id_null: Boolean
   email: String
   emailMin: String
@@ -1070,6 +1142,9 @@ input ProfileFilterType {
   email_in: [String!]
   emailMin_in: [String!]
   emailMax_in: [String!]
+  email_not_in: [String!]
+  emailMin_not_in: [String!]
+  emailMax_not_in: [String!]
   email_like: String
   emailMin_like: String
   emailMax_like: String
@@ -1101,6 +1176,9 @@ input ProfileFilterType {
   externalUserId_in: [String!]
   externalUserIdMin_in: [String!]
   externalUserIdMax_in: [String!]
+  externalUserId_not_in: [String!]
+  externalUserIdMin_not_in: [String!]
+  externalUserIdMax_not_in: [String!]
   externalUserId_like: String
   externalUserIdMin_like: String
   externalUserIdMax_like: String
@@ -1132,6 +1210,9 @@ input ProfileFilterType {
   provider_in: [String!]
   providerMin_in: [String!]
   providerMax_in: [String!]
+  provider_not_in: [String!]
+  providerMin_not_in: [String!]
+  providerMax_not_in: [String!]
   provider_like: String
   providerMin_like: String
   providerMax_like: String
@@ -1163,6 +1244,9 @@ input ProfileFilterType {
   avatarURL_in: [String!]
   avatarURLMin_in: [String!]
   avatarURLMax_in: [String!]
+  avatarURL_not_in: [String!]
+  avatarURLMin_not_in: [String!]
+  avatarURLMax_not_in: [String!]
   avatarURL_like: String
   avatarURLMin_like: String
   avatarURLMax_like: String
@@ -1194,6 +1278,9 @@ input ProfileFilterType {
   name_in: [String!]
   nameMin_in: [String!]
   nameMax_in: [String!]
+  name_not_in: [String!]
+  nameMin_not_in: [String!]
+  nameMax_not_in: [String!]
   name_like: String
   nameMin_like: String
   nameMax_like: String
@@ -1225,6 +1312,9 @@ input ProfileFilterType {
   firstName_in: [String!]
   firstNameMin_in: [String!]
   firstNameMax_in: [String!]
+  firstName_not_in: [String!]
+  firstNameMin_not_in: [String!]
+  firstNameMax_not_in: [String!]
   firstName_like: String
   firstNameMin_like: String
   firstNameMax_like: String
@@ -1256,6 +1346,9 @@ input ProfileFilterType {
   lastName_in: [String!]
   lastNameMin_in: [String!]
   lastNameMax_in: [String!]
+  lastName_not_in: [String!]
+  lastNameMin_not_in: [String!]
+  lastNameMax_not_in: [String!]
   lastName_like: String
   lastNameMin_like: String
   lastNameMax_like: String
@@ -1287,6 +1380,9 @@ input ProfileFilterType {
   nickName_in: [String!]
   nickNameMin_in: [String!]
   nickNameMax_in: [String!]
+  nickName_not_in: [String!]
+  nickNameMin_not_in: [String!]
+  nickNameMax_not_in: [String!]
   nickName_like: String
   nickNameMin_like: String
   nickNameMax_like: String
@@ -1318,6 +1414,9 @@ input ProfileFilterType {
   description_in: [String!]
   descriptionMin_in: [String!]
   descriptionMax_in: [String!]
+  description_not_in: [String!]
+  descriptionMin_not_in: [String!]
+  descriptionMax_not_in: [String!]
   description_like: String
   descriptionMin_like: String
   descriptionMax_like: String
@@ -1349,6 +1448,9 @@ input ProfileFilterType {
   location_in: [String!]
   locationMin_in: [String!]
   locationMax_in: [String!]
+  location_not_in: [String!]
+  locationMin_not_in: [String!]
+  locationMax_not_in: [String!]
   location_like: String
   locationMin_like: String
   locationMax_like: String
@@ -1380,6 +1482,9 @@ input ProfileFilterType {
   updatedAt_in: [Time!]
   updatedAtMin_in: [Time!]
   updatedAtMax_in: [Time!]
+  updatedAt_not_in: [Time!]
+  updatedAtMin_not_in: [Time!]
+  updatedAtMax_not_in: [Time!]
   updatedAt_null: Boolean
   createdAt: Time
   createdAtMin: Time
@@ -1402,6 +1507,9 @@ input ProfileFilterType {
   createdAt_in: [Time!]
   createdAtMin_in: [Time!]
   createdAtMax_in: [Time!]
+  createdAt_not_in: [Time!]
+  createdAtMin_not_in: [Time!]
+  createdAtMax_not_in: [Time!]
   createdAt_null: Boolean
   updatedBy: ID
   updatedByMin: ID
@@ -1424,6 +1532,9 @@ input ProfileFilterType {
   updatedBy_in: [ID!]
   updatedByMin_in: [ID!]
   updatedByMax_in: [ID!]
+  updatedBy_not_in: [ID!]
+  updatedByMin_not_in: [ID!]
+  updatedByMax_not_in: [ID!]
   updatedBy_null: Boolean
   createdBy: ID
   createdByMin: ID
@@ -1446,6 +1557,9 @@ input ProfileFilterType {
   createdBy_in: [ID!]
   createdByMin_in: [ID!]
   createdByMax_in: [ID!]
+  createdBy_not_in: [ID!]
+  createdByMin_not_in: [ID!]
+  createdByMax_not_in: [ID!]
   createdBy_null: Boolean
   users: UserFilterType
 }
@@ -1543,6 +1657,9 @@ input RoleFilterType {
   id_in: [ID!]
   idMin_in: [ID!]
   idMax_in: [ID!]
+  id_not_in: [ID!]
+  idMin_not_in: [ID!]
+  idMax_not_in: [ID!]
   id_null: Boolean
   domain: String
   domainMin: String
@@ -1565,6 +1682,9 @@ input RoleFilterType {
   domain_in: [String!]
   domainMin_in: [String!]
   domainMax_in: [String!]
+  domain_not_in: [String!]
+  domainMin_not_in: [String!]
+  domainMax_not_in: [String!]
   domain_like: String
   domainMin_like: String
   domainMax_like: String
@@ -1596,6 +1716,9 @@ input RoleFilterType {
   name_in: [String!]
   nameMin_in: [String!]
   nameMax_in: [String!]
+  name_not_in: [String!]
+  nameMin_not_in: [String!]
+  nameMax_not_in: [String!]
   name_like: String
   nameMin_like: String
   nameMax_like: String
@@ -1627,6 +1750,9 @@ input RoleFilterType {
   description_in: [String!]
   descriptionMin_in: [String!]
   descriptionMax_in: [String!]
+  description_not_in: [String!]
+  descriptionMin_not_in: [String!]
+  descriptionMax_not_in: [String!]
   description_like: String
   descriptionMin_like: String
   descriptionMax_like: String
@@ -1658,6 +1784,9 @@ input RoleFilterType {
   updatedAt_in: [Time!]
   updatedAtMin_in: [Time!]
   updatedAtMax_in: [Time!]
+  updatedAt_not_in: [Time!]
+  updatedAtMin_not_in: [Time!]
+  updatedAtMax_not_in: [Time!]
   updatedAt_null: Boolean
   createdAt: Time
   createdAtMin: Time
@@ -1680,6 +1809,9 @@ input RoleFilterType {
   createdAt_in: [Time!]
   createdAtMin_in: [Time!]
   createdAtMax_in: [Time!]
+  createdAt_not_in: [Time!]
+  createdAtMin_not_in: [Time!]
+  createdAtMax_not_in: [Time!]
   createdAt_null: Boolean
   updatedBy: ID
   updatedByMin: ID
@@ -1702,6 +1834,9 @@ input RoleFilterType {
   updatedBy_in: [ID!]
   updatedByMin_in: [ID!]
   updatedByMax_in: [ID!]
+  updatedBy_not_in: [ID!]
+  updatedByMin_not_in: [ID!]
+  updatedByMax_not_in: [ID!]
   updatedBy_null: Boolean
   createdBy: ID
   createdByMin: ID
@@ -1724,6 +1859,9 @@ input RoleFilterType {
   createdBy_in: [ID!]
   createdByMin_in: [ID!]
   createdByMax_in: [ID!]
+  createdBy_not_in: [ID!]
+  createdByMin_not_in: [ID!]
+  createdByMax_not_in: [ID!]
   createdBy_null: Boolean
   users: UserFilterType
   parents: RoleFilterType
@@ -1818,6 +1956,9 @@ input PermissionFilterType {
   id_in: [ID!]
   idMin_in: [ID!]
   idMax_in: [ID!]
+  id_not_in: [ID!]
+  idMin_not_in: [ID!]
+  idMax_not_in: [ID!]
   id_null: Boolean
   domain: String
   domainMin: String
@@ -1840,6 +1981,9 @@ input PermissionFilterType {
   domain_in: [String!]
   domainMin_in: [String!]
   domainMax_in: [String!]
+  domain_not_in: [String!]
+  domainMin_not_in: [String!]
+  domainMax_not_in: [String!]
   domain_like: String
   domainMin_like: String
   domainMax_like: String
@@ -1871,6 +2015,9 @@ input PermissionFilterType {
   tag_in: [String!]
   tagMin_in: [String!]
   tagMax_in: [String!]
+  tag_not_in: [String!]
+  tagMin_not_in: [String!]
+  tagMax_not_in: [String!]
   tag_like: String
   tagMin_like: String
   tagMax_like: String
@@ -1902,6 +2049,9 @@ input PermissionFilterType {
   description_in: [String!]
   descriptionMin_in: [String!]
   descriptionMax_in: [String!]
+  description_not_in: [String!]
+  descriptionMin_not_in: [String!]
+  descriptionMax_not_in: [String!]
   description_like: String
   descriptionMin_like: String
   descriptionMax_like: String
@@ -1933,6 +2083,9 @@ input PermissionFilterType {
   updatedAt_in: [Time!]
   updatedAtMin_in: [Time!]
   updatedAtMax_in: [Time!]
+  updatedAt_not_in: [Time!]
+  updatedAtMin_not_in: [Time!]
+  updatedAtMax_not_in: [Time!]
   updatedAt_null: Boolean
   createdAt: Time
   createdAtMin: Time
@@ -1955,6 +2108,9 @@ input PermissionFilterType {
   createdAt_in: [Time!]
   createdAtMin_in: [Time!]
   createdAtMax_in: [Time!]
+  createdAt_not_in: [Time!]
+  createdAtMin_not_in: [Time!]
+  createdAtMax_not_in: [Time!]
   createdAt_null: Boolean
   updatedBy: ID
   updatedByMin: ID
@@ -1977,6 +2133,9 @@ input PermissionFilterType {
   updatedBy_in: [ID!]
   updatedByMin_in: [ID!]
   updatedByMax_in: [ID!]
+  updatedBy_not_in: [ID!]
+  updatedByMin_not_in: [ID!]
+  updatedByMax_not_in: [ID!]
   updatedBy_null: Boolean
   createdBy: ID
   createdByMin: ID
@@ -1999,6 +2158,9 @@ input PermissionFilterType {
   createdBy_in: [ID!]
   createdByMin_in: [ID!]
   createdByMax_in: [ID!]
+  createdBy_not_in: [ID!]
+  createdByMin_not_in: [ID!]
+  createdByMax_not_in: [ID!]
   createdBy_null: Boolean
   users: UserFilterType
   roles: RoleFilterType

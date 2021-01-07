@@ -11,7 +11,6 @@ import (
 
 	cloudevents "github.com/cloudevents/sdk-go"
 	"github.com/cloudevents/sdk-go/pkg/cloudevents/transport"
-
 	cloudeventsaws "github.com/loopcontext/cloudevents-aws-transport"
 	"github.com/loopcontext/go-graphql-orm/events"
 )

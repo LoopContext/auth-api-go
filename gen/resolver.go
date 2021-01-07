@@ -149,15 +149,19 @@ func DefaultResolutionHandlers() ResolutionHandlers {
 // GeneratedResolver struct
 type GeneratedResolver struct {
 	Handlers        ResolutionHandlers
-	DB              *DB
+	db              *DB
 	EventController *EventController
+}
+
+func NewGeneratedResolver(handlers ResolutionHandlers, db *DB, ec *EventController) *GeneratedResolver {
+	return &GeneratedResolver{Handlers: handlers, db: db, EventController: ec}
 }
 
 // GetDB returns database connection or transaction for given context (if exists)
 func (r *GeneratedResolver) GetDB(ctx context.Context) *gorm.DB {
 	db, _ := ctx.Value(KeyMutationTransaction).(*gorm.DB)
 	if db == nil {
-		db = r.DB.Query()
+		db = r.db.Query()
 	}
 	return db
 }

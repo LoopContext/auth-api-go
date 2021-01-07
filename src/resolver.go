@@ -15,8 +15,6 @@ import (
 func New(db *gen.DB, ec *gen.EventController) *Resolver {
 	resolver := NewResolver(db, ec)
 
-	// log.Debug().Msgf("NEW RESOLVER %#v", ec)
-
 	resolver.Handlers.OnEvent = func(ctx context.Context, r *gen.GeneratedResolver, e *events.Event) (err error) {
 		// After save
 		// log.Debug().Msgf("event: %#v", e)

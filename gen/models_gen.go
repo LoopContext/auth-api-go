@@ -33,6 +33,9 @@ type PermissionFilterType struct {
 	IDIn                 []string                `json:"id_in"`
 	IDMinIn              []string                `json:"idMin_in"`
 	IDMaxIn              []string                `json:"idMax_in"`
+	IDNotIn              []string                `json:"id_not_in"`
+	IDMinNotIn           []string                `json:"idMin_not_in"`
+	IDMaxNotIn           []string                `json:"idMax_not_in"`
 	IDNull               *bool                   `json:"id_null"`
 	Domain               *string                 `json:"domain"`
 	DomainMin            *string                 `json:"domainMin"`
@@ -55,6 +58,9 @@ type PermissionFilterType struct {
 	DomainIn             []string                `json:"domain_in"`
 	DomainMinIn          []string                `json:"domainMin_in"`
 	DomainMaxIn          []string                `json:"domainMax_in"`
+	DomainNotIn          []string                `json:"domain_not_in"`
+	DomainMinNotIn       []string                `json:"domainMin_not_in"`
+	DomainMaxNotIn       []string                `json:"domainMax_not_in"`
 	DomainLike           *string                 `json:"domain_like"`
 	DomainMinLike        *string                 `json:"domainMin_like"`
 	DomainMaxLike        *string                 `json:"domainMax_like"`
@@ -86,6 +92,9 @@ type PermissionFilterType struct {
 	TagIn                []string                `json:"tag_in"`
 	TagMinIn             []string                `json:"tagMin_in"`
 	TagMaxIn             []string                `json:"tagMax_in"`
+	TagNotIn             []string                `json:"tag_not_in"`
+	TagMinNotIn          []string                `json:"tagMin_not_in"`
+	TagMaxNotIn          []string                `json:"tagMax_not_in"`
 	TagLike              *string                 `json:"tag_like"`
 	TagMinLike           *string                 `json:"tagMin_like"`
 	TagMaxLike           *string                 `json:"tagMax_like"`
@@ -117,6 +126,9 @@ type PermissionFilterType struct {
 	DescriptionIn        []string                `json:"description_in"`
 	DescriptionMinIn     []string                `json:"descriptionMin_in"`
 	DescriptionMaxIn     []string                `json:"descriptionMax_in"`
+	DescriptionNotIn     []string                `json:"description_not_in"`
+	DescriptionMinNotIn  []string                `json:"descriptionMin_not_in"`
+	DescriptionMaxNotIn  []string                `json:"descriptionMax_not_in"`
 	DescriptionLike      *string                 `json:"description_like"`
 	DescriptionMinLike   *string                 `json:"descriptionMin_like"`
 	DescriptionMaxLike   *string                 `json:"descriptionMax_like"`
@@ -148,6 +160,9 @@ type PermissionFilterType struct {
 	UpdatedAtIn          []*time.Time            `json:"updatedAt_in"`
 	UpdatedAtMinIn       []*time.Time            `json:"updatedAtMin_in"`
 	UpdatedAtMaxIn       []*time.Time            `json:"updatedAtMax_in"`
+	UpdatedAtNotIn       []*time.Time            `json:"updatedAt_not_in"`
+	UpdatedAtMinNotIn    []*time.Time            `json:"updatedAtMin_not_in"`
+	UpdatedAtMaxNotIn    []*time.Time            `json:"updatedAtMax_not_in"`
 	UpdatedAtNull        *bool                   `json:"updatedAt_null"`
 	CreatedAt            *time.Time              `json:"createdAt"`
 	CreatedAtMin         *time.Time              `json:"createdAtMin"`
@@ -170,6 +185,9 @@ type PermissionFilterType struct {
 	CreatedAtIn          []*time.Time            `json:"createdAt_in"`
 	CreatedAtMinIn       []*time.Time            `json:"createdAtMin_in"`
 	CreatedAtMaxIn       []*time.Time            `json:"createdAtMax_in"`
+	CreatedAtNotIn       []*time.Time            `json:"createdAt_not_in"`
+	CreatedAtMinNotIn    []*time.Time            `json:"createdAtMin_not_in"`
+	CreatedAtMaxNotIn    []*time.Time            `json:"createdAtMax_not_in"`
 	CreatedAtNull        *bool                   `json:"createdAt_null"`
 	UpdatedBy            *string                 `json:"updatedBy"`
 	UpdatedByMin         *string                 `json:"updatedByMin"`
@@ -192,6 +210,9 @@ type PermissionFilterType struct {
 	UpdatedByIn          []string                `json:"updatedBy_in"`
 	UpdatedByMinIn       []string                `json:"updatedByMin_in"`
 	UpdatedByMaxIn       []string                `json:"updatedByMax_in"`
+	UpdatedByNotIn       []string                `json:"updatedBy_not_in"`
+	UpdatedByMinNotIn    []string                `json:"updatedByMin_not_in"`
+	UpdatedByMaxNotIn    []string                `json:"updatedByMax_not_in"`
 	UpdatedByNull        *bool                   `json:"updatedBy_null"`
 	CreatedBy            *string                 `json:"createdBy"`
 	CreatedByMin         *string                 `json:"createdByMin"`
@@ -214,6 +235,9 @@ type PermissionFilterType struct {
 	CreatedByIn          []string                `json:"createdBy_in"`
 	CreatedByMinIn       []string                `json:"createdByMin_in"`
 	CreatedByMaxIn       []string                `json:"createdByMax_in"`
+	CreatedByNotIn       []string                `json:"createdBy_not_in"`
+	CreatedByMinNotIn    []string                `json:"createdByMin_not_in"`
+	CreatedByMaxNotIn    []string                `json:"createdByMax_not_in"`
 	CreatedByNull        *bool                   `json:"createdBy_null"`
 	Users                *UserFilterType         `json:"users"`
 	Roles                *RoleFilterType         `json:"roles"`
@@ -283,6 +307,9 @@ type ProfileFilterType struct {
 	IDIn                    []string             `json:"id_in"`
 	IDMinIn                 []string             `json:"idMin_in"`
 	IDMaxIn                 []string             `json:"idMax_in"`
+	IDNotIn                 []string             `json:"id_not_in"`
+	IDMinNotIn              []string             `json:"idMin_not_in"`
+	IDMaxNotIn              []string             `json:"idMax_not_in"`
 	IDNull                  *bool                `json:"id_null"`
 	Email                   *string              `json:"email"`
 	EmailMin                *string              `json:"emailMin"`
@@ -305,6 +332,9 @@ type ProfileFilterType struct {
 	EmailIn                 []string             `json:"email_in"`
 	EmailMinIn              []string             `json:"emailMin_in"`
 	EmailMaxIn              []string             `json:"emailMax_in"`
+	EmailNotIn              []string             `json:"email_not_in"`
+	EmailMinNotIn           []string             `json:"emailMin_not_in"`
+	EmailMaxNotIn           []string             `json:"emailMax_not_in"`
 	EmailLike               *string              `json:"email_like"`
 	EmailMinLike            *string              `json:"emailMin_like"`
 	EmailMaxLike            *string              `json:"emailMax_like"`
@@ -336,6 +366,9 @@ type ProfileFilterType struct {
 	ExternalUserIDIn        []string             `json:"externalUserId_in"`
 	ExternalUserIDMinIn     []string             `json:"externalUserIdMin_in"`
 	ExternalUserIDMaxIn     []string             `json:"externalUserIdMax_in"`
+	ExternalUserIDNotIn     []string             `json:"externalUserId_not_in"`
+	ExternalUserIDMinNotIn  []string             `json:"externalUserIdMin_not_in"`
+	ExternalUserIDMaxNotIn  []string             `json:"externalUserIdMax_not_in"`
 	ExternalUserIDLike      *string              `json:"externalUserId_like"`
 	ExternalUserIDMinLike   *string              `json:"externalUserIdMin_like"`
 	ExternalUserIDMaxLike   *string              `json:"externalUserIdMax_like"`
@@ -367,6 +400,9 @@ type ProfileFilterType struct {
 	ProviderIn              []string             `json:"provider_in"`
 	ProviderMinIn           []string             `json:"providerMin_in"`
 	ProviderMaxIn           []string             `json:"providerMax_in"`
+	ProviderNotIn           []string             `json:"provider_not_in"`
+	ProviderMinNotIn        []string             `json:"providerMin_not_in"`
+	ProviderMaxNotIn        []string             `json:"providerMax_not_in"`
 	ProviderLike            *string              `json:"provider_like"`
 	ProviderMinLike         *string              `json:"providerMin_like"`
 	ProviderMaxLike         *string              `json:"providerMax_like"`
@@ -398,6 +434,9 @@ type ProfileFilterType struct {
 	AvatarURLIn             []string             `json:"avatarURL_in"`
 	AvatarURLMinIn          []string             `json:"avatarURLMin_in"`
 	AvatarURLMaxIn          []string             `json:"avatarURLMax_in"`
+	AvatarURLNotIn          []string             `json:"avatarURL_not_in"`
+	AvatarURLMinNotIn       []string             `json:"avatarURLMin_not_in"`
+	AvatarURLMaxNotIn       []string             `json:"avatarURLMax_not_in"`
 	AvatarURLLike           *string              `json:"avatarURL_like"`
 	AvatarURLMinLike        *string              `json:"avatarURLMin_like"`
 	AvatarURLMaxLike        *string              `json:"avatarURLMax_like"`
@@ -429,6 +468,9 @@ type ProfileFilterType struct {
 	NameIn                  []string             `json:"name_in"`
 	NameMinIn               []string             `json:"nameMin_in"`
 	NameMaxIn               []string             `json:"nameMax_in"`
+	NameNotIn               []string             `json:"name_not_in"`
+	NameMinNotIn            []string             `json:"nameMin_not_in"`
+	NameMaxNotIn            []string             `json:"nameMax_not_in"`
 	NameLike                *string              `json:"name_like"`
 	NameMinLike             *string              `json:"nameMin_like"`
 	NameMaxLike             *string              `json:"nameMax_like"`
@@ -460,6 +502,9 @@ type ProfileFilterType struct {
 	FirstNameIn             []string             `json:"firstName_in"`
 	FirstNameMinIn          []string             `json:"firstNameMin_in"`
 	FirstNameMaxIn          []string             `json:"firstNameMax_in"`
+	FirstNameNotIn          []string             `json:"firstName_not_in"`
+	FirstNameMinNotIn       []string             `json:"firstNameMin_not_in"`
+	FirstNameMaxNotIn       []string             `json:"firstNameMax_not_in"`
 	FirstNameLike           *string              `json:"firstName_like"`
 	FirstNameMinLike        *string              `json:"firstNameMin_like"`
 	FirstNameMaxLike        *string              `json:"firstNameMax_like"`
@@ -491,6 +536,9 @@ type ProfileFilterType struct {
 	LastNameIn              []string             `json:"lastName_in"`
 	LastNameMinIn           []string             `json:"lastNameMin_in"`
 	LastNameMaxIn           []string             `json:"lastNameMax_in"`
+	LastNameNotIn           []string             `json:"lastName_not_in"`
+	LastNameMinNotIn        []string             `json:"lastNameMin_not_in"`
+	LastNameMaxNotIn        []string             `json:"lastNameMax_not_in"`
 	LastNameLike            *string              `json:"lastName_like"`
 	LastNameMinLike         *string              `json:"lastNameMin_like"`
 	LastNameMaxLike         *string              `json:"lastNameMax_like"`
@@ -522,6 +570,9 @@ type ProfileFilterType struct {
 	NickNameIn              []string             `json:"nickName_in"`
 	NickNameMinIn           []string             `json:"nickNameMin_in"`
 	NickNameMaxIn           []string             `json:"nickNameMax_in"`
+	NickNameNotIn           []string             `json:"nickName_not_in"`
+	NickNameMinNotIn        []string             `json:"nickNameMin_not_in"`
+	NickNameMaxNotIn        []string             `json:"nickNameMax_not_in"`
 	NickNameLike            *string              `json:"nickName_like"`
 	NickNameMinLike         *string              `json:"nickNameMin_like"`
 	NickNameMaxLike         *string              `json:"nickNameMax_like"`
@@ -553,6 +604,9 @@ type ProfileFilterType struct {
 	DescriptionIn           []string             `json:"description_in"`
 	DescriptionMinIn        []string             `json:"descriptionMin_in"`
 	DescriptionMaxIn        []string             `json:"descriptionMax_in"`
+	DescriptionNotIn        []string             `json:"description_not_in"`
+	DescriptionMinNotIn     []string             `json:"descriptionMin_not_in"`
+	DescriptionMaxNotIn     []string             `json:"descriptionMax_not_in"`
 	DescriptionLike         *string              `json:"description_like"`
 	DescriptionMinLike      *string              `json:"descriptionMin_like"`
 	DescriptionMaxLike      *string              `json:"descriptionMax_like"`
@@ -584,6 +638,9 @@ type ProfileFilterType struct {
 	LocationIn              []string             `json:"location_in"`
 	LocationMinIn           []string             `json:"locationMin_in"`
 	LocationMaxIn           []string             `json:"locationMax_in"`
+	LocationNotIn           []string             `json:"location_not_in"`
+	LocationMinNotIn        []string             `json:"locationMin_not_in"`
+	LocationMaxNotIn        []string             `json:"locationMax_not_in"`
 	LocationLike            *string              `json:"location_like"`
 	LocationMinLike         *string              `json:"locationMin_like"`
 	LocationMaxLike         *string              `json:"locationMax_like"`
@@ -615,6 +672,9 @@ type ProfileFilterType struct {
 	UpdatedAtIn             []*time.Time         `json:"updatedAt_in"`
 	UpdatedAtMinIn          []*time.Time         `json:"updatedAtMin_in"`
 	UpdatedAtMaxIn          []*time.Time         `json:"updatedAtMax_in"`
+	UpdatedAtNotIn          []*time.Time         `json:"updatedAt_not_in"`
+	UpdatedAtMinNotIn       []*time.Time         `json:"updatedAtMin_not_in"`
+	UpdatedAtMaxNotIn       []*time.Time         `json:"updatedAtMax_not_in"`
 	UpdatedAtNull           *bool                `json:"updatedAt_null"`
 	CreatedAt               *time.Time           `json:"createdAt"`
 	CreatedAtMin            *time.Time           `json:"createdAtMin"`
@@ -637,6 +697,9 @@ type ProfileFilterType struct {
 	CreatedAtIn             []*time.Time         `json:"createdAt_in"`
 	CreatedAtMinIn          []*time.Time         `json:"createdAtMin_in"`
 	CreatedAtMaxIn          []*time.Time         `json:"createdAtMax_in"`
+	CreatedAtNotIn          []*time.Time         `json:"createdAt_not_in"`
+	CreatedAtMinNotIn       []*time.Time         `json:"createdAtMin_not_in"`
+	CreatedAtMaxNotIn       []*time.Time         `json:"createdAtMax_not_in"`
 	CreatedAtNull           *bool                `json:"createdAt_null"`
 	UpdatedBy               *string              `json:"updatedBy"`
 	UpdatedByMin            *string              `json:"updatedByMin"`
@@ -659,6 +722,9 @@ type ProfileFilterType struct {
 	UpdatedByIn             []string             `json:"updatedBy_in"`
 	UpdatedByMinIn          []string             `json:"updatedByMin_in"`
 	UpdatedByMaxIn          []string             `json:"updatedByMax_in"`
+	UpdatedByNotIn          []string             `json:"updatedBy_not_in"`
+	UpdatedByMinNotIn       []string             `json:"updatedByMin_not_in"`
+	UpdatedByMaxNotIn       []string             `json:"updatedByMax_not_in"`
 	UpdatedByNull           *bool                `json:"updatedBy_null"`
 	CreatedBy               *string              `json:"createdBy"`
 	CreatedByMin            *string              `json:"createdByMin"`
@@ -681,6 +747,9 @@ type ProfileFilterType struct {
 	CreatedByIn             []string             `json:"createdBy_in"`
 	CreatedByMinIn          []string             `json:"createdByMin_in"`
 	CreatedByMaxIn          []string             `json:"createdByMax_in"`
+	CreatedByNotIn          []string             `json:"createdBy_not_in"`
+	CreatedByMinNotIn       []string             `json:"createdByMin_not_in"`
+	CreatedByMaxNotIn       []string             `json:"createdByMax_not_in"`
 	CreatedByNull           *bool                `json:"createdBy_null"`
 	Users                   *UserFilterType      `json:"users"`
 }
@@ -761,6 +830,9 @@ type RoleFilterType struct {
 	IDIn                 []string              `json:"id_in"`
 	IDMinIn              []string              `json:"idMin_in"`
 	IDMaxIn              []string              `json:"idMax_in"`
+	IDNotIn              []string              `json:"id_not_in"`
+	IDMinNotIn           []string              `json:"idMin_not_in"`
+	IDMaxNotIn           []string              `json:"idMax_not_in"`
 	IDNull               *bool                 `json:"id_null"`
 	Domain               *string               `json:"domain"`
 	DomainMin            *string               `json:"domainMin"`
@@ -783,6 +855,9 @@ type RoleFilterType struct {
 	DomainIn             []string              `json:"domain_in"`
 	DomainMinIn          []string              `json:"domainMin_in"`
 	DomainMaxIn          []string              `json:"domainMax_in"`
+	DomainNotIn          []string              `json:"domain_not_in"`
+	DomainMinNotIn       []string              `json:"domainMin_not_in"`
+	DomainMaxNotIn       []string              `json:"domainMax_not_in"`
 	DomainLike           *string               `json:"domain_like"`
 	DomainMinLike        *string               `json:"domainMin_like"`
 	DomainMaxLike        *string               `json:"domainMax_like"`
@@ -814,6 +889,9 @@ type RoleFilterType struct {
 	NameIn               []string              `json:"name_in"`
 	NameMinIn            []string              `json:"nameMin_in"`
 	NameMaxIn            []string              `json:"nameMax_in"`
+	NameNotIn            []string              `json:"name_not_in"`
+	NameMinNotIn         []string              `json:"nameMin_not_in"`
+	NameMaxNotIn         []string              `json:"nameMax_not_in"`
 	NameLike             *string               `json:"name_like"`
 	NameMinLike          *string               `json:"nameMin_like"`
 	NameMaxLike          *string               `json:"nameMax_like"`
@@ -845,6 +923,9 @@ type RoleFilterType struct {
 	DescriptionIn        []string              `json:"description_in"`
 	DescriptionMinIn     []string              `json:"descriptionMin_in"`
 	DescriptionMaxIn     []string              `json:"descriptionMax_in"`
+	DescriptionNotIn     []string              `json:"description_not_in"`
+	DescriptionMinNotIn  []string              `json:"descriptionMin_not_in"`
+	DescriptionMaxNotIn  []string              `json:"descriptionMax_not_in"`
 	DescriptionLike      *string               `json:"description_like"`
 	DescriptionMinLike   *string               `json:"descriptionMin_like"`
 	DescriptionMaxLike   *string               `json:"descriptionMax_like"`
@@ -876,6 +957,9 @@ type RoleFilterType struct {
 	UpdatedAtIn          []*time.Time          `json:"updatedAt_in"`
 	UpdatedAtMinIn       []*time.Time          `json:"updatedAtMin_in"`
 	UpdatedAtMaxIn       []*time.Time          `json:"updatedAtMax_in"`
+	UpdatedAtNotIn       []*time.Time          `json:"updatedAt_not_in"`
+	UpdatedAtMinNotIn    []*time.Time          `json:"updatedAtMin_not_in"`
+	UpdatedAtMaxNotIn    []*time.Time          `json:"updatedAtMax_not_in"`
 	UpdatedAtNull        *bool                 `json:"updatedAt_null"`
 	CreatedAt            *time.Time            `json:"createdAt"`
 	CreatedAtMin         *time.Time            `json:"createdAtMin"`
@@ -898,6 +982,9 @@ type RoleFilterType struct {
 	CreatedAtIn          []*time.Time          `json:"createdAt_in"`
 	CreatedAtMinIn       []*time.Time          `json:"createdAtMin_in"`
 	CreatedAtMaxIn       []*time.Time          `json:"createdAtMax_in"`
+	CreatedAtNotIn       []*time.Time          `json:"createdAt_not_in"`
+	CreatedAtMinNotIn    []*time.Time          `json:"createdAtMin_not_in"`
+	CreatedAtMaxNotIn    []*time.Time          `json:"createdAtMax_not_in"`
 	CreatedAtNull        *bool                 `json:"createdAt_null"`
 	UpdatedBy            *string               `json:"updatedBy"`
 	UpdatedByMin         *string               `json:"updatedByMin"`
@@ -920,6 +1007,9 @@ type RoleFilterType struct {
 	UpdatedByIn          []string              `json:"updatedBy_in"`
 	UpdatedByMinIn       []string              `json:"updatedByMin_in"`
 	UpdatedByMaxIn       []string              `json:"updatedByMax_in"`
+	UpdatedByNotIn       []string              `json:"updatedBy_not_in"`
+	UpdatedByMinNotIn    []string              `json:"updatedByMin_not_in"`
+	UpdatedByMaxNotIn    []string              `json:"updatedByMax_not_in"`
 	UpdatedByNull        *bool                 `json:"updatedBy_null"`
 	CreatedBy            *string               `json:"createdBy"`
 	CreatedByMin         *string               `json:"createdByMin"`
@@ -942,6 +1032,9 @@ type RoleFilterType struct {
 	CreatedByIn          []string              `json:"createdBy_in"`
 	CreatedByMinIn       []string              `json:"createdByMin_in"`
 	CreatedByMaxIn       []string              `json:"createdByMax_in"`
+	CreatedByNotIn       []string              `json:"createdBy_not_in"`
+	CreatedByMinNotIn    []string              `json:"createdByMin_not_in"`
+	CreatedByMaxNotIn    []string              `json:"createdByMax_not_in"`
 	CreatedByNull        *bool                 `json:"createdBy_null"`
 	Users                *UserFilterType       `json:"users"`
 	Parents              *RoleFilterType       `json:"parents"`
@@ -1016,6 +1109,9 @@ type UserAPIKeyFilterType struct {
 	IDIn                 []string                `json:"id_in"`
 	IDMinIn              []string                `json:"idMin_in"`
 	IDMaxIn              []string                `json:"idMax_in"`
+	IDNotIn              []string                `json:"id_not_in"`
+	IDMinNotIn           []string                `json:"idMin_not_in"`
+	IDMaxNotIn           []string                `json:"idMax_not_in"`
 	IDNull               *bool                   `json:"id_null"`
 	Key                  *string                 `json:"key"`
 	KeyMin               *string                 `json:"keyMin"`
@@ -1038,6 +1134,9 @@ type UserAPIKeyFilterType struct {
 	KeyIn                []string                `json:"key_in"`
 	KeyMinIn             []string                `json:"keyMin_in"`
 	KeyMaxIn             []string                `json:"keyMax_in"`
+	KeyNotIn             []string                `json:"key_not_in"`
+	KeyMinNotIn          []string                `json:"keyMin_not_in"`
+	KeyMaxNotIn          []string                `json:"keyMax_not_in"`
 	KeyLike              *string                 `json:"key_like"`
 	KeyMinLike           *string                 `json:"keyMin_like"`
 	KeyMaxLike           *string                 `json:"keyMax_like"`
@@ -1069,6 +1168,9 @@ type UserAPIKeyFilterType struct {
 	DescriptionIn        []string                `json:"description_in"`
 	DescriptionMinIn     []string                `json:"descriptionMin_in"`
 	DescriptionMaxIn     []string                `json:"descriptionMax_in"`
+	DescriptionNotIn     []string                `json:"description_not_in"`
+	DescriptionMinNotIn  []string                `json:"descriptionMin_not_in"`
+	DescriptionMaxNotIn  []string                `json:"descriptionMax_not_in"`
 	DescriptionLike      *string                 `json:"description_like"`
 	DescriptionMinLike   *string                 `json:"descriptionMin_like"`
 	DescriptionMaxLike   *string                 `json:"descriptionMax_like"`
@@ -1100,6 +1202,9 @@ type UserAPIKeyFilterType struct {
 	UserIDIn             []string                `json:"userId_in"`
 	UserIDMinIn          []string                `json:"userIdMin_in"`
 	UserIDMaxIn          []string                `json:"userIdMax_in"`
+	UserIDNotIn          []string                `json:"userId_not_in"`
+	UserIDMinNotIn       []string                `json:"userIdMin_not_in"`
+	UserIDMaxNotIn       []string                `json:"userIdMax_not_in"`
 	UserIDNull           *bool                   `json:"userId_null"`
 	UpdatedAt            *time.Time              `json:"updatedAt"`
 	UpdatedAtMin         *time.Time              `json:"updatedAtMin"`
@@ -1122,6 +1227,9 @@ type UserAPIKeyFilterType struct {
 	UpdatedAtIn          []*time.Time            `json:"updatedAt_in"`
 	UpdatedAtMinIn       []*time.Time            `json:"updatedAtMin_in"`
 	UpdatedAtMaxIn       []*time.Time            `json:"updatedAtMax_in"`
+	UpdatedAtNotIn       []*time.Time            `json:"updatedAt_not_in"`
+	UpdatedAtMinNotIn    []*time.Time            `json:"updatedAtMin_not_in"`
+	UpdatedAtMaxNotIn    []*time.Time            `json:"updatedAtMax_not_in"`
 	UpdatedAtNull        *bool                   `json:"updatedAt_null"`
 	CreatedAt            *time.Time              `json:"createdAt"`
 	CreatedAtMin         *time.Time              `json:"createdAtMin"`
@@ -1144,6 +1252,9 @@ type UserAPIKeyFilterType struct {
 	CreatedAtIn          []*time.Time            `json:"createdAt_in"`
 	CreatedAtMinIn       []*time.Time            `json:"createdAtMin_in"`
 	CreatedAtMaxIn       []*time.Time            `json:"createdAtMax_in"`
+	CreatedAtNotIn       []*time.Time            `json:"createdAt_not_in"`
+	CreatedAtMinNotIn    []*time.Time            `json:"createdAtMin_not_in"`
+	CreatedAtMaxNotIn    []*time.Time            `json:"createdAtMax_not_in"`
 	CreatedAtNull        *bool                   `json:"createdAt_null"`
 	UpdatedBy            *string                 `json:"updatedBy"`
 	UpdatedByMin         *string                 `json:"updatedByMin"`
@@ -1166,6 +1277,9 @@ type UserAPIKeyFilterType struct {
 	UpdatedByIn          []string                `json:"updatedBy_in"`
 	UpdatedByMinIn       []string                `json:"updatedByMin_in"`
 	UpdatedByMaxIn       []string                `json:"updatedByMax_in"`
+	UpdatedByNotIn       []string                `json:"updatedBy_not_in"`
+	UpdatedByMinNotIn    []string                `json:"updatedByMin_not_in"`
+	UpdatedByMaxNotIn    []string                `json:"updatedByMax_not_in"`
 	UpdatedByNull        *bool                   `json:"updatedBy_null"`
 	CreatedBy            *string                 `json:"createdBy"`
 	CreatedByMin         *string                 `json:"createdByMin"`
@@ -1188,6 +1302,9 @@ type UserAPIKeyFilterType struct {
 	CreatedByIn          []string                `json:"createdBy_in"`
 	CreatedByMinIn       []string                `json:"createdByMin_in"`
 	CreatedByMaxIn       []string                `json:"createdByMax_in"`
+	CreatedByNotIn       []string                `json:"createdBy_not_in"`
+	CreatedByMinNotIn    []string                `json:"createdByMin_not_in"`
+	CreatedByMaxNotIn    []string                `json:"createdByMax_not_in"`
 	CreatedByNull        *bool                   `json:"createdBy_null"`
 	User                 *UserFilterType         `json:"user"`
 	Permissions          *PermissionFilterType   `json:"permissions"`
@@ -1249,6 +1366,9 @@ type UserFilterType struct {
 	IDIn                 []string              `json:"id_in"`
 	IDMinIn              []string              `json:"idMin_in"`
 	IDMaxIn              []string              `json:"idMax_in"`
+	IDNotIn              []string              `json:"id_not_in"`
+	IDMinNotIn           []string              `json:"idMin_not_in"`
+	IDMaxNotIn           []string              `json:"idMax_not_in"`
 	IDNull               *bool                 `json:"id_null"`
 	Active               *bool                 `json:"active"`
 	ActiveMin            *bool                 `json:"activeMin"`
@@ -1271,6 +1391,9 @@ type UserFilterType struct {
 	ActiveIn             []bool                `json:"active_in"`
 	ActiveMinIn          []bool                `json:"activeMin_in"`
 	ActiveMaxIn          []bool                `json:"activeMax_in"`
+	ActiveNotIn          []bool                `json:"active_not_in"`
+	ActiveMinNotIn       []bool                `json:"activeMin_not_in"`
+	ActiveMaxNotIn       []bool                `json:"activeMax_not_in"`
 	ActiveNull           *bool                 `json:"active_null"`
 	Email                *string               `json:"email"`
 	EmailMin             *string               `json:"emailMin"`
@@ -1293,6 +1416,9 @@ type UserFilterType struct {
 	EmailIn              []string              `json:"email_in"`
 	EmailMinIn           []string              `json:"emailMin_in"`
 	EmailMaxIn           []string              `json:"emailMax_in"`
+	EmailNotIn           []string              `json:"email_not_in"`
+	EmailMinNotIn        []string              `json:"emailMin_not_in"`
+	EmailMaxNotIn        []string              `json:"emailMax_not_in"`
 	EmailLike            *string               `json:"email_like"`
 	EmailMinLike         *string               `json:"emailMin_like"`
 	EmailMaxLike         *string               `json:"emailMax_like"`
@@ -1324,6 +1450,9 @@ type UserFilterType struct {
 	PasswordIn           []string              `json:"password_in"`
 	PasswordMinIn        []string              `json:"passwordMin_in"`
 	PasswordMaxIn        []string              `json:"passwordMax_in"`
+	PasswordNotIn        []string              `json:"password_not_in"`
+	PasswordMinNotIn     []string              `json:"passwordMin_not_in"`
+	PasswordMaxNotIn     []string              `json:"passwordMax_not_in"`
 	PasswordLike         *string               `json:"password_like"`
 	PasswordMinLike      *string               `json:"passwordMin_like"`
 	PasswordMaxLike      *string               `json:"passwordMax_like"`
@@ -1355,6 +1484,9 @@ type UserFilterType struct {
 	AvatarURLIn          []string              `json:"avatarURL_in"`
 	AvatarURLMinIn       []string              `json:"avatarURLMin_in"`
 	AvatarURLMaxIn       []string              `json:"avatarURLMax_in"`
+	AvatarURLNotIn       []string              `json:"avatarURL_not_in"`
+	AvatarURLMinNotIn    []string              `json:"avatarURLMin_not_in"`
+	AvatarURLMaxNotIn    []string              `json:"avatarURLMax_not_in"`
 	AvatarURLLike        *string               `json:"avatarURL_like"`
 	AvatarURLMinLike     *string               `json:"avatarURLMin_like"`
 	AvatarURLMaxLike     *string               `json:"avatarURLMax_like"`
@@ -1386,6 +1518,9 @@ type UserFilterType struct {
 	DisplayNameIn        []string              `json:"displayName_in"`
 	DisplayNameMinIn     []string              `json:"displayNameMin_in"`
 	DisplayNameMaxIn     []string              `json:"displayNameMax_in"`
+	DisplayNameNotIn     []string              `json:"displayName_not_in"`
+	DisplayNameMinNotIn  []string              `json:"displayNameMin_not_in"`
+	DisplayNameMaxNotIn  []string              `json:"displayNameMax_not_in"`
 	DisplayNameLike      *string               `json:"displayName_like"`
 	DisplayNameMinLike   *string               `json:"displayNameMin_like"`
 	DisplayNameMaxLike   *string               `json:"displayNameMax_like"`
@@ -1417,6 +1552,9 @@ type UserFilterType struct {
 	DescriptionIn        []string              `json:"description_in"`
 	DescriptionMinIn     []string              `json:"descriptionMin_in"`
 	DescriptionMaxIn     []string              `json:"descriptionMax_in"`
+	DescriptionNotIn     []string              `json:"description_not_in"`
+	DescriptionMinNotIn  []string              `json:"descriptionMin_not_in"`
+	DescriptionMaxNotIn  []string              `json:"descriptionMax_not_in"`
 	DescriptionLike      *string               `json:"description_like"`
 	DescriptionMinLike   *string               `json:"descriptionMin_like"`
 	DescriptionMaxLike   *string               `json:"descriptionMax_like"`
@@ -1448,6 +1586,9 @@ type UserFilterType struct {
 	FirstNameIn          []string              `json:"firstName_in"`
 	FirstNameMinIn       []string              `json:"firstNameMin_in"`
 	FirstNameMaxIn       []string              `json:"firstNameMax_in"`
+	FirstNameNotIn       []string              `json:"firstName_not_in"`
+	FirstNameMinNotIn    []string              `json:"firstNameMin_not_in"`
+	FirstNameMaxNotIn    []string              `json:"firstNameMax_not_in"`
 	FirstNameLike        *string               `json:"firstName_like"`
 	FirstNameMinLike     *string               `json:"firstNameMin_like"`
 	FirstNameMaxLike     *string               `json:"firstNameMax_like"`
@@ -1479,6 +1620,9 @@ type UserFilterType struct {
 	LastNameIn           []string              `json:"lastName_in"`
 	LastNameMinIn        []string              `json:"lastNameMin_in"`
 	LastNameMaxIn        []string              `json:"lastNameMax_in"`
+	LastNameNotIn        []string              `json:"lastName_not_in"`
+	LastNameMinNotIn     []string              `json:"lastNameMin_not_in"`
+	LastNameMaxNotIn     []string              `json:"lastNameMax_not_in"`
 	LastNameLike         *string               `json:"lastName_like"`
 	LastNameMinLike      *string               `json:"lastNameMin_like"`
 	LastNameMaxLike      *string               `json:"lastNameMax_like"`
@@ -1510,6 +1654,9 @@ type UserFilterType struct {
 	NickNameIn           []string              `json:"nickName_in"`
 	NickNameMinIn        []string              `json:"nickNameMin_in"`
 	NickNameMaxIn        []string              `json:"nickNameMax_in"`
+	NickNameNotIn        []string              `json:"nickName_not_in"`
+	NickNameMinNotIn     []string              `json:"nickNameMin_not_in"`
+	NickNameMaxNotIn     []string              `json:"nickNameMax_not_in"`
 	NickNameLike         *string               `json:"nickName_like"`
 	NickNameMinLike      *string               `json:"nickNameMin_like"`
 	NickNameMaxLike      *string               `json:"nickNameMax_like"`
@@ -1541,6 +1688,9 @@ type UserFilterType struct {
 	LocationIn           []string              `json:"location_in"`
 	LocationMinIn        []string              `json:"locationMin_in"`
 	LocationMaxIn        []string              `json:"locationMax_in"`
+	LocationNotIn        []string              `json:"location_not_in"`
+	LocationMinNotIn     []string              `json:"locationMin_not_in"`
+	LocationMaxNotIn     []string              `json:"locationMax_not_in"`
 	LocationLike         *string               `json:"location_like"`
 	LocationMinLike      *string               `json:"locationMin_like"`
 	LocationMaxLike      *string               `json:"locationMax_like"`
@@ -1572,6 +1722,9 @@ type UserFilterType struct {
 	UpdatedAtIn          []*time.Time          `json:"updatedAt_in"`
 	UpdatedAtMinIn       []*time.Time          `json:"updatedAtMin_in"`
 	UpdatedAtMaxIn       []*time.Time          `json:"updatedAtMax_in"`
+	UpdatedAtNotIn       []*time.Time          `json:"updatedAt_not_in"`
+	UpdatedAtMinNotIn    []*time.Time          `json:"updatedAtMin_not_in"`
+	UpdatedAtMaxNotIn    []*time.Time          `json:"updatedAtMax_not_in"`
 	UpdatedAtNull        *bool                 `json:"updatedAt_null"`
 	CreatedAt            *time.Time            `json:"createdAt"`
 	CreatedAtMin         *time.Time            `json:"createdAtMin"`
@@ -1594,6 +1747,9 @@ type UserFilterType struct {
 	CreatedAtIn          []*time.Time          `json:"createdAt_in"`
 	CreatedAtMinIn       []*time.Time          `json:"createdAtMin_in"`
 	CreatedAtMaxIn       []*time.Time          `json:"createdAtMax_in"`
+	CreatedAtNotIn       []*time.Time          `json:"createdAt_not_in"`
+	CreatedAtMinNotIn    []*time.Time          `json:"createdAtMin_not_in"`
+	CreatedAtMaxNotIn    []*time.Time          `json:"createdAtMax_not_in"`
 	CreatedAtNull        *bool                 `json:"createdAt_null"`
 	UpdatedBy            *string               `json:"updatedBy"`
 	UpdatedByMin         *string               `json:"updatedByMin"`
@@ -1616,6 +1772,9 @@ type UserFilterType struct {
 	UpdatedByIn          []string              `json:"updatedBy_in"`
 	UpdatedByMinIn       []string              `json:"updatedByMin_in"`
 	UpdatedByMaxIn       []string              `json:"updatedByMax_in"`
+	UpdatedByNotIn       []string              `json:"updatedBy_not_in"`
+	UpdatedByMinNotIn    []string              `json:"updatedByMin_not_in"`
+	UpdatedByMaxNotIn    []string              `json:"updatedByMax_not_in"`
 	UpdatedByNull        *bool                 `json:"updatedBy_null"`
 	CreatedBy            *string               `json:"createdBy"`
 	CreatedByMin         *string               `json:"createdByMin"`
@@ -1638,6 +1797,9 @@ type UserFilterType struct {
 	CreatedByIn          []string              `json:"createdBy_in"`
 	CreatedByMinIn       []string              `json:"createdByMin_in"`
 	CreatedByMaxIn       []string              `json:"createdByMax_in"`
+	CreatedByNotIn       []string              `json:"createdBy_not_in"`
+	CreatedByMinNotIn    []string              `json:"createdByMin_not_in"`
+	CreatedByMaxNotIn    []string              `json:"createdByMax_not_in"`
 	CreatedByNull        *bool                 `json:"createdBy_null"`
 	Apikeys              *UserAPIKeyFilterType `json:"apikeys"`
 	Roles                *RoleFilterType       `json:"roles"`

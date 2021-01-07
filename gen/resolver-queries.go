@@ -49,9 +49,6 @@ func QueryUserHandler(ctx context.Context, r *GeneratedResolver, opts QueryUserH
 		},
 	}
 	qb := r.GetDB(ctx)
-	if qb == nil {
-		qb = r.DB.Query()
-	}
 	if opts.ID != nil {
 		qb = qb.Where(TableName("users")+".id = ?", *opts.ID)
 	}
@@ -85,7 +82,7 @@ type QueryUsersHandlerOptions struct {
 	Filter *UserFilterType
 }
 
-// Users ...
+// Users handler options
 func (r *GeneratedQueryResolver) Users(ctx context.Context, offset *int, limit *int, q *string, sort []*UserSortType, filter *UserFilterType) (*UserResultType, error) {
 	opts := QueryUsersHandlerOptions{
 		Offset: offset,
@@ -95,6 +92,32 @@ func (r *GeneratedQueryResolver) Users(ctx context.Context, offset *int, limit *
 		Filter: filter,
 	}
 	return r.Handlers.QueryUsers(ctx, r.GeneratedResolver, opts)
+}
+
+// UsersItems handler
+func (r *GeneratedResolver) UsersItems(ctx context.Context, opts QueryUsersHandlerOptions) (res []*User, err error) {
+	resultType, err := r.Handlers.QueryUsers(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	err = resultType.GetItems(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("users"),
+	}, &res)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// UsersCount handler
+func (r *GeneratedResolver) UsersCount(ctx context.Context, opts QueryUsersHandlerOptions) (count int, err error) {
+	resultType, err := r.Handlers.QueryUsers(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	return resultType.GetCount(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("users"),
+	}, &User{})
 }
 
 // QueryUsersHandler handler
@@ -139,7 +162,7 @@ func (r *GeneratedUserResultTypeResolver) Items(ctx context.Context, obj *UserRe
 			"Permissions",
 		},
 	}
-	err = obj.GetItems(ctx, r.DB.db, otps, &items)
+	err = obj.GetItems(ctx, r.GetDB(ctx), otps, &items)
 
 	for _, item := range items {
 
@@ -172,7 +195,7 @@ func (r *GeneratedUserResultTypeResolver) Count(ctx context.Context, obj *UserRe
 			"Permissions",
 		},
 	}
-	return obj.GetCount(ctx, r.DB.db, opts, &User{})
+	return obj.GetCount(ctx, r.GetDB(ctx), opts, &User{})
 }
 
 // GeneratedUserResolver struct
@@ -192,9 +215,6 @@ func UserApikeysHandler(ctx context.Context, r *GeneratedResolver, obj *User) (r
 
 		items := []*UserAPIKey{}
 		db := r.GetDB(ctx)
-		if db == nil {
-			db = r.DB.Query()
-		}
 		err = db.Model(obj).Related(&items, "Apikeys").Error
 		res = items
 
@@ -209,9 +229,6 @@ func (r *GeneratedUserResolver) ApikeysIds(ctx context.Context, obj *User) (ids 
 
 	items := []*UserAPIKey{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("user_api_keys")+".id").Related(&items, "Apikeys").Error
 
 	for _, item := range items {
@@ -262,9 +279,6 @@ func UserRolesHandler(ctx context.Context, r *GeneratedResolver, obj *User) (res
 
 		items := []*Role{}
 		db := r.GetDB(ctx)
-		if db == nil {
-			db = r.DB.Query()
-		}
 		err = db.Model(obj).Related(&items, "Roles").Error
 		res = items
 
@@ -279,9 +293,6 @@ func (r *GeneratedUserResolver) RolesIds(ctx context.Context, obj *User) (ids []
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("roles")+".id").Related(&items, "Roles").Error
 
 	for _, item := range items {
@@ -332,9 +343,6 @@ func UserProfilesHandler(ctx context.Context, r *GeneratedResolver, obj *User) (
 
 		items := []*Profile{}
 		db := r.GetDB(ctx)
-		if db == nil {
-			db = r.DB.Query()
-		}
 		err = db.Model(obj).Related(&items, "Profiles").Error
 		res = items
 
@@ -349,9 +357,6 @@ func (r *GeneratedUserResolver) ProfilesIds(ctx context.Context, obj *User) (ids
 
 	items := []*Profile{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("profiles")+".id").Related(&items, "Profiles").Error
 
 	for _, item := range items {
@@ -402,9 +407,6 @@ func UserPermissionsHandler(ctx context.Context, r *GeneratedResolver, obj *User
 
 		items := []*Permission{}
 		db := r.GetDB(ctx)
-		if db == nil {
-			db = r.DB.Query()
-		}
 		err = db.Model(obj).Related(&items, "Permissions").Error
 		res = items
 
@@ -419,9 +421,6 @@ func (r *GeneratedUserResolver) PermissionsIds(ctx context.Context, obj *User) (
 
 	items := []*Permission{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("permissions")+".id").Related(&items, "Permissions").Error
 
 	for _, item := range items {
@@ -496,9 +495,6 @@ func QueryUserAPIKeyHandler(ctx context.Context, r *GeneratedResolver, opts Quer
 		},
 	}
 	qb := r.GetDB(ctx)
-	if qb == nil {
-		qb = r.DB.Query()
-	}
 	if opts.ID != nil {
 		qb = qb.Where(TableName("user_api_keys")+".id = ?", *opts.ID)
 	}
@@ -530,7 +526,7 @@ type QueryUserAPIKeysHandlerOptions struct {
 	Filter *UserAPIKeyFilterType
 }
 
-// UserAPIKeys ...
+// UserAPIKeys handler options
 func (r *GeneratedQueryResolver) UserAPIKeys(ctx context.Context, offset *int, limit *int, q *string, sort []*UserAPIKeySortType, filter *UserAPIKeyFilterType) (*UserAPIKeyResultType, error) {
 	opts := QueryUserAPIKeysHandlerOptions{
 		Offset: offset,
@@ -540,6 +536,32 @@ func (r *GeneratedQueryResolver) UserAPIKeys(ctx context.Context, offset *int, l
 		Filter: filter,
 	}
 	return r.Handlers.QueryUserAPIKeys(ctx, r.GeneratedResolver, opts)
+}
+
+// UserAPIKeysItems handler
+func (r *GeneratedResolver) UserAPIKeysItems(ctx context.Context, opts QueryUserAPIKeysHandlerOptions) (res []*UserAPIKey, err error) {
+	resultType, err := r.Handlers.QueryUserAPIKeys(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	err = resultType.GetItems(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("user_api_keys"),
+	}, &res)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// UserAPIKeysCount handler
+func (r *GeneratedResolver) UserAPIKeysCount(ctx context.Context, opts QueryUserAPIKeysHandlerOptions) (count int, err error) {
+	resultType, err := r.Handlers.QueryUserAPIKeys(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	return resultType.GetCount(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("user_api_keys"),
+	}, &UserAPIKey{})
 }
 
 // QueryUserAPIKeysHandler handler
@@ -582,7 +604,7 @@ func (r *GeneratedUserAPIKeyResultTypeResolver) Items(ctx context.Context, obj *
 			"Permissions",
 		},
 	}
-	err = obj.GetItems(ctx, r.DB.db, otps, &items)
+	err = obj.GetItems(ctx, r.GetDB(ctx), otps, &items)
 
 	for _, item := range items {
 
@@ -611,7 +633,7 @@ func (r *GeneratedUserAPIKeyResultTypeResolver) Count(ctx context.Context, obj *
 			"Permissions",
 		},
 	}
-	return obj.GetCount(ctx, r.DB.db, opts, &UserAPIKey{})
+	return obj.GetCount(ctx, r.GetDB(ctx), opts, &UserAPIKey{})
 }
 
 // GeneratedUserAPIKeyResolver struct
@@ -656,9 +678,6 @@ func UserAPIKeyPermissionsHandler(ctx context.Context, r *GeneratedResolver, obj
 
 		items := []*Permission{}
 		db := r.GetDB(ctx)
-		if db == nil {
-			db = r.DB.Query()
-		}
 		err = db.Model(obj).Related(&items, "Permissions").Error
 		res = items
 
@@ -673,9 +692,6 @@ func (r *GeneratedUserAPIKeyResolver) PermissionsIds(ctx context.Context, obj *U
 
 	items := []*Permission{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("permissions")+".id").Related(&items, "Permissions").Error
 
 	for _, item := range items {
@@ -750,9 +766,6 @@ func QueryProfileHandler(ctx context.Context, r *GeneratedResolver, opts QueryPr
 		},
 	}
 	qb := r.GetDB(ctx)
-	if qb == nil {
-		qb = r.DB.Query()
-	}
 	if opts.ID != nil {
 		qb = qb.Where(TableName("profiles")+".id = ?", *opts.ID)
 	}
@@ -781,7 +794,7 @@ type QueryProfilesHandlerOptions struct {
 	Filter *ProfileFilterType
 }
 
-// Profiles ...
+// Profiles handler options
 func (r *GeneratedQueryResolver) Profiles(ctx context.Context, offset *int, limit *int, q *string, sort []*ProfileSortType, filter *ProfileFilterType) (*ProfileResultType, error) {
 	opts := QueryProfilesHandlerOptions{
 		Offset: offset,
@@ -791,6 +804,32 @@ func (r *GeneratedQueryResolver) Profiles(ctx context.Context, offset *int, limi
 		Filter: filter,
 	}
 	return r.Handlers.QueryProfiles(ctx, r.GeneratedResolver, opts)
+}
+
+// ProfilesItems handler
+func (r *GeneratedResolver) ProfilesItems(ctx context.Context, opts QueryProfilesHandlerOptions) (res []*Profile, err error) {
+	resultType, err := r.Handlers.QueryProfiles(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	err = resultType.GetItems(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("profiles"),
+	}, &res)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// ProfilesCount handler
+func (r *GeneratedResolver) ProfilesCount(ctx context.Context, opts QueryProfilesHandlerOptions) (count int, err error) {
+	resultType, err := r.Handlers.QueryProfiles(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	return resultType.GetCount(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("profiles"),
+	}, &Profile{})
 }
 
 // QueryProfilesHandler handler
@@ -830,7 +869,7 @@ func (r *GeneratedProfileResultTypeResolver) Items(ctx context.Context, obj *Pro
 		Alias:      TableName("profiles"),
 		Preloaders: []string{},
 	}
-	err = obj.GetItems(ctx, r.DB.db, otps, &items)
+	err = obj.GetItems(ctx, r.GetDB(ctx), otps, &items)
 
 	uniqueItems := []*Profile{}
 	idMap := map[string]bool{}
@@ -850,7 +889,7 @@ func (r *GeneratedProfileResultTypeResolver) Count(ctx context.Context, obj *Pro
 		Alias:      TableName("profiles"),
 		Preloaders: []string{},
 	}
-	return obj.GetCount(ctx, r.DB.db, opts, &Profile{})
+	return obj.GetCount(ctx, r.GetDB(ctx), opts, &Profile{})
 }
 
 // GeneratedProfileResolver struct
@@ -866,9 +905,6 @@ func ProfileUsersHandler(ctx context.Context, r *GeneratedResolver, obj *Profile
 
 	items := []*User{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Users").Error
 	res = items
 
@@ -881,9 +917,6 @@ func (r *GeneratedProfileResolver) UsersIds(ctx context.Context, obj *Profile) (
 
 	items := []*User{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("users")+".id").Related(&items, "Users").Error
 
 	for _, item := range items {
@@ -958,9 +991,6 @@ func QueryRoleHandler(ctx context.Context, r *GeneratedResolver, opts QueryRoleH
 		},
 	}
 	qb := r.GetDB(ctx)
-	if qb == nil {
-		qb = r.DB.Query()
-	}
 	if opts.ID != nil {
 		qb = qb.Where(TableName("roles")+".id = ?", *opts.ID)
 	}
@@ -989,7 +1019,7 @@ type QueryRolesHandlerOptions struct {
 	Filter *RoleFilterType
 }
 
-// Roles ...
+// Roles handler options
 func (r *GeneratedQueryResolver) Roles(ctx context.Context, offset *int, limit *int, q *string, sort []*RoleSortType, filter *RoleFilterType) (*RoleResultType, error) {
 	opts := QueryRolesHandlerOptions{
 		Offset: offset,
@@ -999,6 +1029,32 @@ func (r *GeneratedQueryResolver) Roles(ctx context.Context, offset *int, limit *
 		Filter: filter,
 	}
 	return r.Handlers.QueryRoles(ctx, r.GeneratedResolver, opts)
+}
+
+// RolesItems handler
+func (r *GeneratedResolver) RolesItems(ctx context.Context, opts QueryRolesHandlerOptions) (res []*Role, err error) {
+	resultType, err := r.Handlers.QueryRoles(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	err = resultType.GetItems(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("roles"),
+	}, &res)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// RolesCount handler
+func (r *GeneratedResolver) RolesCount(ctx context.Context, opts QueryRolesHandlerOptions) (count int, err error) {
+	resultType, err := r.Handlers.QueryRoles(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	return resultType.GetCount(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("roles"),
+	}, &Role{})
 }
 
 // QueryRolesHandler handler
@@ -1038,7 +1094,7 @@ func (r *GeneratedRoleResultTypeResolver) Items(ctx context.Context, obj *RoleRe
 		Alias:      TableName("roles"),
 		Preloaders: []string{},
 	}
-	err = obj.GetItems(ctx, r.DB.db, otps, &items)
+	err = obj.GetItems(ctx, r.GetDB(ctx), otps, &items)
 
 	uniqueItems := []*Role{}
 	idMap := map[string]bool{}
@@ -1058,7 +1114,7 @@ func (r *GeneratedRoleResultTypeResolver) Count(ctx context.Context, obj *RoleRe
 		Alias:      TableName("roles"),
 		Preloaders: []string{},
 	}
-	return obj.GetCount(ctx, r.DB.db, opts, &Role{})
+	return obj.GetCount(ctx, r.GetDB(ctx), opts, &Role{})
 }
 
 // GeneratedRoleResolver struct
@@ -1074,9 +1130,6 @@ func RoleUsersHandler(ctx context.Context, r *GeneratedResolver, obj *Role) (res
 
 	items := []*User{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Users").Error
 	res = items
 
@@ -1089,9 +1142,6 @@ func (r *GeneratedRoleResolver) UsersIds(ctx context.Context, obj *Role) (ids []
 
 	items := []*User{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("users")+".id").Related(&items, "Users").Error
 
 	for _, item := range items {
@@ -1138,9 +1188,6 @@ func RoleParentsHandler(ctx context.Context, r *GeneratedResolver, obj *Role) (r
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Parents").Error
 	res = items
 
@@ -1153,9 +1200,6 @@ func (r *GeneratedRoleResolver) ParentsIds(ctx context.Context, obj *Role) (ids 
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("roles")+".id").Related(&items, "Parents").Error
 
 	for _, item := range items {
@@ -1202,9 +1246,6 @@ func RoleChildrenHandler(ctx context.Context, r *GeneratedResolver, obj *Role) (
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Children").Error
 	res = items
 
@@ -1217,9 +1258,6 @@ func (r *GeneratedRoleResolver) ChildrenIds(ctx context.Context, obj *Role) (ids
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("roles")+".id").Related(&items, "Children").Error
 
 	for _, item := range items {
@@ -1266,9 +1304,6 @@ func RolePermissionsHandler(ctx context.Context, r *GeneratedResolver, obj *Role
 
 	items := []*Permission{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Permissions").Error
 	res = items
 
@@ -1281,9 +1316,6 @@ func (r *GeneratedRoleResolver) PermissionsIds(ctx context.Context, obj *Role) (
 
 	items := []*Permission{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("permissions")+".id").Related(&items, "Permissions").Error
 
 	for _, item := range items {
@@ -1358,9 +1390,6 @@ func QueryPermissionHandler(ctx context.Context, r *GeneratedResolver, opts Quer
 		},
 	}
 	qb := r.GetDB(ctx)
-	if qb == nil {
-		qb = r.DB.Query()
-	}
 	if opts.ID != nil {
 		qb = qb.Where(TableName("permissions")+".id = ?", *opts.ID)
 	}
@@ -1389,7 +1418,7 @@ type QueryPermissionsHandlerOptions struct {
 	Filter *PermissionFilterType
 }
 
-// Permissions ...
+// Permissions handler options
 func (r *GeneratedQueryResolver) Permissions(ctx context.Context, offset *int, limit *int, q *string, sort []*PermissionSortType, filter *PermissionFilterType) (*PermissionResultType, error) {
 	opts := QueryPermissionsHandlerOptions{
 		Offset: offset,
@@ -1399,6 +1428,32 @@ func (r *GeneratedQueryResolver) Permissions(ctx context.Context, offset *int, l
 		Filter: filter,
 	}
 	return r.Handlers.QueryPermissions(ctx, r.GeneratedResolver, opts)
+}
+
+// PermissionsItems handler
+func (r *GeneratedResolver) PermissionsItems(ctx context.Context, opts QueryPermissionsHandlerOptions) (res []*Permission, err error) {
+	resultType, err := r.Handlers.QueryPermissions(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	err = resultType.GetItems(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("permissions"),
+	}, &res)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// PermissionsCount handler
+func (r *GeneratedResolver) PermissionsCount(ctx context.Context, opts QueryPermissionsHandlerOptions) (count int, err error) {
+	resultType, err := r.Handlers.QueryPermissions(ctx, r, opts)
+	if err != nil {
+		return
+	}
+	return resultType.GetCount(ctx, r.GetDB(ctx), GetItemsOptions{
+		Alias: TableName("permissions"),
+	}, &Permission{})
 }
 
 // QueryPermissionsHandler handler
@@ -1438,7 +1493,7 @@ func (r *GeneratedPermissionResultTypeResolver) Items(ctx context.Context, obj *
 		Alias:      TableName("permissions"),
 		Preloaders: []string{},
 	}
-	err = obj.GetItems(ctx, r.DB.db, otps, &items)
+	err = obj.GetItems(ctx, r.GetDB(ctx), otps, &items)
 
 	uniqueItems := []*Permission{}
 	idMap := map[string]bool{}
@@ -1458,7 +1513,7 @@ func (r *GeneratedPermissionResultTypeResolver) Count(ctx context.Context, obj *
 		Alias:      TableName("permissions"),
 		Preloaders: []string{},
 	}
-	return obj.GetCount(ctx, r.DB.db, opts, &Permission{})
+	return obj.GetCount(ctx, r.GetDB(ctx), opts, &Permission{})
 }
 
 // GeneratedPermissionResolver struct
@@ -1474,9 +1529,6 @@ func PermissionUsersHandler(ctx context.Context, r *GeneratedResolver, obj *Perm
 
 	items := []*User{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Users").Error
 	res = items
 
@@ -1489,9 +1541,6 @@ func (r *GeneratedPermissionResolver) UsersIds(ctx context.Context, obj *Permiss
 
 	items := []*User{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("users")+".id").Related(&items, "Users").Error
 
 	for _, item := range items {
@@ -1538,9 +1587,6 @@ func PermissionRolesHandler(ctx context.Context, r *GeneratedResolver, obj *Perm
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Roles").Error
 	res = items
 
@@ -1553,9 +1599,6 @@ func (r *GeneratedPermissionResolver) RolesIds(ctx context.Context, obj *Permiss
 
 	items := []*Role{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("roles")+".id").Related(&items, "Roles").Error
 
 	for _, item := range items {
@@ -1602,9 +1645,6 @@ func PermissionApikeysHandler(ctx context.Context, r *GeneratedResolver, obj *Pe
 
 	items := []*UserAPIKey{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Related(&items, "Apikeys").Error
 	res = items
 
@@ -1617,9 +1657,6 @@ func (r *GeneratedPermissionResolver) ApikeysIds(ctx context.Context, obj *Permi
 
 	items := []*UserAPIKey{}
 	db := r.GetDB(ctx)
-	if db == nil {
-		db = r.DB.Query()
-	}
 	err = db.Model(obj).Select(TableName("user_api_keys")+".id").Related(&items, "Apikeys").Error
 
 	for _, item := range items {
