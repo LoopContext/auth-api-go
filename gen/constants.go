@@ -53,10 +53,6 @@ enum ObjectSortType {
   DESC
 }
 
-extend type Query {
-  login: String!
-}
-
 type User {
   id: ID!
   active: Boolean!

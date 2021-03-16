@@ -6,18 +6,19 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
-	"github.com/rs/cors"
-	"github.com/rs/zerolog/log"
-	"github.com/urfave/cli"
+	"github.com/rs/zerolog"
 
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/auth-api-go/src"
-
 	"github.com/loopcontext/auth-api-go/src/auth"
 	"github.com/loopcontext/auth-api-go/src/middleware"
 	"github.com/loopcontext/auth-api-go/src/utils"
+	"github.com/rs/cors"
+	"github.com/rs/zerolog/log"
+	"github.com/urfave/cli"
 )
 
 func main() {
@@ -59,6 +60,7 @@ var startCmd = cli.Command{
 		if err := startServer(cors, port); err != nil {
 			return cli.NewExitError(err.Error(), 1)
 		}
+
 		return nil
 	},
 }
@@ -72,6 +74,7 @@ var migrateCmd = cli.Command{
 			return cli.NewExitError(err.Error(), 1)
 		}
 		fmt.Println("migration complete")
+
 		return nil
 	},
 }
@@ -85,6 +88,7 @@ var automigrateCmd = cli.Command{
 			return cli.NewExitError(err.Error(), 1)
 		}
 		fmt.Println("migration complete")
+
 		return nil
 	},
 }
@@ -92,16 +96,30 @@ var automigrateCmd = cli.Command{
 func automigrate() error {
 	db := gen.NewDBFromEnvVars()
 	defer db.Close()
+
 	return db.AutoMigrate()
 }
 
 func migrate() error {
 	db := gen.NewDBFromEnvVars()
 	defer db.Close()
+
 	return db.Migrate(src.GetMigrations(db))
 }
 
+type CallerHook struct{}
+
+func (h CallerHook) Run(e *zerolog.Event, level zerolog.Level, msg string) {
+	switch level {
+	case zerolog.ErrorLevel, zerolog.FatalLevel, zerolog.PanicLevel, zerolog.DebugLevel:
+		e.Caller(3)
+	}
+}
+
 func startServer(enableCors bool, port string) error {
+	log.Logger = log.Hook(CallerHook{}).With().Logger()
+	// log.Logger = log.With().Caller().Logger()
+
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt)
 
@@ -113,24 +131,38 @@ func startServer(enableCors bool, port string) error {
 		return err
 	}
 
-	gqlBasePath := os.Getenv("API_GRAPHQL_BASE_RESOURCE")
+	gqlBasePath := utils.GetEnv("API_GRAPHQL_BASE_RESOURCE")
 	if gqlBasePath == "" {
 		gqlBasePath = "/graphql"
 	}
 
-	// secure the (i.e.) /v1/graphql route, but lets you go to playground
+	whiteList := map[string]bool{
+		utils.MustGet("API_VERSION") + gqlBasePath + "/playground": true,
+		utils.MustGet("API_VERSION") + "/auth/register":            true,
+		utils.MustGet("API_VERSION") + "/auth/login":               true,
+	}
+	for _, k := range strings.Split(utils.GetEnv("AUTH_PATH_WHITELIST"), ",") {
+		whiteList[utils.MustGet("API_VERSION")+"/"+k] = true
+	}
+	for _, k := range strings.Split(utils.MustGet("PROVIDER_KEYS"), ",") {
+		whiteList[utils.MustGet("API_VERSION")+"/auth/"+k] = true
+		whiteList[utils.MustGet("API_VERSION")+"/auth/"+k+"/callback"] = true
+	}
+
 	amw := middleware.AuthJWT{
 		DB:            db,
-		Path:          os.Getenv("API_VERSION") + gqlBasePath,
-		PathWhitelist: map[string]bool{os.Getenv("API_VERSION") + gqlBasePath + "/playground": true},
+		Path:          utils.MustGet("API_VERSION") + gqlBasePath,
+		PathWhitelist: whiteList,
 	}
 
 	mux := gen.GetHTTPServeMux(src.New(db, &eventController), db, src.GetMigrations(db))
 	mux.Use(amw.Middleware)
 
 	// Handlers for auth services and their callbacks
-	mux.HandleFunc(os.Getenv("API_VERSION")+"/auth/{"+string(utils.ProjectContextKeys.ProviderCtxKey)+"}", auth.Begin)
-	mux.HandleFunc(os.Getenv("API_VERSION")+"/auth/{"+string(utils.ProjectContextKeys.ProviderCtxKey)+"}/callback", auth.CallbackHandler(db))
+	mux.HandleFunc(utils.MustGet("API_VERSION")+"/auth/register", auth.Register(db))
+	mux.HandleFunc(utils.MustGet("API_VERSION")+"/auth/login", auth.Login(db))
+	mux.HandleFunc(utils.MustGet("API_VERSION")+"/auth/{"+string(utils.ProjectContextKeys.ProviderCtxKey)+"}", auth.Begin)
+	mux.HandleFunc(utils.MustGet("API_VERSION")+"/auth/{"+string(utils.ProjectContextKeys.ProviderCtxKey)+"}/callback", auth.CallbackHandler(db))
 
 	mux.HandleFunc("/healthcheck", func(res http.ResponseWriter, req *http.Request) {
 		if err := db.Ping(); err != nil {
@@ -139,6 +171,7 @@ func startServer(enableCors bool, port string) error {
 			if err != nil {
 				log.Error().Msg(err.Error())
 			}
+
 			return
 		}
 		res.WriteHeader(200)
@@ -158,7 +191,7 @@ func startServer(enableCors bool, port string) error {
 	h := &http.Server{Addr: ":" + port, Handler: handler}
 
 	go func() {
-		log.Info().Msgf("connect to http://localhost:%s%s%s/playground for GraphQL playground", port, os.Getenv("API_VERSION"), gqlBasePath)
+		log.Info().Msgf("connect to http://localhost:%s%s%s/playground for GraphQL playground", port, utils.MustGet("API_VERSION"), gqlBasePath)
 		log.Fatal().Err(h.ListenAndServe()).Send()
 	}()
 

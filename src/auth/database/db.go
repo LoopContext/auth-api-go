@@ -13,7 +13,8 @@ func FindUserByJWT(db *gen.DB, id string, email string, provider string) (*gen.U
 	u := &gen.User{}
 	if tx := tx.Preload("Roles").Preload("Roles.Permissions").Preload("Permissions").
 		Joins(`JOIN `+gen.TableName("profiles")+` p ON p."externalUserId" = ? AND p.provider = ?`, id, provider).
-		Joins(`JOIN `+gen.TableName("profile_users")+` pu ON pu."userId" = `+gen.TableName("users")+`.id AND pu."profileId" = p.id`).
+		Joins(`JOIN `+gen.TableName("profile_users")+` pu ON pu."userId" = `+gen.TableName("users")+
+			`.id AND pu."profileId" = p.id`).
 		Where(gen.TableName("users")+".email = ?", email).
 		First(u); tx.RecordNotFound() || tx.Error != nil {
 		return nil, tx.Error
@@ -25,9 +26,8 @@ func FindUserByJWT(db *gen.DB, id string, email string, provider string) (*gen.U
 func FindUserByAPIKey(db *gen.DB, apiKey string) (*gen.User, error) {
 	tx := db.Query()
 	u := &gen.User{}
-	if tx := tx.Preload("Apikeys").Preload("Roles").
-		Preload("Roles.Permissions").Preload("Permissions").
-		Joins(`JOIN `+gen.TableName("user_api_keys")+` uak ON "userId" = u.id`).
+	if tx := tx.Preload("Apikeys").Preload("Roles").Preload("Roles.Permissions").Preload("Permissions").
+		Joins(`JOIN `+gen.TableName("user_api_keys")+` uak ON uak."userId" = `+gen.TableName("users")+`.id`).
 		Where(`uak.key = ?`, apiKey).
 		First(u); tx.RecordNotFound() || tx.Error != nil {
 		return nil, tx.Error

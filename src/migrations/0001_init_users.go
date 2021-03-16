@@ -1,11 +1,12 @@
 package migrations
 
 import (
+	"os"
+	"strings"
+
 	"github.com/jinzhu/gorm"
 	"github.com/loopcontext/auth-api-go/gen"
 	"gopkg.in/gormigrate.v1"
-	"os"
-	"strings"
 )
 
 // InitUsers initial users of the api
@@ -24,6 +25,7 @@ func InitUsers(aid string) *gormigrate.Migration {
 		LastName:    &lname,
 		DisplayName: &dname,
 		NickName:    &nname,
+		Active:      true,
 		CreatedBy:   &aid, // self-reference
 	}
 	return &gormigrate.Migration{
@@ -35,5 +37,4 @@ func InitUsers(aid string) *gormigrate.Migration {
 			return tx.Delete(au).Error
 		},
 	}
-
 }

@@ -1,0 +1,6 @@
+default:
+  short: Error inesperado
+  long: Error inesperado con el con el código [{{0}}] ha sido solicitado y no encontrado en este catálogo.
+set:
+  1:
+    short: Este mensaje es en español

@@ -1,7 +1,3 @@
-extend type Query {
-  login: String!
-}
-
 type User @entity {
   active: Boolean! @column(default: false)
   email: String! @column(unique: true)

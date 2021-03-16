@@ -12,11 +12,13 @@ const (
 )
 
 // Users method
-func (r *QueryResolver) Users(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.UserSortType, filter *gen.UserFilterType) (*gen.UserResultType, error) {
+func (r *QueryResolver) Users(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.UserSortType,
+	filter *gen.UserFilterType) (*gen.UserResultType, error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstList[:1]) {
 		return r.GeneratedQueryResolver.Users(ctx, offset, limit, q, sort, filter)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstList, "users")
 }
 
@@ -26,39 +28,46 @@ func (r *MutationResolver) CreateUser(ctx context.Context, input map[string]inte
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstCreate[:1]) {
 		return r.GeneratedMutationResolver.CreateUser(ctx, input)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstCreate, "users")
 }
 
 // ReadUser method
 func (r *QueryResolver) User(ctx context.Context, id *string, q *string, filter *gen.UserFilterType) (*gen.User, error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
-	if !gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstRead[:1]) {
+	if !gen.HasRole(jwtClaims, "admin") &&
+		!gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstRead[:1]) && jwtClaims.Subject == *id {
 		return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstRead, "users")
 	}
 	if !gen.HasRole(jwtClaims, "admin") {
 		id = &jwtClaims.Subject
 	}
+
 	return r.GeneratedQueryResolver.User(ctx, id, q, filter)
 }
 
 // UpdateUser method
 func (r *MutationResolver) UpdateUser(ctx context.Context, id string, input map[string]interface{}) (item *gen.User, err error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
-	if !gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstUpdate[:1]) {
+	if !gen.HasRole(jwtClaims, "admin") &&
+		!gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstUpdate[:1]) && jwtClaims.Subject == id {
 		return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstUpdate, "users")
 	}
 	if !gen.HasRole(jwtClaims, "admin") {
 		id = jwtClaims.Subject
 	}
+
 	return r.GeneratedMutationResolver.UpdateUser(ctx, id, input)
 }
 
 // DeleteUser method
 func (r *MutationResolver) DeleteUser(ctx context.Context, id string) (item *gen.User, err error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
-	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstDelete[:1]) {
+	if !gen.HasRole(jwtClaims, "admin") &&
+		!gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstDelete[:1]) && jwtClaims.Subject == id {
 		return r.GeneratedMutationResolver.DeleteUser(ctx, id)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "users")
 }
 
@@ -68,6 +77,7 @@ func (r *MutationResolver) DeleteAllUsers(ctx context.Context) (ok bool, err err
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "users", gen.JWTPermissionConstDelete[:1]) {
 		return r.GeneratedMutationResolver.DeleteAllUsers(ctx)
 	}
+
 	return false, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "users")
 }
 
@@ -86,6 +96,7 @@ func (r *QueryResolver) UserAPIKeys(ctx context.Context, offset *int, limit *int
 			}
 		}
 	}
+
 	return r.GeneratedQueryResolver.UserAPIKeys(ctx, offset, limit, q, sort, filter)
 }
 
@@ -98,6 +109,7 @@ func (r *MutationResolver) CreateUserAPIKey(ctx context.Context, input map[strin
 	if !gen.HasRole(jwtClaims, "admin") {
 		input["userId"] = jwtClaims.Subject
 	}
+
 	return r.GeneratedMutationResolver.CreateUserAPIKey(ctx, input)
 }
 
@@ -118,6 +130,7 @@ func (r *QueryResolver) UserAPIKey(ctx context.Context, id *string, q *string, f
 			}
 		}
 	}
+
 	return r.GeneratedQueryResolver.UserAPIKey(ctx, id, q, filter)
 }
 
@@ -136,9 +149,11 @@ func (r *MutationResolver) UpdateUserAPIKey(ctx context.Context, id string, inpu
 				},
 			})
 		if err != nil || qak == nil {
+
 			return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstUpdate, "user_api_keys")
 		}
 	}
+
 	return r.GeneratedMutationResolver.UpdateUserAPIKey(ctx, id, input)
 }
 
@@ -157,9 +172,11 @@ func (r *MutationResolver) DeleteUserAPIKey(ctx context.Context, id string) (ite
 				},
 			})
 		if err != nil || qak == nil {
+
 			return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "user_api_keys")
 		}
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "user_api_keys")
 }
 
@@ -169,11 +186,13 @@ func (r *MutationResolver) DeleteAllUserAPIKeys(ctx context.Context) (ok bool, e
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "user_api_keys", gen.JWTPermissionConstDelete[:1]) {
 		return r.GeneratedMutationResolver.DeleteAllUserAPIKeys(ctx)
 	}
+
 	return false, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "user_api_keys")
 }
 
 // Profiles method
-func (r *QueryResolver) Profiles(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.ProfileSortType, filter *gen.ProfileFilterType) (*gen.ProfileResultType, error) {
+func (r *QueryResolver) Profiles(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.ProfileSortType,
+	filter *gen.ProfileFilterType) (*gen.ProfileResultType, error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
 	if !gen.HasPermission(jwtClaims, "profiles", gen.JWTPermissionConstList[:1]) {
 		return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstList, "profiles")
@@ -189,6 +208,7 @@ func (r *QueryResolver) Profiles(ctx context.Context, offset *int, limit *int, q
 			}
 		}
 	}
+
 	return r.GeneratedQueryResolver.Profiles(ctx, offset, limit, q, sort, filter)
 }
 
@@ -198,6 +218,7 @@ func (r *MutationResolver) CreateProfile(ctx context.Context, input map[string]i
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "profiles", gen.JWTPermissionConstCreate[:1]) {
 		return r.GeneratedMutationResolver.CreateProfile(ctx, input)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstCreate, "profiles")
 }
 
@@ -220,6 +241,7 @@ func (r *QueryResolver) Profile(ctx context.Context, id *string, q *string, filt
 			}
 		}
 	}
+
 	return r.GeneratedQueryResolver.Profile(ctx, id, q, filter)
 }
 
@@ -240,9 +262,11 @@ func (r *MutationResolver) UpdateProfile(ctx context.Context, id string, input m
 				},
 			})
 		if err != nil || qak == nil {
+
 			return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstUpdate, "profiles")
 		}
 	}
+
 	return r.GeneratedMutationResolver.UpdateProfile(ctx, id, input)
 }
 
@@ -263,9 +287,11 @@ func (r *MutationResolver) DeleteProfile(ctx context.Context, id string) (item *
 				},
 			})
 		if err != nil || qak == nil {
+
 			return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "profiles")
 		}
 	}
+
 	return r.GeneratedMutationResolver.DeleteProfile(ctx, id)
 }
 
@@ -275,15 +301,18 @@ func (r *MutationResolver) DeleteAllProfiles(ctx context.Context) (ok bool, err 
 	if !gen.HasRole(jwtClaims, "admin") && !gen.HasPermission(jwtClaims, "profiles", gen.JWTPermissionConstDelete[:1]) {
 		return false, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "profiles")
 	}
+
 	return r.GeneratedMutationResolver.DeleteAllProfiles(ctx)
 }
 
 // Roles method
-func (r *QueryResolver) Roles(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.RoleSortType, filter *gen.RoleFilterType) (*gen.RoleResultType, error) {
+func (r *QueryResolver) Roles(ctx context.Context, offset *int, limit *int, q *string, sort []*gen.RoleSortType,
+	filter *gen.RoleFilterType) (*gen.RoleResultType, error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "roles", gen.JWTPermissionConstList[:1]) {
 		return r.GeneratedQueryResolver.Roles(ctx, offset, limit, q, sort, filter)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstList, "roles")
 }
 
@@ -293,6 +322,7 @@ func (r *MutationResolver) CreateRole(ctx context.Context, input map[string]inte
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "roles", gen.JWTPermissionConstCreate[:1]) {
 		return r.GeneratedMutationResolver.CreateRole(ctx, input)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstCreate, "roles")
 }
 
@@ -302,6 +332,7 @@ func (r *QueryResolver) Role(ctx context.Context, id *string, q *string, filter 
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "roles", gen.JWTPermissionConstRead[:1]) {
 		return r.GeneratedQueryResolver.Role(ctx, id, q, filter)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstRead, "roles")
 }
 
@@ -311,6 +342,7 @@ func (r *MutationResolver) UpdateRole(ctx context.Context, id string, input map[
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "roles", gen.JWTPermissionConstUpdate[:1]) {
 		return r.GeneratedMutationResolver.UpdateRole(ctx, id, input)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstUpdate, "roles")
 }
 
@@ -320,6 +352,7 @@ func (r *MutationResolver) DeleteRole(ctx context.Context, id string) (item *gen
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "roles", gen.JWTPermissionConstDelete[:1]) {
 		return r.GeneratedMutationResolver.DeleteRole(ctx, id)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "roles")
 }
 
@@ -329,6 +362,7 @@ func (r *MutationResolver) DeleteAllRoles(ctx context.Context) (ok bool, err err
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "roles", gen.JWTPermissionConstDelete[:1]) {
 		return r.GeneratedMutationResolver.DeleteAllRoles(ctx)
 	}
+
 	return false, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "roles")
 }
 
@@ -338,6 +372,7 @@ func (r *QueryResolver) Permissions(ctx context.Context, offset *int, limit *int
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "permissions", gen.JWTPermissionConstList[:1]) {
 		return r.GeneratedQueryResolver.Permissions(ctx, offset, limit, q, sort, filter)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstList, "permissions")
 }
 
@@ -347,6 +382,7 @@ func (r *MutationResolver) CreatePermission(ctx context.Context, input map[strin
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "permissions", gen.JWTPermissionConstCreate[:1]) {
 		return r.GeneratedMutationResolver.CreatePermission(ctx, input)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstCreate, "permissions")
 }
 
@@ -356,15 +392,18 @@ func (r *QueryResolver) Permission(ctx context.Context, id *string, q *string, f
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "permissions", gen.JWTPermissionConstRead[:1]) {
 		return r.GeneratedQueryResolver.Permission(ctx, id, q, filter)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstRead, "permissions")
 }
 
 // UpdatePermission method
-func (r *MutationResolver) UpdatePermission(ctx context.Context, id string, input map[string]interface{}) (item *gen.Permission, err error) {
+func (r *MutationResolver) UpdatePermission(ctx context.Context, id string,
+	input map[string]interface{}) (item *gen.Permission, err error) {
 	jwtClaims := gen.GetJWTClaimsFromContext(ctx)
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "permissions", gen.JWTPermissionConstUpdate[:1]) {
 		return r.GeneratedMutationResolver.UpdatePermission(ctx, id, input)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstUpdate, "permissions")
 }
 
@@ -374,6 +413,7 @@ func (r *MutationResolver) DeletePermission(ctx context.Context, id string) (ite
 	if gen.HasRole(jwtClaims, "admin") && gen.HasPermission(jwtClaims, "permissions", gen.JWTPermissionConstDelete[:1]) {
 		return r.GeneratedMutationResolver.DeletePermission(ctx, id)
 	}
+
 	return nil, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "permissions")
 }
 
@@ -383,5 +423,6 @@ func (r *MutationResolver) DeleteAllPermissions(ctx context.Context) (ok bool, e
 	if !gen.HasRole(jwtClaims, "admin") && !gen.HasPermission(jwtClaims, "permissions", gen.JWTPermissionConstDelete[:1]) {
 		return r.GeneratedMutationResolver.DeleteAllPermissions(ctx)
 	}
+
 	return false, fmt.Errorf(jwtTokenPermissionErrMsg, gen.JWTPermissionConstDelete, "permissions")
 }

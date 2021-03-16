@@ -129,7 +129,6 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Login              func(childComplexity int) int
 		Permission         func(childComplexity int, id *string, q *string, filter *PermissionFilterType) int
 		Permissions        func(childComplexity int, offset *int, limit *int, q *string, sort []*PermissionSortType, filter *PermissionFilterType) int
 		Profile            func(childComplexity int, id *string, q *string, filter *ProfileFilterType) int
@@ -290,7 +289,6 @@ type QueryResolver interface {
 	Roles(ctx context.Context, offset *int, limit *int, q *string, sort []*RoleSortType, filter *RoleFilterType) (*RoleResultType, error)
 	Permission(ctx context.Context, id *string, q *string, filter *PermissionFilterType) (*Permission, error)
 	Permissions(ctx context.Context, offset *int, limit *int, q *string, sort []*PermissionSortType, filter *PermissionFilterType) (*PermissionResultType, error)
-	Login(ctx context.Context) (string, error)
 }
 type RoleResolver interface {
 	Users(ctx context.Context, obj *Role) ([]*User, error)
@@ -864,13 +862,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.ProfileResultType.Items(childComplexity), true
-
-	case "Query.login":
-		if e.complexity.Query.Login == nil {
-			break
-		}
-
-		return e.complexity.Query.Login(childComplexity), true
 
 	case "Query.permission":
 		if e.complexity.Query.Permission == nil {
@@ -1619,10 +1610,6 @@ type Mutation {
 enum ObjectSortType {
   ASC
   DESC
-}
-
-extend type Query {
-  login: String!
 }
 
 type User {
@@ -7758,41 +7745,6 @@ func (ec *executionContext) _Query_permissions(ctx context.Context, field graphq
 	res := resTmp.(*PermissionResultType)
 	fc.Result = res
 	return ec.marshalNPermissionResultType2ᚖgithubᚗcomᚋloopcontextᚋauthᚑapiᚑgoᚋgenᚐPermissionResultType(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Query_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Login(rctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -26701,20 +26653,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_permissions(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
-			})
-		case "login":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_login(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}

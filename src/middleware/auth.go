@@ -8,12 +8,11 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/loopcontext/auth-api-go/gen"
 	"github.com/loopcontext/auth-api-go/src/auth/database"
 	"github.com/loopcontext/auth-api-go/src/utils"
 	"github.com/rs/zerolog/log"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 var (
@@ -190,7 +189,7 @@ type AuthJWT struct {
 // Middleware auth func, called each request
 func (a *AuthJWT) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
-		if !strings.HasPrefix(req.RequestURI, a.Path) || a.PathWhitelist[req.RequestURI] {
+		if a.PathWhitelist[req.URL.Path] {
 			next.ServeHTTP(res, req)
 			return
 		}

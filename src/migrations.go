@@ -13,7 +13,7 @@ func GetMigrations(db *gen.DB) []*gormigrate.Migration {
 	// Admin user ID
 	aid := uuid.Must(uuid.NewV4()).String()
 	return []*gormigrate.Migration{
-		&gormigrate.Migration{
+		{
 			ID: "0000_INIT",
 			Migrate: func(tx *gorm.DB) error {
 				return db.AutoMigrate()

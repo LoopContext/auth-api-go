@@ -1,0 +1,9 @@
+default:
+  short: Unexpected error
+  long: Unexpected message code [{{0}}] was received and was not found in this catalog
+set:
+  1:
+    short: This is a message in english
+  2:
+    short: This is an error message
+    long: Any variable can be injected here {{0}}

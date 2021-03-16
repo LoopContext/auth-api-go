@@ -5,10 +5,9 @@ import (
 	"fmt"
 
 	"github.com/loopcontext/auth-api-go/gen"
-	"github.com/loopcontext/checkmail"
+	"github.com/loopcontext/auth-api-go/src/utils"
 	"github.com/loopcontext/go-graphql-orm/events"
 	"github.com/rs/zerolog/log"
-	"golang.org/x/crypto/bcrypt"
 )
 
 // New ...
@@ -23,8 +22,12 @@ func New(db *gen.DB, ec *gen.EventController) *Resolver {
 
 	resolver.Handlers.CreateUser = func(ctx context.Context, r *gen.GeneratedResolver, input map[string]interface{}) (item *gen.User, err error) {
 		// Before create
-		if err = passwordCheck(input); err != nil {
-			return nil, err
+		if passw, ok := input["password"].(string); ok && passw != "" {
+			if newpassw, err := utils.HashPassword(passw); err != nil {
+				return nil, err
+			} else {
+				input["password"] = newpassw
+			}
 		}
 		item, err = gen.CreateUserHandler(ctx, r, input)
 		if err != nil {
@@ -39,11 +42,17 @@ func New(db *gen.DB, ec *gen.EventController) *Resolver {
 
 	resolver.Handlers.UpdateUser = func(ctx context.Context, r *gen.GeneratedResolver, id string, input map[string]interface{}) (item *gen.User, err error) {
 		// Before update
-		if err = emailCheck(input); err != nil {
-			return nil, err
+		if email, ok := input["email"].(string); ok && email != "" {
+			if err = utils.EmailCheck(email); err != nil {
+				return nil, err
+			}
 		}
-		if err = passwordCheck(input); err != nil {
-			return nil, err
+		if passw, ok := input["password"].(string); ok && passw != "" {
+			if newpassw, err := utils.HashPassword(passw); err != nil {
+				return nil, err
+			} else {
+				input["password"] = newpassw
+			}
 		}
 		item, err = gen.UpdateUserHandler(ctx, r, id, input)
 		if err != nil {
@@ -77,49 +86,9 @@ func New(db *gen.DB, ec *gen.EventController) *Resolver {
 	return resolver
 }
 
-// Login logs the user in
-func (r *QueryResolver) Login(ctx context.Context) (string, error) {
-	log.Debug().Msg("Logging in")
-	return "logged in", nil
-}
-
 // =============================================================================
 // ================================= Helpers ===================================
 // =============================================================================
-
-func emailCheck(input map[string]interface{}) (err error) {
-	if email, ok := input["email"].(string); ok {
-		if email != "" {
-			err = checkmail.ValidateFormat(email)
-			if err != nil {
-				return err
-			}
-		}
-	}
-	return nil
-}
-
-func passwordCheck(input map[string]interface{}) (err error) {
-	p, ok := input["password"].(string)
-	if input["password"] != nil && p == "" {
-		return fmt.Errorf("The password should not be empty")
-	} else if ok {
-		input["password"], err = hashPassword(input["password"].(string))
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func hashPassword(passw string) (string, error) {
-	if passw != "" {
-		if pw, err := bcrypt.GenerateFromPassword([]byte(passw), 11); err == nil {
-			return string(pw), nil
-		}
-	}
-	return "", fmt.Errorf("If password is set, it cannot be empty")
-}
 
 func roleChanges(ctx context.Context, r *gen.GeneratedResolver, userID string, userInput map[string]interface{}) (err error) {
 	// Check its roles, and update permissions as should
